@@ -65,6 +65,22 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [3, 50],
+        isAlpha: true
+      }
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [3, 50],
+        isAlpha: true
+      }
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -80,7 +96,10 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         len: [60, 60]
       }
-    }
+    },
+    token: {
+      type: DataTypes.STRING
+    },
   }, {
     sequelize,
     modelName: 'User',
