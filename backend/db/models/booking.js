@@ -23,11 +23,27 @@ module.exports = (sequelize, DataTypes) => {
     },
     startDate: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isDate: true,
+        checkDate(val) {
+          if (new Date(val) < new Date()) {
+            throw new Error('Please enter a date After today.')
+          }
+        }
+      }
     },
     endDate: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isDate: true,
+        check(val) {
+          if (new Date(val) < new Date(this.startDate)) {
+            throw new Error('Please enter a date After your start date.')
+          }
+        }
+      }
     },
   }, {
     sequelize,

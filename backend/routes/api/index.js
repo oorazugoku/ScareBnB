@@ -1,6 +1,10 @@
 const router = require('express').Router();
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
+const bookingsRouter = require('./bookings.js');
+const reviewsRouter = require('./reviews.js');
+const imagesRouter = require('./images.js');
+const spotsRouter = require('./spots.js');
 const { restoreUser } = require('../../utils/auth.js');
 // const { setTokenCookie } = require('../../utils/auth.js');
 // const { User } = require('../../db/models');
@@ -10,8 +14,11 @@ const { restoreUser } = require('../../utils/auth.js');
 router.use(restoreUser);
 
 router.use('/session', sessionRouter);
-
 router.use('/users', usersRouter)
+router.use('/bookings', bookingsRouter)
+router.use('/reviews', reviewsRouter)
+router.use('/images', imagesRouter)
+router.use('/spots', spotsRouter)
 
 
 router.post('/test', function(req, res) {

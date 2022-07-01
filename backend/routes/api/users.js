@@ -40,4 +40,14 @@ router.post('/', validateSignup, async (req, res) => {
     }
   );
 
+  router.get('/', async (req, res) => {
+
+   const result = await User.findAll()
+   res.json(result)
+
+  }
+);
+
+
+
 module.exports = router;
