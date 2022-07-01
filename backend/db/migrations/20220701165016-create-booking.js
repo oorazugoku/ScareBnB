@@ -1,6 +1,6 @@
 'use strict';
 
-const reviews = require("../models/reviews");
+const reviews = require("../models/review");
 
 module.exports = {
   async up(queryInterface, Sequelize) {

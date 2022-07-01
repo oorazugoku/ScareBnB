@@ -10,22 +10,61 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Spot.belongsTo(models.User, { foreignKey: 'ownerId', onDelete: 'CASCADE' });
+
+      Spot.hasMany(models.Booking, { foreignKey: 'spotId', hooks: true});
+      Spot.hasMany(models.Review, { foreignKey: 'spotId', hooks: true});
+      Spot.hasMany(models.Image, { foreignKey: 'spotId', hooks: true});
     }
   }
   Spot.init({
-    ownerId: DataTypes.INTEGER,
-    address: DataTypes.STRING,
-    city: DataTypes.STRING,
-    state: DataTypes.STRING,
-    country: DataTypes.STRING,
-    lat: DataTypes.DECIMAL,
-    lng: DataTypes.DECIMAL,
-    name: DataTypes.STRING,
-    description: DataTypes.TEXT,
-    price: DataTypes.DECIMAL,
-    numReviews: DataTypes.INTEGER,
-    avgStarRating: DataTypes.DECIMAL
+    ownerId: {
+      type: DataTypes.INTEGER,
+    },
+    address: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false
+    },
+    city: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    state: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    country: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    lat: {
+      type: DataTypes.DECIMAL
+    },
+    lng: {
+      type: DataTypes.DECIMAL
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        len: [10, Infinity]
+      }
+    },
+    price: {
+      type: DataTypes.DECIMAL,
+      allowNull: false
+    },
+    numReviews: {
+      type: DataTypes.INTEGER,
+    },
+    avgStarRating: {
+      type: DataTypes.DECIMAL
+    },
   }, {
     sequelize,
     modelName: 'Spot',

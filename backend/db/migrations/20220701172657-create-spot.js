@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       ownerId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE'
       },
       address: {
         type: Sequelize.STRING,
@@ -29,12 +30,10 @@ module.exports = {
         allowNull: false
       },
       lat: {
-        type: Sequelize.DECIMAL(8,6),
-        allowNull: false
+        type: Sequelize.DECIMAL(8,6)
       },
       lng: {
-        type: Sequelize.DECIMAL(9,6),
-        allowNull: false
+        type: Sequelize.DECIMAL(9,6)
       },
       name: {
         type: Sequelize.STRING,
