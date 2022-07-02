@@ -30,10 +30,22 @@ const validateSignup = [
 
 
 
-
-router.get('/current/spots', async (req, res) => {
+router.get('/current/spots', requireAuth, async (req, res) => {
 
   const { token } = req.cookies;
+
+  if (!token) {
+    res.json({
+      "message": "Authentication required",
+      "statusCode": 401
+    })
+  }
+
+
+  const user = await User.findOne({
+    where: { token: token }
+  })
+
 
   const result = await User.findAll({
     where: {token: token},
@@ -42,7 +54,7 @@ router.get('/current/spots', async (req, res) => {
     }
   })
 
-  await requireAuth(res, result)
+  await requireAuth(req)
 
   res.json(result)
 
@@ -50,10 +62,22 @@ router.get('/current/spots', async (req, res) => {
 );
 
 // Sign up endpoint
-router.post('/', validateSignup, async (req, res) => {
+router.post('/signup', validateSignup, async (req, res) => {
 
       const { email, password, username } = req.body;
-      const user = await User.signup({ email, username, password });
+
+      const emailCheck = await User.findOne({
+        where: {email: email}
+      })
+
+      if (emailCheck) {
+        res.status(403)
+        res.json({
+          message: 'Sorry, this email already exists'
+        })
+      }
+
+      const user = await User.signup({ firstName, lastName, email, username, password });
 
       await setTokenCookie(res, user);
 
