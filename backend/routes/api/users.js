@@ -1,6 +1,6 @@
 const express = require('express')
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User, Spot } = require('../../db/models');
 const router = express.Router();
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -26,6 +26,29 @@ const validateSignup = [
   handleValidationErrors
 ];
 
+
+
+
+
+
+router.get('/current/spots', async (req, res) => {
+
+  const { token } = req.cookies;
+
+  const result = await User.findAll({
+    where: {token: token},
+    include: {
+      model: Spot
+    }
+  })
+
+  await requireAuth(res, result)
+
+  res.json(result)
+
+  }
+);
+
 // Sign up endpoint
 router.post('/', validateSignup, async (req, res) => {
 
@@ -40,10 +63,10 @@ router.post('/', validateSignup, async (req, res) => {
     }
   );
 
-  router.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
 
-   const result = await User.findAll()
-   res.json(result)
+  const result = await User.findAll()
+  res.json(result)
 
   }
 );
