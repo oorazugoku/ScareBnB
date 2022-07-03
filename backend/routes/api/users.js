@@ -42,22 +42,6 @@ const validateSignup = [
   handleValidationErrors
 ];
 
-const validateLogin = [
-  check('username')
-    .exists({ checkFalsy: true })
-    .isLength({ min: 4 })
-    .withMessage('Please provide a username with at least 4 characters.')
-    .not()
-    .isEmail()
-    .withMessage('Username cannot be an email.'),
-  check('password')
-    .exists({ checkFalsy: true })
-    .isLength({ min: 6 })
-    .withMessage('Password must be 6 characters or more.'),
-  handleValidationErrors
-];
-
-
 
 
 router.get('/current/spots', requireAuth, async (req, res) => {
@@ -70,7 +54,6 @@ router.get('/current/spots', requireAuth, async (req, res) => {
       "statusCode": 401
     })
   }
-
 
   const user = await User.findOne({
     where: { token: token }
@@ -91,6 +74,51 @@ router.get('/current/spots', requireAuth, async (req, res) => {
 
   }
 );
+
+router.post('/login', async (req, res) => {
+
+  const { email, password, username } = req.body;
+  let credential
+  if (email) {
+    credential = email
+  }
+  if (username) {
+    credential = username
+  }
+
+  if (!credential) {
+    res.status(400)
+    res.json({
+      message: 'Please Enter a valid username or email.'
+    })
+  }
+  if (!password) {
+    res.status(400)
+    res.json({
+      message: 'Please Enter a valid password.'
+    })
+  }
+
+  const user = await User.login({ credential, password });
+
+  if (!user) {
+    new Error('Invalide Username and Password.');
+    res.status(401);
+    res.json({
+      message: 'Invalid Username and Password.'
+    })
+  }
+
+  let token = await setTokenCookie(res, user);
+
+  return res.json({
+    user,token
+  });
+}
+);
+
+
+
 
 // Sign up endpoint
 router.post('/signup', validateSignup, async (req, res) => {
