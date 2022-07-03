@@ -99,14 +99,11 @@ module.exports = (sequelize, DataTypes) => {
         len: [60, 60]
       }
     },
-    token: {
-      type: DataTypes.STRING
-    },
   }, {
     sequelize,
     modelName: 'User',
     defaultScope: {
-      attributes: { exclude: ['hashedPassword', 'email', 'createAt', 'updateAt', 'token'] }
+      attributes: { exclude: ['hashedPassword', 'email', 'createAt', 'updateAt'] }
     },
     scopes: {
       currentUser: {
