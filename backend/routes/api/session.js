@@ -5,6 +5,8 @@ const { User } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
+
+
 const validateSignup = [
   check('email')
     .exists({ checkFalsy: true })
@@ -105,7 +107,7 @@ router.post('/login', async (req, res) => {
   let token = await setTokenCookie(res, user);
 
   return res.json({
-    user,token
+    user, token
   });
 });
 

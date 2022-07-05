@@ -11,26 +11,24 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 
 
-
 router.get('/current/spots', requireAuth, async (req, res) => {
   let id = req.user.id
 
-  const user = await User.findOne({
-    where: { id: id }
-  })
-
-  const result = await User.findAll({
-    where: { ownerId: id },
-    include: {
-      model: Spot
-    }
+  const result = await Spot.findAll({
+    where: { ownerId: id }
   })
   res.json(result)
-  }
+}
 );
 
 
 
+router.get('/current', requireAuth, async (req, res) => {
+  const { token } = req.cookies
+  let user = req.user
+
+  res.json({user, token})
+});
 
 
 
