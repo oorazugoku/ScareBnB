@@ -169,9 +169,11 @@ router.get('/current', requireAuth, async (req, res) => {
 
 router.get('/:spotId', async (req, res) => {
     const { spotId } = req.params;
-    let result = await Spot.findAll({
-        where: { id: spotId },
-        include: { model: Image }
+    let result = await Spot.findByPk(spotId, {
+        include: {
+            model: Image,
+            as: 'Images'
+        }
     })
     res.json(result)
 });
