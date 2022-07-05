@@ -47,11 +47,16 @@ module.exports = {
         type: Sequelize.DECIMAL(6,2),
         allowNull: false
       },
-      numReviews: {
+      previewImgId: {
         type: Sequelize.INTEGER
       },
+      numReviews: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+      },
       avgStarRating: {
-        type: Sequelize.DECIMAL(2,1)
+        type: Sequelize.DECIMAL(2,1),
+        defaultValue: 0
       },
       createdAt: {
         allowNull: false,

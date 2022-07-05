@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router();
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-
-const { Image, Review } = require('../../db/models');
+const sequelize = require('sequelize')
+const { Image, Review, Spot } = require('../../db/models');
 
 
 
@@ -36,7 +36,7 @@ router.get('/current/', requireAuth, async (req, res) => {
 router.get('/', async (req, res) => {
     let result = await Review.findAll({})
     res.json(result)
-})
+});
 
 router.delete('/:reviewId', requireAuth, async (req, res) => {
     let id = req.user.id;
@@ -58,7 +58,48 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
         });
     };
 
+    // let avgStars = await Review.findAll({
+    //     where: { spotId: review.spotId },
+    //     attributes: {include: [[sequelize.fn('AVG', sequelize.col('stars')), 'AvgStars']]}
+    // })
+    // console.log(avgStars[0].dataValues.AvgStars)
+
+    const spot = await Spot.findOne({
+        where: {id: review.spotId}
+    })
     await review.destroy();
+
+    let starTotal = 0
+    const numOfReviews = await Review.findAll({
+        where: { spotId: spot.id }
+    });
+    if(numOfReviews) {
+        numOfReviews.forEach(each => {
+            starTotal += parseInt(each.stars)
+        })
+        let num = parseInt(spot.numReviews)
+        if(num > 0) {
+            num--
+        }
+        if(num === 0) {
+            await Spot.update(
+                { numReviews: 0, avgStarRating: 0 },
+                { where: { id: review.spotId } }
+                )
+            } else {
+                let starRating = (starTotal / num)
+                await Spot.update(
+                    { numReviews: num, avgStarRating: starRating.toFixed(1) },
+                    { where: { id: spot.id } }
+                    )
+            }
+    } else {
+        await Spot.update(
+            { numReviews: 0, avgStarRating: 0 },
+            { where: { id: spot.id } }
+            )
+    }
+
 
     res.status(200)
     res.json({

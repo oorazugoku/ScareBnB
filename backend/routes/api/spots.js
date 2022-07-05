@@ -10,7 +10,6 @@ router.post('/:spotId/reviews/current', requireAuth, async (req, res) => {
     let id = req.user.id;
     const { review, stars } = req.body;
     const { spotId } = req.params
-
     const spotCheck = await Spot.findOne({
         where: { id: spotId }
     });
@@ -25,26 +24,50 @@ router.post('/:spotId/reviews/current', requireAuth, async (req, res) => {
     });
     if (spotUserCheck) {
         res.status(404)
-       return res.json({
+        return res.json({
             message: `User already has a review for this spot.`
         });
     };
+    if (stars < 1 || stars > 5) {
+        res.status(404)
+        return res.json({
+            message: `Please enter a Star Rating between 1 and 5.`
+        });
+    };
 
-
-    const oldReview = await Review.create({
+    const newReview = await Review.create({
         userId: id,
         spotId,
         review,
         stars
     });
+    let starTotal = 0
+    const numOfReviews = await Review.findAll({
+        where: { spotId: spotId}
+    });
+    numOfReviews.forEach(each => {
+        starTotal += parseInt(each.stars)
+    })
+    let num = parseInt(spotCheck.numReviews)
+    num++
+    let starRating = (starTotal / num)
+    await Spot.update(
+        { numReviews: num, avgStarRating: starRating.toFixed(1) },
+        { where: { id: spotId } }
+        )
+    // spotCheck.numReviews = spotCheck.numReviews + 1;
 
-    if (review) {
-        oldReview.review = review;
-    }
-    if (stars) {
-        oldReview.stars = stars;
-    }
-    res.json(oldReview);
+    res.json(newReview);
+});
+
+
+
+router.get('/:spotId/reviews', async (req, res) => {
+    const { spotId } = req.params;
+    let result = await Review.findAll({
+        where: { spotId: spotId}
+    })
+    res.json(result)
 });
 
 
@@ -79,6 +102,10 @@ router.post('/', requireAuth, async (req, res) => {
     res.json(result)
 })
 
+router.get('/', async (req, res) => {
+    let result = await Spot.findAll({})
+    res.json(result)
+})
 
 
 
