@@ -183,9 +183,7 @@ router.get('/:spotId', async (req, res) => {
         })
     }
 
-    let owner = await User.findByPk(result.ownerId, {
-        attributes: ['username', 'firstName', 'lastName']
-    })
+    let owner = await User.findByPk(result.ownerId)
 
     res.json({ owner, result })
 });
