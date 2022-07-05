@@ -5,7 +5,8 @@ const { check } = require('express-validator');
 const sequelize = require('sequelize')
 const { handleValidationErrors } = require('../../utils/validation');
 
-const { Spot, Review, Image } = require('../../db/models');
+const { Spot, Review, Image, User } = require('../../db/models');
+const user = require('../../db/models/user');
 
 const validateSpots = [
     check('address')
@@ -175,7 +176,18 @@ router.get('/:spotId', async (req, res) => {
             as: 'Images'
         }
     })
-    res.json(result)
+    if(!result) {
+        res.status(404)
+        return res.json({
+            message: `Spot does not exist.`
+        })
+    }
+
+    let owner = await User.findByPk(result.ownerId, {
+        attributes: ['username', 'firstName', 'lastName']
+    })
+
+    res.json({ owner, result })
 });
 
 
