@@ -47,13 +47,13 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
     });
     if(!review) {
         res.status(404)
-        res.json({
+        return res.json({
             message: `Review couldn't be found.`
         });
     };
     if(review.userId !== id) {
         res.status(404)
-        res.json({
+       return res.json({
             message: `Sorry, you can only DELETE reviews that belong to the current Logged in User.`
         });
     };
