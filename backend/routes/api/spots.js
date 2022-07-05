@@ -104,9 +104,29 @@ router.post('/:spotId/images/current', requireAuth, async (req, res) => {
     const { spotId } = req.params;
     const { url } = req.body;
 
-    // let spot = await Spot.findOne({
-    //     where: { id: spotId}
-    // });
+    let spot = await Spot.findOne({
+        where: { id: spotId }
+    });
+
+    if(!spot) {
+        res.status(404)
+        return res.json({
+            message: `Spot does not exist.`
+        })
+    }
+
+    let imgcounts = await Image.findAll({
+        where: { spotId: spotId },
+        attributes: {include: [[sequelize.fn('COUNT', sequelize.col('spotId')), 'imgCount']]}
+    })
+    let count = imgcounts[0].dataValues.imgCount
+    console.log('-------------------', count)
+    if(count >= 10) {
+        res.status(400)
+        return res.json({
+            message: `Image limit is 10.`
+        })
+    }
 
     let result = await Image.create({
         url: url,
@@ -144,7 +164,18 @@ router.get('/current', requireAuth, async (req, res) => {
     // })
 
     res.json(result)
-})
+});
+
+
+router.get('/:spotId', async (req, res) => {
+    const { spotId } = req.params;
+    let result = await Spot.findAll({
+        where: { id: spotId },
+        include: { model: Image }
+    })
+    res.json(result)
+});
+
 
 router.post('/', requireAuth, validateSpots, async (req, res) => {
     let id = req.user.id;

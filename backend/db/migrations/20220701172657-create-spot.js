@@ -48,7 +48,8 @@ module.exports = {
         allowNull: false
       },
       previewImgId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: 'Images', key: 'id' },
       },
       numReviews: {
         type: Sequelize.INTEGER,

@@ -5,7 +5,39 @@ const sequelize = require('sequelize')
 const { Image, Review, Spot } = require('../../db/models');
 
 
+router.post('/:reviewId/images/current', requireAuth, async (req, res) => {
+    const { reviewId } = req.params;
+    const { url } = req.body;
 
+    let review = await Review.findOne({
+        where: { id: reviewId}
+    });
+
+    if(!review) {
+        res.status(404)
+        return res.json({
+            message: `Review does not exist.`
+        })
+    }
+    let imgcounts = await Image.findAll({
+        where: { reviewId: reviewId },
+        attributes: {include: [[sequelize.fn('COUNT', sequelize.col('reviewId')), 'imgCount']]}
+    })
+    let count = imgcounts[0].dataValues.imgCount
+    console.log('-------------------', count)
+    if(count >= 10) {
+        res.status(400)
+        return res.json({
+            message: `Image limit is 10.`
+        })
+    }
+    let result = await Image.create({
+        url,
+        reviewId
+    })
+
+    res.json(result)
+});
 
 router.put('/:reviewId/current', requireAuth, async (req, res) => {
     let id = req.user.id;
