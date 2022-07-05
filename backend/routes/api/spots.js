@@ -1,10 +1,49 @@
 const express = require('express')
 const router = express.Router();
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 
 const { Spot, Review } = require('../../db/models');
 
-
+const validateSpots = [
+    check('address')
+      .exists({ checkFalsy: true })
+      .withMessage('Please provide a valid Address.'),
+    check('city')
+      .exists({ checkFalsy: true })
+      .isAlpha()
+      .withMessage('Please provide a valid City.'),
+    check('state')
+      .exists({ checkFalsy: true })
+      .isAlpha()
+      .withMessage('Please provide a valid State.')
+      .not()
+      .isEmail()
+      .isLength({ min: 2 })
+      .withMessage('Please provide a valid State.'),
+    check('country')
+      .exists({ checkFalsy: true })
+      .not()
+      .isEmail()
+      .withMessage('Please provide a valid Country.'),
+    check('name')
+      .exists({ checkFalsy: true })
+      .isLength({ min: 4 })
+      .withMessage('Name must be 4 characters or more.'),
+    check('description')
+      .exists({ checkFalsy: true })
+      .not()
+      .isEmail()
+      .withMessage('Please provide a Description.')
+      .isLength({ min: 10 })
+      .withMessage('Name must be 10 characters or more.'),
+    check('price')
+      .exists({ checkFalsy: true })
+      .isNumeric()
+      .withMessage('Please provide a valid Price.'),
+    handleValidationErrors
+  ];
 
 router.post('/:spotId/reviews/current', requireAuth, async (req, res) => {
     let id = req.user.id;
@@ -81,7 +120,7 @@ router.get('/current', requireAuth, async (req, res) => {
     res.json(result)
 })
 
-router.post('/', requireAuth, async (req, res) => {
+router.post('/', requireAuth, validateSpots, async (req, res) => {
     let id = req.user.id;
 
     const { address, city, state, country, lat, lng, name, description, price } = req.body;

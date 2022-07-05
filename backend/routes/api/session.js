@@ -72,14 +72,7 @@ router.get('/', restoreUser, (req, res) => {
 
 router.post('/login', async (req, res) => {
 
-  const { email, password, username } = req.body;
-  let credential
-  if (email) {
-    credential = email
-  }
-  if (username) {
-    credential = username
-  }
+  const { credential, password } = req.body;
 
   if (!credential) {
     res.status(400)
@@ -103,9 +96,7 @@ router.post('/login', async (req, res) => {
       message: 'Invalid Username and Password.'
     })
   }
-
   let token = await setTokenCookie(res, user);
-
   return res.json({
     user, token
   });
@@ -121,10 +112,18 @@ router.post('/signup', validateSignup, async (req, res) => {
   const emailCheck = await User.findOne({
     where: {email: email}
   })
-
+  const userNameCheck = await User.findOne({
+    where: {username: username}
+  })
+  if (userNameCheck) {
+    res.status(403)
+    return res.json({
+      message: 'Sorry, this username already exists'
+    })
+  }
   if (emailCheck) {
     res.status(403)
-    res.json({
+   return res.json({
       message: 'Sorry, this email already exists'
     })
   }
