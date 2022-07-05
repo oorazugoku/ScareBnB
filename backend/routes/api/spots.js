@@ -5,7 +5,7 @@ const { check } = require('express-validator');
 const sequelize = require('sequelize')
 const { handleValidationErrors } = require('../../utils/validation');
 
-const { Spot, Review } = require('../../db/models');
+const { Spot, Review, Image } = require('../../db/models');
 
 const validateSpots = [
     check('address')
@@ -100,7 +100,26 @@ router.post('/:spotId/reviews/current', requireAuth, async (req, res) => {
     res.json(newReview);
 });
 
+router.post('/:spotId/images/current', requireAuth, async (req, res) => {
+    const { spotId } = req.params;
+    const { url } = req.body;
 
+    // let spot = await Spot.findOne({
+    //     where: { id: spotId}
+    // });
+
+    let result = await Image.create({
+        url: url,
+        spotId: spotId,
+    })
+
+    // await Spot.update(
+    //     { previewImgId: previewImgId },
+    //     { where: { id: spotId } }
+    // )
+
+    res.json(result)
+});
 
 router.get('/:spotId/reviews', async (req, res) => {
     const { spotId } = req.params;
