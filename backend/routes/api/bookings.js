@@ -6,9 +6,9 @@ const { Booking, Spot, User } = require('../../db/models');
 
 // Reserve a Booking by Spot ID
 router.post('/spots/:spotId', requireAuth, async (req, res) => {
-    let { startDate, endDate } = req.body
-    const { id } = req.user
-    const { spotId } = req.params
+    let { startDate, endDate } = req.body;
+    const { id } = req.user;
+    const { spotId } = req.params;
 
     startDate = new Date(startDate)
     endDate = new Date(endDate)
@@ -34,22 +34,34 @@ router.post('/spots/:spotId', requireAuth, async (req, res) => {
         spotCheck.Bookings.forEach(each => {
             if(startDate <= each.startDate && endDate >= each.endDate) {
                 check = true
-                proof = each
+                proof = {
+                    spot: each.spotId,
+                    startDate: each.startDate,
+                    endDate: each.endDate
+                }
             };
             if(startDate >= each.startDate && startDate <= each.endDate) {
                 check = true
-                proof = each
+                proof = {
+                    spot: each.spotId,
+                    startDate: each.startDate,
+                    endDate: each.endDate
+                }
             };
             if(endDate >= each.startDate && endDate <= each.endDate) {
                 check = true
-                proof = each
+                proof = {
+                    spot: each.spotId,
+                    startDate: each.startDate,
+                    endDate: each.endDate
+                }
             };
         });
     }
     if(check == true) {
         res.status(403)
         return res.json({
-            message: `This Booking already exists inside Start and End date.`,
+            message: `This Booking already exists inside Start and End date for this location.`,
             proof
         });
     };
@@ -88,10 +100,102 @@ router.get('/spots/:spotId', requireAuth, async (req, res) => {
         });
     }
 
+
         size = result.length
     res.status(200);
     res.json({
         size,
+        result
+    });
+});
+
+
+// Edit a Booking
+router.put('/:bookingId', requireAuth, async (req, res) => {
+    const { bookingId } = req.params;
+    let { startDate, endDate } = req.body;
+    const { id } = req.user;
+    let result = await Booking.findByPk(bookingId);
+    if(!result) {
+        res.status(404)
+        return res.json({
+            message: `Booking does not exist.`
+        })
+    }
+    if(result.userId !== id) {
+        res.status(401)
+        return res.json({
+            message: `Unauthorized: You are not the owner of this Booking.`
+        })
+    }
+    if(result.endDate < new Date()) {
+        res.status(400)
+        return res.json({
+            message: `This Booking has already ended.`
+        })
+    }
+
+    startDate = new Date(startDate)
+    endDate = new Date(endDate)
+
+    const spotCheck = await Spot.findByPk(result.spotId, {
+        include: { model: Booking }
+    });
+    let check = false
+    let proof
+    if(spotCheck.Bookings.length) {
+        spotCheck.Bookings.forEach(each => {
+            if(startDate <= each.startDate && endDate >= each.endDate) {
+                check = true
+                proof = {
+                    spot: each.spotId,
+                    startDate: each.startDate,
+                    endDate: each.endDate
+                }
+            };
+            if(startDate >= each.startDate && startDate <= each.endDate) {
+                check = true
+                proof = {
+                    spot: each.spotId,
+                    startDate: each.startDate,
+                    endDate: each.endDate
+                }
+            };
+            if(endDate >= each.startDate && endDate <= each.endDate) {
+                check = true
+                proof = {
+                    spot: each.spotId,
+                    startDate: each.startDate,
+                    endDate: each.endDate
+                }
+            };
+        });
+    }
+    if(check == true) {
+        res.status(403)
+        return res.json({
+            message: `This Booking already exists inside Start and End date for this location.`,
+            proof
+        });
+    };
+
+    console.log(check)
+
+    if(startDate) {
+        result.startDate = startDate
+    }
+    if(endDate) {
+        result.endDate = endDate
+    }
+    await result.save()
+
+
+
+
+
+    res.status(200);
+    res.json({
+        messsage: `Update Successfull`,
         result
     });
 });
