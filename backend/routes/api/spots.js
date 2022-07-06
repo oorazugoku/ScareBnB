@@ -143,11 +143,10 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 // Get all a Spot's reviews by Spot Id
 router.get('/:spotId/reviews', async (req, res) => {
     const { spotId } = req.params;
-    let result = await Review.findAll({
-        where: { spotId: spotId},
-        include: [{model: User}, {model: Image}]
+    let result = await Spot.findByPk(spotId, {
+        include: [{ model: Review, include: { model: Image, as: 'Images' } } ]
     })
-    if (!result.length) {
+    if (!result) {
         res.status(404)
         return res.json({
             message: `Spot does not exist.`

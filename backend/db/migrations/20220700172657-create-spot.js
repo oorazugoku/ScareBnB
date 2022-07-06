@@ -48,10 +48,6 @@ module.exports = {
         type: Sequelize.DECIMAL(6,2),
         allowNull: false
       },
-      previewImgId: {
-        type: Sequelize.INTEGER,
-        references: { model: 'Images', key: 'id' }
-      },
       numReviews: {
         type: Sequelize.INTEGER,
         defaultValue: 0
