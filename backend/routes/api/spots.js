@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router();
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { check } = require('express-validator');
+const { Op } = require('sequelize')
 const sequelize = require('sequelize')
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -278,8 +279,41 @@ router.get('/', async (req, res) => {
       pagination.limit = 20
       pagination.offset = size * (page - 1)
     }
+    const er = (query) => {
+        if(!Number(query)){
+            res.status(400);
+            return res.json({
+                message: `Please provide a valid number in query.`
+            })
+        }
+        return
+    }
+    if(page) { er(page) };
+    if(size) { er(size) };
+    if(minLat) { er(minLat) };
+    if(maxLat) { er(maxLat) };
+    if(minLng) { er(minLng) };
+    if(maxLng) { er(maxLng) };
+    if(minPrice) { er(minPrice) };
+    if(maxPrice) { er(maxPrice) };
 
-    let result = await Spot.findAll({...pagination})
+
+    const whereClause = {}
+    if (minLat) whereClause.lat = { [Op.gte]: minLat };
+    if (maxLat) whereClause.lat = { [Op.lte]: maxLat };
+    if (minLat && maxLat) whereClause.lat = { [Op.between]: [minLat, maxLat] };
+    if (minLng) whereClause.lng = { [Op.gte]: minLng };
+    if (maxLng) whereClause.lng = { [Op.lte]: maxLng };
+    if (minLng && maxLng) whereClause.lng = { [Op.between]: [minLng, maxLng] };
+    if (minPrice) whereClause.price = { [Op.gte]: minPrice };
+    if (maxPrice) whereClause.price = { [Op.lte]: maxPrice };
+    if (minPrice && maxPrice) whereClause.price = { [Op.between]: [minPrice, maxPrice] };
+
+
+    let result = await Spot.findAll({
+        where: whereClause,
+        ...pagination
+    })
     size = result.length
     res.json({
         page,

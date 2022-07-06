@@ -4,6 +4,7 @@ const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { Image, Review, Spot } = require('../../db/models');
 
 
+// Delete an Image by ID
 router.delete('/:imageId', requireAuth, async (req, res) => {
     const { imageId } = req.params;
     let result = await Image.findByPk(imageId, {
@@ -22,7 +23,6 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
         })
     }
     await result.destroy()
-
     res.json({ message: `Successfully Deleted Image.` })
 });
 
