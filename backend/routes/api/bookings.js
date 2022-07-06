@@ -73,17 +73,22 @@ router.post('/spots/:spotId', requireAuth, async (req, res) => {
 router.get('/spots/:spotId', requireAuth, async (req, res) => {
     const { id } = req.user;
     const { spotId } = req.params;
-    const result = await Spot.findByPk(spotId, {
-        include: { model: Booking }
-    });
+    let result = await Spot.findByPk(spotId);
     if(!result) {
-        res.status(400);
+        res.status(404);
         return res.json({
             message: `Spot does not exist.`
-        })
+        });
+    }
+    if(result.ownerId !== id) {
+        result = await Booking.scope(['nonOwner']).findByPk(spotId);
+    } else {
+        result = await Booking.findByPk(spotId, {
+            include: { model: User }
+        });
     }
 
-    size = result.length
+        size = result.length
     res.status(200);
     res.json({
         size,
