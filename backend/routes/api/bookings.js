@@ -65,14 +65,12 @@ router.post('/spots/:spotId', requireAuth, async (req, res) => {
             proof
         });
     };
-
     const result = await Booking.create({
         userId: id,
         spotId: spotId,
         startDate: startDate,
         endDate: endDate
     });
-
     res.status(200);
     res.json({
         message: `Resevation Successful!`,
@@ -99,9 +97,7 @@ router.get('/spots/:spotId', requireAuth, async (req, res) => {
             include: { model: User }
         });
     }
-
-
-        size = result.length
+    size = result.length
     res.status(200);
     res.json({
         size,
@@ -178,21 +174,13 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
             proof
         });
     };
-
-    console.log(check)
-
     if(startDate) {
         result.startDate = startDate
     }
     if(endDate) {
         result.endDate = endDate
     }
-    await result.save()
-
-
-
-
-
+    await result.save();
     res.status(200);
     res.json({
         messsage: `Update Successfull`,
@@ -217,6 +205,40 @@ router.get('/current', requireAuth, async (req, res) => {
         result
     });
 });
+
+
+// Delete a Booking
+router.delete('/:bookingId', requireAuth, async (req, res) => {
+    const { id } = req.user
+    const { bookingId } = req.params;
+    const result = await Booking.findByPk(bookingId);
+    if(!result) {
+        res.status(404)
+        return res.json({
+            message: `Booking does not exist.`
+        })
+    }
+    if(result.userId !== id) {
+        res.status(401)
+        return res.json({
+            message: `Unauthorized: You are not the owner of this Booking.`
+        })
+    }
+    if(result.startDate < new Date()) {
+        res.status(400)
+        return res.json({
+            message: `Bookings that have been started cannot be deleted.`
+        })
+    }
+
+    await result.destroy();
+
+    res.status(200);
+    res.json({
+        message: `Successfully deleted.`
+    });
+});
+
 
 
 module.exports = router;
