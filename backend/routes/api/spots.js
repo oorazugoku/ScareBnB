@@ -104,18 +104,15 @@ router.post('/:spotId/reviews/current', requireAuth, async (req, res) => {
 router.post('/:spotId/images/current', requireAuth, async (req, res) => {
     const { spotId } = req.params;
     const { url } = req.body;
-
     let spot = await Spot.findOne({
         where: { id: spotId }
     });
-
     if(!spot) {
         res.status(404)
         return res.json({
             message: `Spot does not exist.`
         })
     }
-
     let imgcounts = await Image.findAll({
         where: { spotId: spotId },
         attributes: {include: [[sequelize.fn('COUNT', sequelize.col('spotId')), 'imgCount']]}
@@ -128,17 +125,10 @@ router.post('/:spotId/images/current', requireAuth, async (req, res) => {
             message: `Image limit is 10.`
         })
     }
-
     let result = await Image.create({
         url: url,
         spotId: spotId,
     })
-
-    // await Spot.update(
-    //     { previewImgId: previewImgId },
-    //     { where: { id: spotId } }
-    // )
-
     res.json(result)
 });
 
@@ -153,17 +143,10 @@ router.get('/:spotId/reviews', async (req, res) => {
 
 router.get('/current', requireAuth, async (req, res) => {
     let id = req.user.id;
-
     let result = await Spot.findAll({
         where: { ownerId: id },
         include: { model: Image }
     })
-
-    // let result = await Spot.findAll({
-    //     where: { ownerId: id },
-    //     include: [model.Image]
-    // })
-
     res.json(result)
 });
 
@@ -171,10 +154,10 @@ router.get('/current', requireAuth, async (req, res) => {
 router.get('/:spotId', async (req, res) => {
     const { spotId } = req.params;
     let result = await Spot.findByPk(spotId, {
-        include: {
-            model: Image,
-            as: 'Images'
-        }
+        include: [
+            { model: User, as: 'Owner' },
+            { model: Image, as: 'Images' }
+        ]
     })
     if(!result) {
         res.status(404)
@@ -182,10 +165,7 @@ router.get('/:spotId', async (req, res) => {
             message: `Spot does not exist.`
         })
     }
-
-    let owner = await User.findByPk(result.ownerId)
-
-    res.json({ owner, result })
+    res.json(result)
 });
 
 
