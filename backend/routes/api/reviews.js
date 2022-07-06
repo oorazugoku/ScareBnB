@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router();
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const sequelize = require('sequelize')
-const { Image, Review, Spot } = require('../../db/models');
+const { Image, Review, Spot, User } = require('../../db/models');
 
 
 router.post('/:reviewId/images/current', requireAuth, async (req, res) => {
@@ -57,13 +57,19 @@ router.put('/:reviewId/current', requireAuth, async (req, res) => {
 });
 
 
+
+
 router.get('/current/', requireAuth, async (req, res) => {
   let id = req.user.id
-  const result = await Review.findAll({
-      where: { userId: id }
+  const result = await User.findAll({
+      where: { id: id },
+      include: { model: Review, include: [{ model: Spot }, { model: Image }] }
   })
   res.json(result)
 });
+
+
+
 
 router.get('/', async (req, res) => {
     let result = await Review.findAll({})
