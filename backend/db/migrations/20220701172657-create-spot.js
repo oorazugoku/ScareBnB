@@ -50,7 +50,7 @@ module.exports = {
       },
       previewImgId: {
         type: Sequelize.INTEGER,
-        references: { model: 'Images', key: 'id' },
+        references: { model: 'Images', key: 'id' }
       },
       numReviews: {
         type: Sequelize.INTEGER,

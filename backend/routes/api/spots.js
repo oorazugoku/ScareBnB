@@ -261,7 +261,7 @@ router.get('/', async (req, res) => {
 router.delete('/:spotId/current', requireAuth, async (req, res) => {
     const { spotId } = req.params;
     let result = await Spot.findByPk(spotId)
-    console.log(result.ownerId)
+    console.log(result)
     if(!result) {
         res.status(404)
         return res.json({
