@@ -39,7 +39,7 @@ const validateSpots = [
       .isEmail()
       .withMessage('Please provide a Description.')
       .isLength({ min: 10 })
-      .withMessage('Name must be 10 characters or more.'),
+      .withMessage('Description must be 10 characters or more.'),
     check('price')
       .exists({ checkFalsy: true })
       .isNumeric()
@@ -163,7 +163,7 @@ router.get('/current', requireAuth, async (req, res) => {
     let id = req.user.id;
     let result = await Spot.findAll({
         where: { ownerId: id },
-        include: { model: Image }
+        include: { model: Image, as: 'Images' }
     })
     res.json(result)
 });
@@ -177,20 +177,10 @@ router.put('/:spotId/current', requireAuth, validateSpots, async (req, res) => {
             { model: User, as: 'Owner' }
         ]
     })
-    let addressCheck = await Spot.findOne({
-        where: {address: address}
-    })
-    console.log(addressCheck)
     if(result.Owner.id !== req.user.id) {
         res.status(401)
         return res.json({
             message: `Unauthorized`
-        })
-    }
-    if(addressCheck) {
-        res.status(404)
-        return res.json({
-            message: `Address already exists.`
         })
     }
     if(!result) {
