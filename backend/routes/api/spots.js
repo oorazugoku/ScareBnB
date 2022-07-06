@@ -151,6 +151,68 @@ router.get('/current', requireAuth, async (req, res) => {
 });
 
 
+router.put('/:spotId/current', requireAuth, validateSpots, async (req, res) => {
+    const { spotId } = req.params;
+    const { address, city, state, country, name, description, price } = req.body
+    let result = await Spot.findByPk(spotId, {
+        include: [
+            { model: User, as: 'Owner' }
+        ]
+    })
+    let addressCheck = await Spot.findOne({
+        where: {address: address}
+    })
+    console.log(addressCheck)
+    if(addressCheck) {
+        res.status(404)
+        return res.json({
+            message: `Address already exists.`
+        })
+    }
+    if(!result) {
+        res.status(404)
+        return res.json({
+            message: `Spot does not exist.`
+        })
+    }
+    if(result.Owner.id !== req.user.id) {
+        res.status(401)
+        return res.json({
+            message: `Unauthorized`
+        })
+    }
+
+    if(address) {
+        result.address = address
+    }
+    if(city) {
+        result.city = city
+    }
+    if(state) {
+        result.state = state
+    }
+    if(country) {
+        result.country = country
+    }
+    if(name) {
+        result.name = name
+    }
+    if(description) {
+        result.description = description
+    }
+    if(price) {
+        result.price = price
+    }
+
+    await result.save()
+
+
+    res.json({
+        message: 'Spot updated successfully.',
+        result
+    })
+});
+
 router.get('/:spotId', async (req, res) => {
     const { spotId } = req.params;
     let result = await Spot.findByPk(spotId, {
