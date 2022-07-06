@@ -71,6 +71,29 @@ router.post('/spots/:spotId', requireAuth, async (req, res) => {
 });
 
 
+// Get all Bookings for a Spot by Spot ID
+router.get('/spots/:spotId', requireAuth, async (req, res) => {
+    const { id } = req.user;
+    const { spotId } = req.params;
+    const result = await Spot.findByPk(spotId, {
+        include: { model: Booking }
+    });
+    if(!result) {
+        res.status(400);
+        return res.json({
+            message: `Spot does not exist.`
+        })
+    }
+
+    size = result.length
+    res.status(200);
+    res.json({
+        size,
+        result
+    });
+});
+
+
 // Get all Bookings by current User
 router.get('/current', requireAuth, async (req, res) => {
     const { id } = req.user
