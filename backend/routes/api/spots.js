@@ -84,9 +84,6 @@ router.post('/:spotId/reviews/current', requireAuth, async (req, res) => {
             message: `Please enter a review with at least 5 Characters.`
         });
     };
-
-
-
     const newReview = await Review.create({
         userId: id,
         spotId,
@@ -111,6 +108,7 @@ router.post('/:spotId/reviews/current', requireAuth, async (req, res) => {
     res.json(newReview);
 });
 
+// Add Images to a Spot by ID
 router.post('/:spotId/images/current', requireAuth, async (req, res) => {
     const { spotId } = req.params;
     const { url } = req.body;
@@ -142,6 +140,7 @@ router.post('/:spotId/images/current', requireAuth, async (req, res) => {
     res.json(result)
 });
 
+// Get all a Spot's reviews by Spot Id
 router.get('/:spotId/reviews', async (req, res) => {
     const { spotId } = req.params;
     let result = await Review.findAll({
@@ -159,7 +158,7 @@ router.get('/:spotId/reviews', async (req, res) => {
     res.json(result)
 });
 
-
+// Get all current user's Spots
 router.get('/current', requireAuth, async (req, res) => {
     let id = req.user.id;
     let result = await Spot.findAll({
@@ -169,7 +168,7 @@ router.get('/current', requireAuth, async (req, res) => {
     res.json(result)
 });
 
-
+// Edit a Spot to the current User by Spot ID
 router.put('/:spotId/current', requireAuth, validateSpots, async (req, res) => {
     const { spotId } = req.params;
     const { address, city, state, country, name, description, price } = req.body
@@ -232,6 +231,7 @@ router.put('/:spotId/current', requireAuth, validateSpots, async (req, res) => {
     })
 });
 
+// Get a Spot by Spot ID
 router.get('/:spotId', async (req, res) => {
     const { spotId } = req.params;
     let result = await Spot.findByPk(spotId, {
@@ -249,12 +249,10 @@ router.get('/:spotId', async (req, res) => {
     res.json(result)
 });
 
-
+// Create a Spot
 router.post('/', requireAuth, validateSpots, async (req, res) => {
     let id = req.user.id;
-
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
-
     let result = await Spot.create({
         ownerId: id,
         address,
@@ -267,16 +265,41 @@ router.post('/', requireAuth, validateSpots, async (req, res) => {
         description,
         price
     })
-
     res.json(result)
 })
 
+//Get all Spots
 router.get('/', async (req, res) => {
-    let result = await Spot.findAll({})
-    res.json(result)
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+    let pagination = {};
+    page = page === 0 ? 0 : parseInt(page)
+    size = size === 0 ? 20 : parseInt(size)
+
+    page = !Number(page) ? 0 : parseInt(page)
+    size = !Number(size) ? 20 : parseInt(size)
+
+    page = page === undefined ? 0 : parseInt(page)
+    size = size === undefined ? 20 : parseInt(size)
+
+    if (size >= 0 && page >= 0 && size <= 20) {
+      pagination.limit = size
+      pagination.offset = offset = size * (page - 1)
+    }
+    if (size > 20) {
+      pagination.limit = 20
+      pagination.offset = size * (page - 1)
+    }
+
+    let result = await Spot.findAll({...pagination})
+    size = result.length
+    res.json({
+        page,
+        size,
+        result
+    })
 })
 
-
+// Delete Spot by Spot ID
 router.delete('/:spotId/current', requireAuth, async (req, res) => {
     const { spotId } = req.params;
     let result = await Spot.findByPk(spotId)

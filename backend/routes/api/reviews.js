@@ -4,15 +4,22 @@ const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const sequelize = require('sequelize')
 const { Image, Review, Spot, User } = require('../../db/models');
 
-
+// Add Images to a Review by Review ID
 router.post('/:reviewId/images/current', requireAuth, async (req, res) => {
     const { reviewId } = req.params;
     const { url } = req.body;
+    const { id } = req.user
 
     let review = await Review.findOne({
         where: { id: reviewId}
     });
 
+    if(review.userId !== id) {
+        res.status(400)
+        return res.json({
+            message: `Unauthorized: This review does not belong to you.`
+        })
+    }
     if(!review) {
         res.status(404)
         return res.json({
@@ -39,26 +46,38 @@ router.post('/:reviewId/images/current', requireAuth, async (req, res) => {
     res.json(result)
 });
 
+// Edit a Review by Review ID
 router.put('/:reviewId/current', requireAuth, async (req, res) => {
     let id = req.user.id;
     const { review, stars } = req.body;
-
-    const oldReview = await Review.findOne({
-    where: { userId: id }
-    });
-
+    const { reviewId } = req.params;
+    const oldReview = await Review.findByPk(reviewId);
+    if(!oldReview) {
+        res.status(404)
+        return res.json({
+            message: `Review does not exist.`
+        })
+    }
+    if(id !== oldReview.userId) {
+        res.status(400)
+        return res.json({
+            message: `Unauthorized: This review does not belong to you.`
+        })
+    }
     if (review) {
         oldReview.review = review;
     }
     if (stars) {
         oldReview.stars = stars;
     }
-    res.json(oldReview);
+
+    await oldReview.save()
+    res.json({message: `Edit Successful`, oldReview});
 });
 
 
 
-
+// Get current User's reviews
 router.get('/current/', requireAuth, async (req, res) => {
   let id = req.user.id
   const result = await User.findAll({
@@ -69,13 +88,14 @@ router.get('/current/', requireAuth, async (req, res) => {
 });
 
 
-
-
+// Get all Reviews
 router.get('/', async (req, res) => {
     let result = await Review.findAll({})
     res.json(result)
 });
 
+
+// Delete a Review by Review ID
 router.delete('/:reviewId', requireAuth, async (req, res) => {
     let id = req.user.id;
     const { reviewId } = req.params;
@@ -95,13 +115,6 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
             message: `Sorry, you can only DELETE reviews that belong to the current Logged in User.`
         });
     };
-
-    // let avgStars = await Review.findAll({
-    //     where: { spotId: review.spotId },
-    //     attributes: {include: [[sequelize.fn('AVG', sequelize.col('stars')), 'AvgStars']]}
-    // })
-    // console.log(avgStars[0].dataValues.AvgStars)
-
     const spot = await Spot.findOne({
         where: {id: review.spotId}
     })
@@ -137,8 +150,6 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
             { where: { id: spot.id } }
             )
     }
-
-
     res.status(200)
     res.json({
         message: "Successfully deleted"
