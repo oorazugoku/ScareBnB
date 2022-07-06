@@ -28,21 +28,19 @@ router.post('/spots/:spotId', requireAuth, async (req, res) => {
             message: `Unauthorized: Cannot Reserve a Spot that you own.`
         })
     }
-    let startNum = startDate.getTime()
-    let endNum = endDate.getTime()
     let check = false
     let proof
     if(spotCheck.Bookings.length) {
         spotCheck.Bookings.forEach(each => {
-            if(startNum <= each.startDate.getTime() && endNum >= each.endDate.getTime()) {
+            if(startDate <= each.startDate && endDate >= each.endDate) {
                 check = true
                 proof = each
             };
-            if(startNum >= each.startDate.getTime() && startNum <= each.endDate.getTime()) {
+            if(startDate >= each.startDate && startDate <= each.endDate) {
                 check = true
                 proof = each
             };
-            if(endNum >= each.startDate.getTime() && endNum <= each.endDate.getTime()) {
+            if(endDate >= each.startDate && endDate <= each.endDate) {
                 check = true
                 proof = each
             };
