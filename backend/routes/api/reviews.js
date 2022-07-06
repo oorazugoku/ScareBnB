@@ -31,7 +31,6 @@ router.post('/:reviewId/images/current', requireAuth, async (req, res) => {
         attributes: {include: [[sequelize.fn('COUNT', sequelize.col('reviewId')), 'imgCount']]}
     })
     let count = imgcounts[0].dataValues.imgCount
-    console.log('-------------------', count)
     if(count >= 10) {
         res.status(400)
         return res.json({
