@@ -163,6 +163,12 @@ router.put('/:spotId/current', requireAuth, validateSpots, async (req, res) => {
         where: {address: address}
     })
     console.log(addressCheck)
+    if(result.Owner.id !== req.user.id) {
+        res.status(401)
+        return res.json({
+            message: `Unauthorized`
+        })
+    }
     if(addressCheck) {
         res.status(404)
         return res.json({
@@ -173,12 +179,6 @@ router.put('/:spotId/current', requireAuth, validateSpots, async (req, res) => {
         res.status(404)
         return res.json({
             message: `Spot does not exist.`
-        })
-    }
-    if(result.Owner.id !== req.user.id) {
-        res.status(401)
-        return res.json({
-            message: `Unauthorized`
         })
     }
 
@@ -257,6 +257,27 @@ router.get('/', async (req, res) => {
     res.json(result)
 })
 
+
+router.delete('/:spotId/current', requireAuth, async (req, res) => {
+    const { spotId } = req.params;
+    let result = await Spot.findByPk(spotId)
+    console.log(result.ownerId)
+    if(!result) {
+        res.status(404)
+        return res.json({
+            message: `Spot does not exist.`
+        })
+    }
+    if(result.ownerId !== req.user.id) {
+        res.status(401)
+        return res.json({
+            message: `Unauthorized`
+        })
+    }
+    await result.destroy()
+
+    res.json({ message: `Successfully Deleted Spot.` })
+});
 
 
 module.exports = router;
