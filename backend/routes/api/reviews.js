@@ -4,8 +4,9 @@ const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const sequelize = require('sequelize')
 const { Image, Review, Spot, User } = require('../../db/models');
 
+
 // Add Images to a Review by Review ID
-router.post('/:reviewId/images/current', requireAuth, async (req, res) => {
+router.post('/:reviewId/images', requireAuth, async (req, res) => {
     const { reviewId } = req.params;
     const { url } = req.body;
     const { id } = req.user
@@ -14,16 +15,16 @@ router.post('/:reviewId/images/current', requireAuth, async (req, res) => {
         where: { id: reviewId}
     });
 
-    if(review.userId !== id) {
-        res.status(400)
-        return res.json({
-            message: `Unauthorized: This review does not belong to you.`
-        })
-    }
     if(!review) {
         res.status(404)
         return res.json({
             message: `Review does not exist.`
+        })
+    }
+    if(review.userId !== id) {
+        res.status(400)
+        return res.json({
+            message: `Unauthorized: This review does not belong to you.`
         })
     }
     let imgcounts = await Image.findAll({
@@ -45,8 +46,9 @@ router.post('/:reviewId/images/current', requireAuth, async (req, res) => {
     res.json(result)
 });
 
+
 // Edit a Review by Review ID
-router.put('/:reviewId/current', requireAuth, async (req, res) => {
+router.put('/:reviewId', requireAuth, async (req, res) => {
     let id = req.user.id;
     const { review, stars } = req.body;
     const { reviewId } = req.params;
@@ -75,9 +77,8 @@ router.put('/:reviewId/current', requireAuth, async (req, res) => {
 });
 
 
-
 // Get current User's reviews
-router.get('/current/', requireAuth, async (req, res) => {
+router.get('/current', requireAuth, async (req, res) => {
   let id = req.user.id
   const result = await User.findAll({
       where: { id: id },

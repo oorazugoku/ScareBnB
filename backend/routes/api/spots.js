@@ -50,7 +50,7 @@ const validateSpots = [
 
 
 //Post a Review based on a Spot ID
-router.post('/:spotId/reviews/current', requireAuth, async (req, res) => {
+router.post('/:spotId/reviews', requireAuth, async (req, res) => {
     let id = req.user.id;
     const { review, stars } = req.body;
     const { spotId } = req.params
@@ -109,7 +109,7 @@ router.post('/:spotId/reviews/current', requireAuth, async (req, res) => {
 });
 
 // Add Images to a Spot by ID
-router.post('/:spotId/images/current', requireAuth, async (req, res) => {
+router.post('/:spotId/images', requireAuth, async (req, res) => {
     const { spotId } = req.params;
     const { url } = req.body;
     let spot = await Spot.findOne({
@@ -126,7 +126,6 @@ router.post('/:spotId/images/current', requireAuth, async (req, res) => {
         attributes: {include: [[sequelize.fn('COUNT', sequelize.col('spotId')), 'imgCount']]}
     })
     let count = imgcounts[0].dataValues.imgCount
-    console.log('-------------------', count)
     if(count >= 10) {
         res.status(400)
         return res.json({
@@ -169,7 +168,7 @@ router.get('/current', requireAuth, async (req, res) => {
 });
 
 // Edit a Spot to the current User by Spot ID
-router.put('/:spotId/current', requireAuth, validateSpots, async (req, res) => {
+router.put('/:spotId', requireAuth, validateSpots, async (req, res) => {
     const { spotId } = req.params;
     const { address, city, state, country, name, description, price } = req.body
     let result = await Spot.findByPk(spotId, {
@@ -290,7 +289,7 @@ router.get('/', async (req, res) => {
 })
 
 // Delete Spot by Spot ID
-router.delete('/:spotId/current', requireAuth, async (req, res) => {
+router.delete('/:spotId', requireAuth, async (req, res) => {
     const { spotId } = req.params;
     let result = await Spot.findByPk(spotId)
     console.log(result)

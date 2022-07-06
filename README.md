@@ -76,7 +76,7 @@ information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: /session
+  * URL: /session/login
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -142,7 +142,7 @@ user's information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: /users
+  * URL: /session/signup
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -547,7 +547,7 @@ Returns all the reviews written by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /users/current/reviews
+  * URL: /reviews/current
   * Body: none
 
 * Successful Response
@@ -801,7 +801,7 @@ Delete an existing review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: DELETE
-  * URL: /current/reviews/:reviewId
+  * URL: /reviews/:reviewId
   * Body: none
 
 * Successful Response
@@ -1290,7 +1290,7 @@ Delete an existing image.
   the image's imageableId and imageableType
 * Request
   * Method: DELETE
-  * URL: /current/images/:imageId
+  * URL: /images/:imageId
   * Body: none
 
 * Successful Response
