@@ -23,7 +23,7 @@ router.post('/spots/:spotId', requireAuth, async (req, res) => {
         })
     }
     if(spotCheck.ownerId === id) {
-        res.status(401)
+        res.status(403)
         return res.json({
             message: `Unauthorized: Cannot Reserve a Spot that you own.`
         })
@@ -119,7 +119,7 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
         })
     }
     if(result.userId !== id) {
-        res.status(401)
+        res.status(403)
         return res.json({
             message: `Unauthorized: You are not the owner of this Booking.`
         })
@@ -219,7 +219,7 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
         })
     }
     if(result.userId !== id) {
-        res.status(401)
+        res.status(403)
         return res.json({
             message: `Unauthorized: You are not the owner of this Booking.`
         })

@@ -60,7 +60,7 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
         })
     }
     if(id !== oldReview.userId) {
-        res.status(400)
+        res.status(403)
         return res.json({
             message: `Unauthorized: This review does not belong to you.`
         })

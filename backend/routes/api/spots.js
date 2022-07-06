@@ -177,7 +177,7 @@ router.put('/:spotId', requireAuth, validateSpots, async (req, res) => {
         ]
     })
     if(result.Owner.id !== req.user.id) {
-        res.status(401)
+        res.status(403)
         return res.json({
             message: `Unauthorized`
         })
@@ -333,7 +333,7 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
         })
     }
     if(result.ownerId !== req.user.id) {
-        res.status(401)
+        res.status(403)
         return res.json({
             message: `Unauthorized`
         })

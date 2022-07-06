@@ -17,7 +17,7 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
         })
     }
     if(result.Spot.ownerId !== req.user.id) {
-        res.status(401)
+        res.status(403)
         return res.json({
             message: `Unauthorized`
         })
