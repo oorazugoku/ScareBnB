@@ -47,6 +47,9 @@ const validateSpots = [
     handleValidationErrors
   ];
 
+
+
+//Post a Review based on a Spot ID
 router.post('/:spotId/reviews/current', requireAuth, async (req, res) => {
     let id = req.user.id;
     const { review, stars } = req.body;
@@ -64,17 +67,25 @@ router.post('/:spotId/reviews/current', requireAuth, async (req, res) => {
         where: { userId: id, spotId: spotId}
     });
     if (spotUserCheck) {
-        res.status(404)
+        res.status(403)
         return res.json({
             message: `User already has a review for this spot.`
         });
     };
-    if (stars < 1 || stars > 5) {
-        res.status(404)
+    if (stars < 1 || stars > 5 || !Number(stars)) {
+        res.status(400)
         return res.json({
             message: `Please enter a Star Rating between 1 and 5.`
         });
     };
+    if (review.length < 5) {
+        res.status(400)
+        return res.json({
+            message: `Please enter a review with at least 5 Characters.`
+        });
+    };
+
+
 
     const newReview = await Review.create({
         userId: id,
@@ -96,7 +107,6 @@ router.post('/:spotId/reviews/current', requireAuth, async (req, res) => {
         { numReviews: num, avgStarRating: starRating.toFixed(1) },
         { where: { id: spotId } }
         )
-    // spotCheck.numReviews = spotCheck.numReviews + 1;
 
     res.json(newReview);
 });
