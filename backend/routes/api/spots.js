@@ -261,7 +261,6 @@ router.post('/', requireAuth, validateSpots, async (req, res) => {
 router.get('/', async (req, res) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
     let pagination = {};
-    pagination.offset = 0;
     page = page === 0 ? 0 : parseInt(page)
     size = size === 0 ? 20 : parseInt(size)
 
@@ -307,6 +306,8 @@ router.get('/', async (req, res) => {
     if (minPrice) whereClause.price = { [Op.gte]: minPrice };
     if (maxPrice) whereClause.price = { [Op.lte]: maxPrice };
     if (minPrice && maxPrice) whereClause.price = { [Op.between]: [minPrice, maxPrice] };
+
+    if(pagination.offset < 0) { pagination.offset = 0 }
 
     let result = await Spot.findAll({
         where: whereClause,
