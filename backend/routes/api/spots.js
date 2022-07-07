@@ -197,27 +197,13 @@ router.put('/:spotId', requireAuth, validateSpots, async (req, res) => {
         })
     }
 
-    if(address) {
-        result.address = address
-    }
-    if(city) {
-        result.city = city
-    }
-    if(state) {
-        result.state = state
-    }
-    if(country) {
-        result.country = country
-    }
-    if(name) {
-        result.name = name
-    }
-    if(description) {
-        result.description = description
-    }
-    if(price) {
-        result.price = price
-    }
+    if (address) result.address = address;
+    if (city) result.city = city;
+    if (state) result.state = state;
+    if (country) result.country = country;
+    if (name) result.name = name;
+    if (description) result.description = description;
+    if (price) result.price = price;
 
     await result.save()
 
@@ -227,6 +213,7 @@ router.put('/:spotId', requireAuth, validateSpots, async (req, res) => {
         result
     })
 });
+
 
 // Get a Spot by Spot ID
 router.get('/:spotId', async (req, res) => {
@@ -246,6 +233,7 @@ router.get('/:spotId', async (req, res) => {
     res.json(result)
 });
 
+
 // Create a Spot
 router.post('/', requireAuth, validateSpots, async (req, res) => {
     let id = req.user.id;
@@ -263,7 +251,8 @@ router.post('/', requireAuth, validateSpots, async (req, res) => {
         price
     })
     res.json(result)
-})
+});
+
 
 //Get all Spots
 router.get('/', async (req, res) => {
@@ -327,7 +316,8 @@ router.get('/', async (req, res) => {
         size,
         result
     })
-})
+});
+
 
 // Delete Spot by Spot ID
 router.delete('/:spotId', requireAuth, async (req, res) => {
