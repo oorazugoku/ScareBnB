@@ -83,9 +83,7 @@ router.post('/spots/:spotId', requireAuth, async (req, res) => {
 router.get('/spots/:spotId', requireAuth, async (req, res) => {
     const { id } = req.user;
     const { spotId } = req.params;
-    let result = await Spot.findAll({
-        where: { id: spotId }
-    });
+    let result = await Spot.findByPk(spotId);
     if(!result) {
         res.status(404);
         return res.json({
@@ -93,9 +91,12 @@ router.get('/spots/:spotId', requireAuth, async (req, res) => {
         });
     }
     if(result.ownerId !== id) {
-        result = await Booking.scope(['nonOwner']).findByPk(spotId);
+        result = await Booking.scope(['nonOwner']).findAll({
+            where: { spotId }
+        });
     } else {
-        result = await Booking.findByPk(spotId, {
+        result = await Booking.findAll({
+            where: { spotId },
             include: { model: User }
         });
     }
