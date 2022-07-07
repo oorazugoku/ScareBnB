@@ -273,7 +273,7 @@ router.get('/', async (req, res) => {
 
     if (size >= 0 && page >= 0 && size <= 20) {
       pagination.limit = size
-      pagination.offset = offset = size * (page - 1)
+      pagination.offset = size * (page - 1)
     }
     if (size > 20) {
       pagination.limit = 20
@@ -307,7 +307,6 @@ router.get('/', async (req, res) => {
     if (minPrice) whereClause.price = { [Op.gte]: minPrice };
     if (maxPrice) whereClause.price = { [Op.lte]: maxPrice };
     if (minPrice && maxPrice) whereClause.price = { [Op.between]: [minPrice, maxPrice] };
-
 
     let result = await Spot.findAll({
         where: whereClause,
