@@ -284,14 +284,14 @@ router.get('/', async (req, res) => {
         }
         return
     }
-    if(page) { checkNum(page) };
-    if(size) { checkNum(size) };
-    if(minLat) { checkNum(minLat) };
-    if(maxLat) { checkNum(maxLat) };
-    if(minLng) { checkNum(minLng) };
-    if(maxLng) { checkNum(maxLng) };
-    if(minPrice) { checkNum(minPrice) };
-    if(maxPrice) { checkNum(maxPrice) };
+    if (page) { checkNum(page) };
+    if (size) { checkNum(size) };
+    if (minLat) { checkNum(minLat) };
+    if (maxLat) { checkNum(maxLat) };
+    if (minLng) { checkNum(minLng) };
+    if (maxLng) { checkNum(maxLng) };
+    if (minPrice) { checkNum(minPrice) };
+    if (maxPrice) { checkNum(maxPrice) };
 
     const whereClause = {}
     if (minLat) whereClause.lat = { [Op.gte]: minLat };
@@ -304,7 +304,7 @@ router.get('/', async (req, res) => {
     if (maxPrice) whereClause.price = { [Op.lte]: maxPrice };
     if (minPrice && maxPrice) whereClause.price = { [Op.between]: [minPrice, maxPrice] };
 
-    if(pagination.offset < 0) { pagination.offset = 0 }
+    if (pagination.offset < 0) { pagination.offset = 0 }
 
     let result = await Spot.findAll({
         where: whereClause,

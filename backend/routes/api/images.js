@@ -16,14 +16,16 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
             message: `Image does not exist.`
         })
     }
-    if(result.Spot.ownerId !== req.user.id) {
+    let owner = result.Spot.ownerId
+    if(owner !== req.user.id) {
         res.status(403)
         return res.json({
-            message: `Unauthorized`
+            message: `Unauthorized`,
+            owner
         })
     }
     await result.destroy()
-    res.json({ message: `Successfully Deleted Image.` })
+    res.json({ message: `Successfully Deleted Image.`, result})
 });
 
 

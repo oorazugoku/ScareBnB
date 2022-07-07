@@ -69,7 +69,7 @@ router.get('/', restoreUser, (req, res) => {
 );
 
 
-
+// User Login
 router.post('/login', async (req, res) => {
 
   const { credential, password } = req.body;
@@ -104,7 +104,7 @@ router.post('/login', async (req, res) => {
 
 
 
-
+// User Signup
 router.post('/signup', validateSignup, async (req, res) => {
 
   const { firstName, lastName, email, password, username } = req.body;
@@ -155,6 +155,7 @@ router.post('/signup', validateSignup, async (req, res) => {
 //     await setTokenCookie(res, user);
 //     return res.json({ user });
 // });
+
 
 // Delete Token-Cookie
 router.delete('/logout', (_req, res) => {
