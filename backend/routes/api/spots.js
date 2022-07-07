@@ -275,7 +275,7 @@ router.get('/', async (req, res) => {
       pagination.limit = 20
       pagination.offset = size * (page - 1)
     }
-    const er = (query) => {
+    const checkNum = (query) => {
         if(!Number(query)){
             res.status(400);
             return res.json({
@@ -284,14 +284,14 @@ router.get('/', async (req, res) => {
         }
         return
     }
-    if(page) { er(page) };
-    if(size) { er(size) };
-    if(minLat) { er(minLat) };
-    if(maxLat) { er(maxLat) };
-    if(minLng) { er(minLng) };
-    if(maxLng) { er(maxLng) };
-    if(minPrice) { er(minPrice) };
-    if(maxPrice) { er(maxPrice) };
+    if(page) { checkNum(page) };
+    if(size) { checkNum(size) };
+    if(minLat) { checkNum(minLat) };
+    if(maxLat) { checkNum(maxLat) };
+    if(minLng) { checkNum(minLng) };
+    if(maxLng) { checkNum(maxLng) };
+    if(minPrice) { checkNum(minPrice) };
+    if(maxPrice) { checkNum(maxPrice) };
 
     const whereClause = {}
     if (minLat) whereClause.lat = { [Op.gte]: minLat };
