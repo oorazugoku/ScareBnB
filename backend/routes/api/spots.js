@@ -125,7 +125,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
         // attributes: {include: [[sequelize.fn('COUNT', sequelize.col('spotId')), 'imgCount']]}
     })
     // let count = imgcounts[0].dataValues.imgCount
-    let count = count.length
+    let count = imgcounts.length
     if(count >= 10) {
         res.status(400)
         return res.json({
