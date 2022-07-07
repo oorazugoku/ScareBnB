@@ -109,6 +109,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
     res.json(newReview);
 });
 
+
 // Add Images to a Spot by ID
 router.post('/:spotId/images', requireAuth, async (req, res) => {
     const { spotId } = req.params;
@@ -121,10 +122,9 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
         })
     }
     let imgcounts = await Image.findAll({
-        where: { spotId: spotId },
-        // attributes: {include: [[sequelize.fn('COUNT', sequelize.col('spotId')), 'imgCount']]}
+        where: { spotId: spotId }
     })
-    // let count = imgcounts[0].dataValues.imgCount
+
     let count = imgcounts.length
     if(count >= 10) {
         res.status(400)
@@ -138,6 +138,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
     })
     res.json(result)
 });
+
 
 // Get all a Spot's reviews by Spot Id
 router.get('/:spotId/reviews', async (req, res) => {
@@ -155,6 +156,7 @@ router.get('/:spotId/reviews', async (req, res) => {
 
     res.json(result)
 });
+
 
 // Get all current user's Spots
 router.get('/current', requireAuth, async (req, res) => {
