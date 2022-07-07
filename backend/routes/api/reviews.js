@@ -29,7 +29,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     }
     let imgcounts = await Image.findAll({
         where: { reviewId: reviewId }
-    })
+    });
     let count = imgcounts.length
     if(count >= 10) {
         res.status(400)
@@ -87,11 +87,11 @@ router.get('/current', requireAuth, async (req, res) => {
 });
 
 
-// Get all Reviews
-router.get('/', async (req, res) => {
-    let result = await Review.findAll({})
-    res.json(result)
-});
+// // Get all Reviews
+// router.get('/', async (req, res) => {
+//     let result = await Review.findAll({})
+//     res.json(result)
+// });
 
 
 // Delete a Review by Review ID
