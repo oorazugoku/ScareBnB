@@ -296,7 +296,6 @@ router.get('/', async (req, res) => {
     if(minPrice) { er(minPrice) };
     if(maxPrice) { er(maxPrice) };
 
-
     const whereClause = {}
     if (minLat) whereClause.lat = { [Op.gte]: minLat };
     if (maxLat) whereClause.lat = { [Op.lte]: maxLat };
