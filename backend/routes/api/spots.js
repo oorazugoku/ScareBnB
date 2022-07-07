@@ -113,9 +113,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
 router.post('/:spotId/images', requireAuth, async (req, res) => {
     const { spotId } = req.params;
     const { url } = req.body;
-    let spot = await Spot.findOne({
-        where: { id: spotId }
-    });
+    let spot = await Spot.findByPk(spotId);
     if(!spot) {
         res.status(404)
         return res.json({
@@ -124,7 +122,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
     }
     let imgcounts = await Image.findAll({
         where: { spotId: spotId },
-        attributes: {include: [[sequelize.fn('COUNT', sequelize.col('spotId')), 'imgCount']]}
+        attributes: {include: [[sequelize.fn('COUNT', sequelize.col('spotId')), 'imgCount'], 'id']}
     })
     let count = imgcounts[0].dataValues.imgCount
     if(count >= 10) {
