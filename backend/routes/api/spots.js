@@ -112,6 +112,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
 
 // Add Images to a Spot by ID
 router.post('/:spotId/images', requireAuth, async (req, res) => {
+    const { id } = req.user
     const { spotId } = req.params;
     const { url } = req.body;
     let spot = await Spot.findByPk(spotId);
@@ -119,6 +120,12 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
         res.status(404)
         return res.json({
             message: `Spot does not exist.`
+        })
+    }
+    if(spot.ownerId !== id) {
+        res.status(403);
+        return res.json({
+            message: `Unauthorized: You are not the owner of this Spot.`
         })
     }
     let imgcounts = await Image.findAll({
