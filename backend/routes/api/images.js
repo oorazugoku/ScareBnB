@@ -17,6 +17,7 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
         })
     }
     let owner = result.Spot.ownerId
+    res.json(result)
     if(owner !== req.user.id) {
         res.status(403)
         return res.json({
