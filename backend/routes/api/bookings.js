@@ -27,39 +27,22 @@ router.post('/spots/:spotId', requireAuth, async (req, res, next) => {
         return next(err)
     }
     let check = false
-    let proof
     if(spotCheck.Bookings.length) {
         spotCheck.Bookings.forEach(each => {
             if(startDate <= each.startDate && endDate >= each.endDate) {
                 check = true
-                proof = {
-                    spot: each.spotId,
-                    startDate: each.startDate,
-                    endDate: each.endDate
-                }
             };
             if(startDate >= each.startDate && startDate <= each.endDate) {
                 check = true
-                proof = {
-                    spot: each.spotId,
-                    startDate: each.startDate,
-                    endDate: each.endDate
-                }
             };
             if(endDate >= each.startDate && endDate <= each.endDate) {
                 check = true
-                proof = {
-                    spot: each.spotId,
-                    startDate: each.startDate,
-                    endDate: each.endDate
-                }
             };
         });
     }
     if(check == true) {
         const err = new Error(`This Booking already exists inside Start and End date for this location.`)
         err.status = 403
-        err.stack = proof
         return next(err)
     };
     const result = await Booking.create({
@@ -134,39 +117,22 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
         include: { model: Booking }
     });
     let check = false
-    let proof
     if(spotCheck.Bookings.length) {
         spotCheck.Bookings.forEach(each => {
             if(startDate <= each.startDate && endDate >= each.endDate) {
                 check = true
-                proof = {
-                    spot: each.spotId,
-                    startDate: each.startDate,
-                    endDate: each.endDate
-                }
             };
             if(startDate >= each.startDate && startDate <= each.endDate) {
                 check = true
-                proof = {
-                    spot: each.spotId,
-                    startDate: each.startDate,
-                    endDate: each.endDate
-                }
             };
             if(endDate >= each.startDate && endDate <= each.endDate) {
                 check = true
-                proof = {
-                    spot: each.spotId,
-                    startDate: each.startDate,
-                    endDate: each.endDate
-                }
             };
         });
     }
     if(check == true) {
         const err = new Error(`This Booking already exists inside Start and End date for this location.`,)
         err.status = 403
-        err.stack = proof
         return next(err)
     };
     if(startDate) {
