@@ -5,7 +5,7 @@ const { Booking, Spot, User } = require('../../db/models');
 
 
 // Reserve a Booking by Spot ID
-router.post('/spots/:spotId', requireAuth, async (req, res) => {
+router.post('/spots/:spotId', requireAuth, async (req, res, next) => {
     let { startDate, endDate } = req.body;
     const { id } = req.user;
     const { spotId } = req.params;
@@ -17,16 +17,14 @@ router.post('/spots/:spotId', requireAuth, async (req, res) => {
         include: { model: Booking }
     });
     if(!spotCheck) {
-        res.status(404)
-        return res.json({
-            message: `Spot does not exist.`
-        })
+        const err = new Error(`Spot does not exist.`)
+        err.status = 404
+        return next(err)
     }
     if(spotCheck.ownerId === id) {
-        res.status(403)
-        return res.json({
-            message: `Unauthorized: Cannot Reserve a Spot that you own.`
-        })
+        const err = new Error(`Unauthorized: Cannot Reserve a Spot that you own.`)
+        err.status = 403
+        return next(err)
     }
     let check = false
     let proof
@@ -59,11 +57,9 @@ router.post('/spots/:spotId', requireAuth, async (req, res) => {
         });
     }
     if(check == true) {
-        res.status(403)
-        return res.json({
-            message: `This Booking already exists inside Start and End date for this location.`,
-            proof
-        });
+        const err = new Error(`This Booking already exists inside Start and End date for this location.`)
+        err.status = 403
+        return next(err)
     };
     const result = await Booking.create({
         userId: id,
@@ -80,15 +76,14 @@ router.post('/spots/:spotId', requireAuth, async (req, res) => {
 
 
 // Get all Bookings for a Spot by Spot ID
-router.get('/spots/:spotId', requireAuth, async (req, res) => {
+router.get('/spots/:spotId', requireAuth, async (req, res, next) => {
     const { id } = req.user;
     const { spotId } = req.params;
     let result = await Spot.findByPk(spotId);
     if(!result) {
-        res.status(404);
-        return res.json({
-            message: `Spot does not exist.`
-        });
+        const err = new Error(`Spot does not exist.`)
+        err.status = 403
+        return next(err)
     }
     if(result.ownerId !== id) {
         result = await Booking.scope(['nonOwner']).findAll({
@@ -110,28 +105,25 @@ router.get('/spots/:spotId', requireAuth, async (req, res) => {
 
 
 // Edit a Booking
-router.put('/:bookingId', requireAuth, async (req, res) => {
+router.put('/:bookingId', requireAuth, async (req, res, next) => {
     const { bookingId } = req.params;
     let { startDate, endDate } = req.body;
     const { id } = req.user;
     let result = await Booking.findByPk(bookingId);
     if(!result) {
-        res.status(404)
-        return res.json({
-            message: `Booking does not exist.`
-        })
+        const err = new Error(`Booking does not exist.`)
+        err.status = 403
+        return next(err)
     }
     if(result.userId !== id) {
-        res.status(403)
-        return res.json({
-            message: `Unauthorized: You are not the owner of this Booking.`
-        })
+        const err = new Error(`Unauthorized: You are not the owner of this Booking.`)
+        err.status = 403
+        return next(err)
     }
     if(result.endDate < new Date()) {
-        res.status(400)
-        return res.json({
-            message: `This Booking has already ended.`
-        })
+        const err = new Error(`This Booking has already ended.`)
+        err.status = 400
+        return next(err)
     }
 
     startDate = new Date(startDate)
@@ -171,11 +163,9 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
         });
     }
     if(check == true) {
-        res.status(403)
-        return res.json({
-            message: `This Booking already exists inside Start and End date for this location.`,
-            proof
-        });
+        const err = new Error(`This Booking already exists inside Start and End date for this location.`,)
+        err.status = 403
+        return next(err)
     };
     if(startDate) {
         result.startDate = startDate
@@ -211,27 +201,24 @@ router.get('/current', requireAuth, async (req, res) => {
 
 
 // Delete a Booking
-router.delete('/:bookingId', requireAuth, async (req, res) => {
+router.delete('/:bookingId', requireAuth, async (req, res, next) => {
     const { id } = req.user
     const { bookingId } = req.params;
     const result = await Booking.findByPk(bookingId);
     if(!result) {
-        res.status(404)
-        return res.json({
-            message: `Booking does not exist.`
-        })
+        const err = new Error(`Booking does not exist.`)
+        err.status = 404
+        return next(err)
     }
     if(result.userId !== id) {
-        res.status(403)
-        return res.json({
-            message: `Unauthorized: You are not the owner of this Booking.`
-        })
+        const err = new Error(`Unauthorized: You are not the owner of this Booking.`)
+        err.status = 403
+        return next(err)
     }
     if(result.startDate < new Date()) {
-        res.status(400)
-        return res.json({
-            message: `Bookings that have been started cannot be deleted.`
-        })
+        const err = new Error(`Bookings that have been started cannot be deleted.`)
+        err.status = 400
+        return next(err)
     }
 
     await result.destroy();

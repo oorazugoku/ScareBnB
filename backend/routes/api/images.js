@@ -5,31 +5,28 @@ const { Image, Review, Spot } = require('../../db/models');
 
 
 // Delete an Image by ID
-router.delete('/:imageId', requireAuth, async (req, res) => {
+router.delete('/:imageId', requireAuth, async (req, res, next) => {
     const { imageId } = req.params;
     let result = await Image.findByPk(imageId, {
         include: [{ model: Review }, { model: Spot }]
     })
     if(!result) {
-        res.status(404)
-        return res.json({
-            message: `Image does not exist.`
-        })
+        const err = new Error(`Image does not exist.`)
+        err.status = 404
+        return next(err)
     }
     if(result.Review) {
         if(result.Review.userId !== req.user.id) {
-            res.status(403)
-            return res.json({
-                message: `Unauthorized`
-            })
+            const err = new Error(`Unauthorized.`)
+            err.status = 403
+            return next(err)
         }
     }
     if(result.Spot) {
         if(result.Spot.ownerId !== req.user.id) {
-            res.status(403)
-            return res.json({
-                message: `Unauthorized`
-            })
+            const err = new Error(`Unauthorized.`)
+            err.status = 403
+            return next(err)
         }
     }
         await result.destroy()

@@ -6,7 +6,7 @@ const { Image, Review, Spot, User } = require('../../db/models');
 
 
 // Add Images to a Review by Review ID
-router.post('/:reviewId/images', requireAuth, async (req, res) => {
+router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     const { reviewId } = req.params;
     const { url } = req.body;
     const { id } = req.user
@@ -16,26 +16,24 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     });
 
     if(!review) {
-        res.status(404)
-        return res.json({
-            message: `Review does not exist.`
-        })
+        const err = new Error(`Review does not exist.`)
+        err.status = 404
+        return next(err)
     }
     if(review.userId !== id) {
-        res.status(400)
-        return res.json({
-            message: `Unauthorized: This review does not belong to you.`
-        })
+        const err = new Error(`Unauthorized: This review does not belong to you.`)
+        err.status = 403
+        return next(err)
+
     }
     let imgcounts = await Image.findAll({
         where: { reviewId: reviewId }
     });
     let count = imgcounts.length
     if(count >= 10) {
-        res.status(400)
-        return res.json({
-            message: `Image limit is 10.`
-        })
+        const err = new Error(`Image limit is 10.`)
+        err.status = 400
+        return next(err)
     }
     let result = await Image.create({
         url,
@@ -47,22 +45,20 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
 
 
 // Edit a Review by Review ID
-router.put('/:reviewId', requireAuth, async (req, res) => {
+router.put('/:reviewId', requireAuth, async (req, res, next) => {
     let id = req.user.id;
     const { review, stars } = req.body;
     const { reviewId } = req.params;
     const oldReview = await Review.findByPk(reviewId);
     if(!oldReview) {
-        res.status(404)
-        return res.json({
-            message: `Review does not exist.`
-        })
+        const err = new Error(`Review does not exist.`)
+        err.status = 404
+        return next(err)
     }
     if(id !== oldReview.userId) {
-        res.status(403)
-        return res.json({
-            message: `Unauthorized: This review does not belong to you.`
-        })
+        const err = new Error(`Unauthorized: This review does not belong to you.`)
+        err.status = 403
+        return next(err)
     }
     if (review) {
         oldReview.review = review;
@@ -87,15 +83,9 @@ router.get('/current', requireAuth, async (req, res) => {
 });
 
 
-// // Get all Reviews
-// router.get('/', async (req, res) => {
-//     let result = await Review.findAll({})
-//     res.json(result)
-// });
-
 
 // Delete a Review by Review ID
-router.delete('/:reviewId', requireAuth, async (req, res) => {
+router.delete('/:reviewId', requireAuth, async (req, res, next) => {
     let id = req.user.id;
     const { reviewId } = req.params;
 
@@ -103,16 +93,14 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
         where: { id: reviewId }
     });
     if(!review) {
-        res.status(404)
-        return res.json({
-            message: `Review couldn't be found.`
-        });
+        const err = new Error(`Review couldn't be found.`)
+        err.status = 404
+        return next(err)
     };
     if(review.userId !== id) {
-        res.status(404)
-        return res.json({
-            message: `Sorry, you can only DELETE reviews that belong to the current Logged in User.`
-        });
+        const err = new Error(`Sorry, you can only DELETE reviews that belong to the current Logged in User.`)
+        err.status = 404
+        return next(err)
     };
     const spot = await Spot.findOne({
         where: {id: review.spotId}

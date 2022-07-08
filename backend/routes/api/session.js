@@ -70,31 +70,30 @@ router.get('/', restoreUser, (req, res) => {
 
 
 // User Login
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
 
   const { credential, password } = req.body;
 
   if (!credential) {
-    res.status(400)
-    res.json({
-      message: 'Please Enter a valid username or email.'
-    })
+    const err = new Error('Please Enter a valid username or email.')
+    err.title = 'Login Failed'
+    err.status = 400
+    return next(err)
   }
   if (!password) {
-    res.status(400)
-    res.json({
-      message: 'Please Enter a valid password.'
-    })
+    const err = new Error('Please Enter a valid password.')
+    err.title = 'Login Failed'
+    err.status = 400
+    return next(err)
   }
 
   const user = await User.login({ credential, password });
 
   if (!user) {
-    new Error('Invalide Username and Password.');
-    res.status(401);
-    res.json({
-      message: 'Invalid Username and Password.'
-    })
+    const err = new Error('Invalid Username and Password.')
+    err.title = 'Login Failed'
+    err.status = 400
+    return next(err)
   }
   let token = await setTokenCookie(res, user);
   return res.json({
@@ -105,7 +104,7 @@ router.post('/login', async (req, res) => {
 
 
 // User Signup
-router.post('/signup', validateSignup, async (req, res) => {
+router.post('/signup', validateSignup, async (req, res, next) => {
 
   const { firstName, lastName, email, password, username } = req.body;
 
@@ -116,16 +115,14 @@ router.post('/signup', validateSignup, async (req, res) => {
     where: {username: username}
   })
   if (userNameCheck) {
-    res.status(403)
-    return res.json({
-      message: 'Sorry, this username already exists'
-    })
+    const err = new Error('Sorry, this username already exists')
+    err.status = 403
+    return next(err)
   }
   if (emailCheck) {
-    res.status(403)
-   return res.json({
-      message: 'Sorry, this email already exists'
-    })
+    const err = new Error('Sorry, this email already exists')
+    err.status = 403
+    return next(err)
   }
 
   const user = await User.signup({ firstName, lastName, email, username, password });
