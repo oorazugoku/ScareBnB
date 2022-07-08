@@ -59,7 +59,7 @@ router.post('/spots/:spotId', requireAuth, async (req, res, next) => {
     if(check == true) {
         const err = new Error(`This Booking already exists inside Start and End date for this location.`)
         err.status = 403
-        err.proof = proof
+        err.stack = proof
         return next(err)
     };
     const result = await Booking.create({
@@ -166,7 +166,7 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
     if(check == true) {
         const err = new Error(`This Booking already exists inside Start and End date for this location.`,)
         err.status = 403
-        err.proof = proof
+        err.stack = proof
         return next(err)
     };
     if(startDate) {
