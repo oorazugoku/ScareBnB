@@ -10,43 +10,43 @@ const { Spot, Review, Image, User } = require('../../db/models');
 const user = require('../../db/models/user');
 
 const validateSpots = [
-    check('address')
-      .exists({ checkFalsy: true })
-      .withMessage('Please provide a valid Address.'),
-    check('city')
-      .exists({ checkFalsy: true })
-      .isAlpha()
-      .withMessage('Please provide a valid City.'),
-    check('state')
-      .exists({ checkFalsy: true })
-      .isAlpha()
-      .withMessage('Please provide a valid State.')
-      .not()
-      .isEmail()
-      .isLength({ min: 2 })
-      .withMessage('Please provide a valid State.'),
-    check('country')
-      .exists({ checkFalsy: true })
-      .not()
-      .isEmail()
-      .withMessage('Please provide a valid Country.'),
-    check('name')
-      .exists({ checkFalsy: true })
-      .isLength({ min: 4 })
-      .withMessage('Name must be 4 characters or more.'),
-    check('description')
-      .exists({ checkFalsy: true })
-      .not()
-      .isEmail()
-      .withMessage('Please provide a Description.')
-      .isLength({ min: 10 })
-      .withMessage('Description must be 10 characters or more.'),
-    check('price')
-      .exists({ checkFalsy: true })
-      .isNumeric()
-      .withMessage('Please provide a valid Price.'),
-    handleValidationErrors
-  ];
+  check('address')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a valid Address.'),
+  check('city')
+    .exists({ checkFalsy: true })
+    .isAlpha()
+    .withMessage('Please provide a valid City.'),
+  check('state')
+    .exists({ checkFalsy: true })
+    .isAlpha()
+    .withMessage('Please provide a valid State.')
+    .not()
+    .isEmail()
+    .isLength({ min: 2 })
+    .withMessage('Please provide a valid State.'),
+  check('country')
+    .exists({ checkFalsy: true })
+    .not()
+    .isEmail()
+    .withMessage('Please provide a valid Country.'),
+  check('name')
+    .exists({ checkFalsy: true })
+    .isLength({ min: 4 })
+    .withMessage('Name must be 4 characters or more.'),
+  check('description')
+    .exists({ checkFalsy: true })
+    .not()
+    .isEmail()
+    .withMessage('Please provide a Description.')
+    .isLength({ min: 10 })
+    .withMessage('Description must be 10 characters or more.'),
+  check('price')
+    .exists({ checkFalsy: true })
+    .isNumeric()
+    .withMessage('Please provide a valid Price.'),
+  handleValidationErrors
+];
 
 
 
@@ -167,6 +167,7 @@ router.get('/current', requireAuth, async (req, res) => {
     res.json(result)
 });
 
+
 // Edit a Spot to the current User by Spot ID
 router.put('/:spotId', requireAuth, validateSpots, async (req, res, next) => {
     const { spotId } = req.params;
@@ -280,6 +281,7 @@ router.get('/', async (req, res, next) => {
         }
         return
     }
+
     if (page) { checkNum(page) };
     if (size) { checkNum(size) };
     if (minLat) { checkNum(minLat) };
