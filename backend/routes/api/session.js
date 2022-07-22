@@ -44,18 +44,6 @@ const validateSignup = [
 ];
 
 
-// V or username.'),
-//   check('passworalidate login info
-// const validateLogin = [
-//   check('credential')
-//     .exists({ checkFalsy: true })
-//     .notEmpty()
-//     .withMessage('Please provide a valid emaild')
-//     .exists({ checkFalsy: true })
-//     .withMessage('Please provide a password.'),
-//   handleValidationErrors
-// ];
-
 
 // Restore session user
 router.get('/', restoreUser, (req, res) => {

@@ -1,4 +1,4 @@
-# `<name of application here>`
+# ScareBnB
 
 ## Database Schema Design
 
