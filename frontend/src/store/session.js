@@ -18,6 +18,14 @@ const removeUser = () => {
   };
 };
 
+//Thunk - Logout
+export const logout = () => async (dispatch) => {
+    await csrfFetch('/api/session/logout', {
+      method: 'DELETE'
+    });
+    dispatch(removeUser());
+};
+
 // Thunk - Login
 export const login = (user) => async (dispatch) => {
   const { credential, password } = user;

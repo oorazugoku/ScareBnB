@@ -1,0 +1,34 @@
+#loginSubmitButton {
+    display: flex;
+    background-color: black;
+    color: white;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.formContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+label {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#input {
+    background-color: black;
+    color: white;
+    box-shadow: inset 0px 0px 10px 1px black;
+    height: 30px;
+    text-align: center;
+}
