@@ -312,6 +312,7 @@ router.get('/', async (req, res, next) => {
 
     let result = await Spot.findAll({
         where: whereClause,
+        include: [{ model: Image, as: 'Images' }],
         ...pagination
     })
     size = result.length

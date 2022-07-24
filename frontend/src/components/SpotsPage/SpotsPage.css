@@ -1,14 +1,15 @@
-#innner-search-title {
+/* #innner-search-title {
     display: flex;
-    align-content: space-between;
-    justify-content: space-between;
-}
+} */
 
 .spot-search-result {
     display: flex;
-    flex-wrap: wrap;
-    max-height: 300px;
-    max-width: 200px;
+    flex-direction: column;
+    height: 385px;
+    width: 300px;
+    align-content: center;
+    justify-content: center;
+    padding: 10px;
 }
 
 .search-page {
@@ -17,4 +18,11 @@
     grid-auto-flow: row;
     align-items: center;
     justify-items: center;
+    margin-top: 20px;
+}
+
+.search-page img {
+    width: 280px;
+    height: 280px;
+    border-radius: 12px;
 }
