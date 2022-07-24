@@ -36,9 +36,9 @@ function SignupFormPage() {
 
     return (
       <>
-      <button className="modalClose" data-dismiss="modal">
-      <h3><i className="fas fa-xmark" /></h3>
-      </button>
+      {/* <button type="button" className="modalClose" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"><h3><i className="fas fa-xmark" /></h3></span>
+        </button> */}
       <form style={{ padding: "24px" }} onSubmit={handleSubmit} className='signupForm'>
         <div>
           <h2>Welcome to ScareBnB <i className="fas fa-ghost" /></h2>
