@@ -18,11 +18,13 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     if(!review) {
         const err = new Error(`Review does not exist.`)
         err.status = 404
+        err.errors = [err.message]
         return next(err)
     }
     if(review.userId !== id) {
         const err = new Error(`Unauthorized: This review does not belong to you.`)
         err.status = 403
+        err.errors = [err.message]
         return next(err)
 
     }
@@ -33,6 +35,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     if(count >= 10) {
         const err = new Error(`Image limit is 10.`)
         err.status = 400
+        err.errors = [err.message]
         return next(err)
     }
     let result = await Image.create({
@@ -53,11 +56,13 @@ router.put('/:reviewId', requireAuth, async (req, res, next) => {
     if(!oldReview) {
         const err = new Error(`Review does not exist.`)
         err.status = 404
+        err.errors = [err.message]
         return next(err)
     }
     if(id !== oldReview.userId) {
         const err = new Error(`Unauthorized: This review does not belong to you.`)
         err.status = 403
+        err.errors = [err.message]
         return next(err)
     }
     if (review) {
@@ -95,11 +100,13 @@ router.delete('/:reviewId', requireAuth, async (req, res, next) => {
     if(!review) {
         const err = new Error(`Review couldn't be found.`)
         err.status = 404
+        err.errors = [err.message]
         return next(err)
     };
     if(review.userId !== id) {
         const err = new Error(`Sorry, you can only DELETE reviews that belong to the current Logged in User.`)
         err.status = 404
+        err.errors = [err.message]
         return next(err)
     };
     const spot = await Spot.findOne({

@@ -13,12 +13,14 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
     if(!result) {
         const err = new Error(`Image does not exist.`)
         err.status = 404
+        err.errors = [err.message]
         return next(err)
     }
     if(result.Review) {
         if(result.Review.userId !== req.user.id) {
             const err = new Error(`Unauthorized.`)
             err.status = 403
+            err.errors = [err.message]
             return next(err)
         }
     }
@@ -26,6 +28,7 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
         if(result.Spot.ownerId !== req.user.id) {
             const err = new Error(`Unauthorized.`)
             err.status = 403
+            err.errors = [err.message]
             return next(err)
         }
     }

@@ -19,11 +19,13 @@ router.post('/spots/:spotId', requireAuth, async (req, res, next) => {
     if(!spotCheck) {
         const err = new Error(`Spot does not exist.`)
         err.status = 404
+        err.errors = [err.message]
         return next(err)
     }
     if(spotCheck.ownerId === id) {
         const err = new Error(`Unauthorized: Cannot Reserve a Spot that you own.`)
         err.status = 403
+        err.errors = [err.message]
         return next(err)
     }
     let check = false
@@ -43,6 +45,7 @@ router.post('/spots/:spotId', requireAuth, async (req, res, next) => {
     if(check == true) {
         const err = new Error(`This Booking already exists inside Start and End date for this location.`)
         err.status = 403
+        err.errors = [err.message]
         return next(err)
     };
     const result = await Booking.create({
@@ -67,6 +70,7 @@ router.get('/spots/:spotId', requireAuth, async (req, res, next) => {
     if(!result) {
         const err = new Error(`Spot does not exist.`)
         err.status = 403
+        err.errors = [err.message]
         return next(err)
     }
     if(result.ownerId !== id) {
@@ -97,16 +101,19 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
     if(!result) {
         const err = new Error(`Booking does not exist.`)
         err.status = 403
+        err.errors = [err.message]
         return next(err)
     }
     if(result.userId !== id) {
         const err = new Error(`Unauthorized: You are not the owner of this Booking.`)
         err.status = 403
+        err.errors = [err.message]
         return next(err)
     }
     if(result.endDate < new Date()) {
         const err = new Error(`This Booking has already ended.`)
         err.status = 400
+        err.errors = [err.message]
         return next(err)
     }
 
@@ -133,6 +140,7 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
     if(check == true) {
         const err = new Error(`This Booking already exists inside Start and End date for this location.`,)
         err.status = 403
+        err.errors = [err.message]
         return next(err)
     };
     if(startDate) {
@@ -176,16 +184,19 @@ router.delete('/:bookingId', requireAuth, async (req, res, next) => {
     if(!result) {
         const err = new Error(`Booking does not exist.`)
         err.status = 404
+        err.errors = [err.message]
         return next(err)
     }
     if(result.userId !== id) {
         const err = new Error(`Unauthorized: You are not the owner of this Booking.`)
         err.status = 403
+        err.errors = [err.message]
         return next(err)
     }
     if(result.startDate < new Date()) {
         const err = new Error(`Bookings that have been started cannot be deleted.`)
         err.status = 400
+        err.errors = [err.message]
         return next(err)
     }
 

@@ -61,6 +61,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
     if (!spotCheck) {
         const err = new Error(`Spot couldn't be found.`)
         err.status = 404
+        err.errors = [err.message]
         return next(err)
     }
     const spotUserCheck = await Review.findOne({
@@ -69,16 +70,19 @@ router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
     if (spotUserCheck) {
         const err = new Error(`User already has a review for this spot.`)
         err.status = 403
+        err.errors = [err.message]
         return next(err)
     };
     if (stars < 1 || stars > 5 || !Number(stars)) {
         const err = new Error(`Please enter a Star Rating between 1 and 5.`)
         err.status = 400
+        err.errors = [err.message]
         return next(err)
     };
     if (review.length < 5) {
         const err = new Error(`Please enter a review with at least 5 Characters.`)
         err.status = 400
+        err.errors = [err.message]
         return next(err)
     };
     const newReview = await Review.create({
@@ -115,11 +119,13 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     if(!spot) {
         const err = new Error(`Spot does not exist.`)
         err.status = 404
+        err.errors = [err.message]
         return next(err)
     }
     if(spot.ownerId !== id) {
         const err = new Error(`Unauthorized: You are not the owner of this Spot.`)
         err.status = 403
+        err.errors = [err.message]
         return next(err)
     }
     let imgcounts = await Image.findAll({
@@ -130,6 +136,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     if(count >= 10) {
         const err = new Error(`Image limit is 10.`)
         err.status = 400
+        err.errors = [err.message]
         return next(err)
     }
     let result = await Image.create({
@@ -149,6 +156,7 @@ router.get('/:spotId/reviews', async (req, res, next) => {
     if (!result) {
         const err = new Error(`Spot does not exist.`)
         err.status = 404
+        err.errors = [err.message]
         return next(err)
     }
 
@@ -220,10 +228,9 @@ router.get('/:spotId', async (req, res, next) => {
         ]
     })
     if(!result) {
-        const err = new Error(
-            `Spot does not exist.`
-            )
+        const err = new Error(`Spot does not exist.`)
         err.status = 404
+        err.errors = [err.message]
         return next(err)
     }
     res.json(result)
@@ -277,6 +284,7 @@ router.get('/', async (req, res, next) => {
                 `Please provide a valid number in query.`
                 )
             err.status = 400
+            err.errors = [err.message]
             return next(err)
         }
         return
@@ -327,6 +335,7 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
             `Spot does not exist.`
             )
         err.status = 404
+        err.errors = [err.message]
         return next(err)
     }
     if(result.ownerId !== req.user.id) {
@@ -334,6 +343,7 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
             `Unauthorized.`
             )
         err.status = 403
+        err.errors = [err.message]
         return next(err)
     }
     await result.destroy()

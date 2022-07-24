@@ -25,13 +25,14 @@ function SignupFormPage() {
         .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) setErrors(data.errors);
+          console.log('errors-------', data)
         });
-    }
-    return setErrors(['Confirm Password field must be the same as the Password field']);
-  };
+      }
+      return setErrors(['Confirm Password field must be the same as the Password field']);
+    };
 
-  return (
-    <form onSubmit={handleSubmit}>
+    return (
+      <form onSubmit={handleSubmit}>
       <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>

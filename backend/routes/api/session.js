@@ -65,12 +65,14 @@ router.post('/login', async (req, res, next) => {
   if (!credential) {
     const err = new Error('Please Enter a valid username or email.')
     err.title = 'Login Failed'
+    err.errors = [err.message]
     err.status = 400
     return next(err)
   }
   if (!password) {
     const err = new Error('Please Enter a valid password.')
     err.title = 'Login Failed'
+    err.errors = [err.message]
     err.status = 400
     return next(err)
   }
@@ -80,6 +82,7 @@ router.post('/login', async (req, res, next) => {
   if (!user) {
     const err = new Error('Invalid Username and Password.')
     err.title = 'Login Failed'
+    err.errors = [err.message]
     err.status = 400
     return next(err)
   }
@@ -93,7 +96,6 @@ router.post('/login', async (req, res, next) => {
 
 // User Signup
 router.post('/signup', validateSignup, async (req, res, next) => {
-
   const { firstName, lastName, email, password, username } = req.body;
 
   const emailCheck = await User.findOne({
@@ -105,11 +107,13 @@ router.post('/signup', validateSignup, async (req, res, next) => {
   if (userNameCheck) {
     const err = new Error('Sorry, this username already exists')
     err.status = 403
+    err.errors = [err.message]
     return next(err)
   }
   if (emailCheck) {
     const err = new Error('Sorry, this email already exists')
     err.status = 403
+    err.errors = [err.message]
     return next(err)
   }
 
