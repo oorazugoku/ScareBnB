@@ -73,3 +73,10 @@ form {
     font-family: 'Circular',-apple-system,'BlinkMacSystemFont','Roboto','Helvetica Neue',sans-serif;
     font-size: 16px;
 }
+
+.modalClose {
+    position: fixed;
+    margin: 10px 30px;
+    border-radius: 50%;
+    border: 0;
+}

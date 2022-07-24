@@ -17,6 +17,10 @@ function SignupFormPage() {
 
   if (sessionUser) return <Redirect to="/" />;
 
+
+
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
@@ -25,95 +29,93 @@ function SignupFormPage() {
         .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) setErrors(data.errors);
-          console.log('errors-------', data)
         });
       }
       return setErrors(['Confirm Password field must be the same as the Password field']);
     };
 
     return (
-      <form style={{padding: "24px"}} onSubmit={handleSubmit} className='signupForm'>
+      <>
+      <button className="modalClose" data-dismiss="modal">
+      <h3><i className="fas fa-xmark" /></h3>
+      </button>
+      <form style={{ padding: "24px" }} onSubmit={handleSubmit} className='signupForm'>
         <div>
-          <h2>Welcome to ScareBnB</h2>
+          <h2>Welcome to ScareBnB <i className="fas fa-ghost" /></h2>
         </div>
-      <ul>
-        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-      </ul>
-    <div className="SignupFirstNameInput">
-        First Name
-      <label>
-        <input
-          placeholder="First Name"
-          type="text"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          required
-          />
-      </label>
-    </div>
-    <div className="SignupLastNameInput">
-        LastName
-      <label>
-        <input
-          placeholder="Last Name"
-          type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          required
-        />
-      </label>
-    </div>
-    <div className="SignupEmailInput">
-      Email
-      <label>
-        <input
-          placeholder="Email"
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          />
-      </label>
-    </div>
-    <div className="SignupUsernameInput">
-      Username
-      <label>
-        <input
-          placeholder="Username"
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-      </label>
-    </div>
-    <div className="SignupPasswordInput">
-      Password
-      <label>
-        <input
-          placeholder="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          />
-      </label>
-    </div>
-    <div className="SignupConfirmPasswordInput">
-      Confirm Password
-      <label>
-        <input
-          className="CPInput focus-visible"
-          placeholder="Confirm Password"
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-          />
-      </label>
-    </div>
-      <button type="submit" className="signupButton">Sign Up</button>
-    </form>
+        <ul>
+          {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+        </ul>
+        <div className="SignupFirstNameInput">
+          First Name
+          <label>
+            <input
+              placeholder="First Name"
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required />
+          </label>
+        </div>
+        <div className="SignupLastNameInput">
+          LastName
+          <label>
+            <input
+              placeholder="Last Name"
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required />
+          </label>
+        </div>
+        <div className="SignupEmailInput">
+          Email
+          <label>
+            <input
+              placeholder="Email"
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required />
+          </label>
+        </div>
+        <div className="SignupUsernameInput">
+          Username
+          <label>
+            <input
+              placeholder="Username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required />
+          </label>
+        </div>
+        <div className="SignupPasswordInput">
+          Password
+          <label>
+            <input
+              placeholder="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required />
+          </label>
+        </div>
+        <div className="SignupConfirmPasswordInput">
+          Confirm Password
+          <label>
+            <input
+              className="CPInput focus-visible"
+              placeholder="Confirm Password"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required />
+          </label>
+        </div>
+        <button type="submit" className="signupButton">Sign Up</button>
+      </form>
+      </>
   );
 }
 
