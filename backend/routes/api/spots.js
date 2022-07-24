@@ -15,11 +15,9 @@ const validateSpots = [
     .withMessage('Please provide a valid Address.'),
   check('city')
     .exists({ checkFalsy: true })
-    .isAlpha()
     .withMessage('Please provide a valid City.'),
   check('state')
     .exists({ checkFalsy: true })
-    .isAlpha()
     .withMessage('Please provide a valid State.')
     .not()
     .isEmail()

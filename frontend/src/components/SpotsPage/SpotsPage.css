@@ -1,0 +1,20 @@
+#innner-search-title {
+    display: flex;
+    align-content: space-between;
+    justify-content: space-between;
+}
+
+.spot-search-result {
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 300px;
+    max-width: 200px;
+}
+
+.search-page {
+    display: inline-grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-flow: row;
+    align-items: center;
+    justify-items: center;
+}
