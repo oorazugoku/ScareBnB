@@ -32,65 +32,87 @@ function SignupFormPage() {
     };
 
     return (
-      <form onSubmit={handleSubmit}>
+      <form style={{padding: "24px"}} onSubmit={handleSubmit} className='signupForm'>
+        <div>
+          <h2>Welcome to ScareBnB</h2>
+        </div>
       <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>
-      <label>
+    <div className="SignupFirstNameInput">
         First Name
+      <label>
         <input
+          placeholder="First Name"
           type="text"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
           required
-        />
+          />
       </label>
+    </div>
+    <div className="SignupLastNameInput">
+        LastName
       <label>
-        Last Name
         <input
+          placeholder="Last Name"
           type="text"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
           required
         />
       </label>
+    </div>
+    <div className="SignupEmailInput">
+      Email
       <label>
-        Email
         <input
+          placeholder="Email"
           type="text"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-        />
+          />
       </label>
+    </div>
+    <div className="SignupUsernameInput">
+      Username
       <label>
-        Username
         <input
+          placeholder="Username"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
         />
       </label>
+    </div>
+    <div className="SignupPasswordInput">
+      Password
       <label>
-        Password
         <input
+          placeholder="Password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-        />
+          />
       </label>
+    </div>
+    <div className="SignupConfirmPasswordInput">
+      Confirm Password
       <label>
-        Confirm Password
         <input
+          className="CPInput focus-visible"
+          placeholder="Confirm Password"
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
-        />
+          />
       </label>
-      <button type="submit">Sign Up</button>
+    </div>
+      <button type="submit" className="signupButton">Sign Up</button>
     </form>
   );
 }

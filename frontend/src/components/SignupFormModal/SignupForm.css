@@ -1,0 +1,75 @@
+form {
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+    color: 222222
+}
+
+.signupForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.SignupConfirmPasswordInput,
+.SignupPasswordInput,
+.SignupUsernameInput,
+.SignupEmailInput,
+.SignupLastNameInput,
+.SignupFirstNameInput {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 503px;
+    height: 52px;
+    border-radius: 8px;
+    border: 1px solid grey;
+    font-size: 13px;
+    padding: 0 10px;
+    margin: 5px;
+}
+
+.SignupConfirmPasswordInput input,
+.SignupPasswordInput input,
+.SignupUsernameInput input,
+.SignupEmailInput input,
+.SignupLastNameInput input,
+.SignupFirstNameInput input {
+    display: flex;
+    border: 0;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 485px;
+    height: 20px;
+    box-sizing: border-box;
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif !important;
+    color: 717171;
+    margin: 0px 12px 6px;
+}
+
+.SignupConfirmPasswordInput input:focus,
+.SignupPasswordInput input:focus,
+.SignupUsernameInput input:focus,
+.SignupEmailInput input:focus,
+.SignupLastNameInput input:focus,
+.SignupFirstNameInput input:focus {
+    display: flex;
+    box-sizing: border-box;
+    border: 0;
+    align-items: flex-start;
+    justify-content: flex-start;
+    outline: none;
+}
+
+.signupButton {
+    width: 525px;
+    height: 52px;
+    border-radius: 8px;
+    border: 0;
+    padding: 0 22px;
+    margin: 5px;
+    background: linear-gradient(0.25turn, #E61E4D, #D70666);
+    color: white;
+    font-weight: 600;
+    font-family: 'Circular',-apple-system,'BlinkMacSystemFont','Roboto','Helvetica Neue',sans-serif;
+    font-size: 16px;
+}
