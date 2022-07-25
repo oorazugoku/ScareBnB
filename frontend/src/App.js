@@ -5,6 +5,7 @@ import SignupFormModal from "./components/SignupFormModal";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SpotsPage from "./components/SpotsPage";
+import Spot from "./components/SpotsPage/Spot";
 
 function App() {
   const dispatch = useDispatch();
@@ -16,14 +17,17 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      {isLoaded && (
         <Switch>
           <Route path="/signup">
             <SignupFormModal />
           </Route>
+          <Route path="/spots/:spotId">
+            <Spot />
+          </Route>
+          <Route exact path="/">
+            <SpotsPage />
+          </Route>
         </Switch>
-      )}
-      <SpotsPage />
     </>
   );
 }

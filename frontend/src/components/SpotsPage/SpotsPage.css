@@ -21,6 +21,13 @@
     margin-top: 20px;
 }
 
+.inner-spot-search {
+    display: flex;
+    align-items: space-between;
+    justify-items: space-between;
+
+}
+
 .search-page img {
     width: 280px;
     height: 280px;
