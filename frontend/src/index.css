@@ -6,8 +6,19 @@
     align-items: center;
     flex-direction: column;
     max-width: 1600px;
+    overflow-x: scroll;
 }
 
-body {
-    margin: 0 10%;
+body:not(.divider) {
+    margin: 0 5%;
+    font-family: 'Circular',-apple-system,'BlinkMacSystemFont','Roboto','Helvetica Neue',sans-serif;
+
+}
+
+.divider {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.308);
 }

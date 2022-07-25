@@ -1,3 +1,9 @@
+.Nav-absolute {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
 .logo {
     height: 30px;
 }
@@ -22,6 +28,8 @@
     align-items: center;
     position: relative;
     max-width: 1600px;
+    background-color: white;
+    height: 60px;
 }
 
 .Nav-links {

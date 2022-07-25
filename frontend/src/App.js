@@ -16,7 +16,10 @@ function App() {
 
   return (
     <div className="root-div">
+      <div className='Nav-absolute'>
       <Navigation isLoaded={isLoaded} />
+      </div>
+      <div className="divider" />
         <Switch>
           <Route path="/signup">
             <SignupFormModal />
