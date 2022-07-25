@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
-import { getOneSpot } from "../../store/spots"
+import { useHistory, useParams } from "react-router-dom"
+import { deleteSpot, getOneSpot } from "../../store/spots"
 import { Modal } from '../../context/Modal';
 import EditSpotForm from "../EditSpotModal";
 
 function Spot() {
+    const history = useHistory()
+    console.log(history)
     const [showModal, setShowModal] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
     const { spotId } = useParams()
@@ -16,6 +18,11 @@ function Spot() {
     useEffect(()=> {
         dispatch(getOneSpot(spotId)).then(() => setIsLoaded(true))
     }, [dispatch])
+
+    const handleDeleteClick = () => {
+        dispatch(deleteSpot(spotId))
+        history.push('/spots/current')
+    }
 
     return isLoaded && (
         <>
@@ -33,9 +40,10 @@ function Spot() {
                 </button>
                 <button
                 className="spot-delete-button"
+                onClick={()=> {handleDeleteClick()}}
                 >
                     Delete Spot
-                    </button>
+                </button>
             </>
             )}
             </div>

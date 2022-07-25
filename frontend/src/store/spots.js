@@ -6,6 +6,8 @@ const GET_A_SPOT = 'spots/GET_A_SPOT';
 const EDIT_SPOT = 'spots/EDIT_SPOT';
 const CREATE_SPOT = 'spots/CREATE_SPOT';
 const GET_MY_SPOTS = 'spots/GET_MY_SPOTS'
+const DELETE_SPOT = 'spots/DELETE_SPOT'
+
 
 //Action Creators
 const getSpotsAction = (payload) => {
@@ -39,6 +41,13 @@ const createSpotAction = (payload) => {
 const getCurrentSpotsAction = (payload) => {
   return {
     type: CREATE_SPOT,
+    payload
+  };
+};
+
+const deleteSpotAction = (payload) => {
+  return {
+    type: DELETE_SPOT,
     payload
   };
 };
@@ -94,6 +103,15 @@ export const getCurrentSpots = () => async (dispatch) => {
   return data;
 };
 
+// Thunk - Delete Spot by Id
+export const deleteSpot = (payload) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${payload}`, {
+    method: 'DELETE'
+  })
+  const data = await response.json();
+  dispatch(deleteSpotAction(data));
+  return data;
+};
 
 const initialState = {};
 
@@ -123,6 +141,10 @@ const spotsReducer = (state = initialState, action) => {
           action.payload.result.forEach(each => spotsArr[each.id] = each)
           newState = {...spotsArr};
       return newState;
+
+      case DELETE_SPOT:
+        newState = {};
+    return newState;
 
     default:
       return state;
