@@ -15,7 +15,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <>
+    <div className="root-div">
       <Navigation isLoaded={isLoaded} />
         <Switch>
           <Route path="/signup">
@@ -28,7 +28,7 @@ function App() {
             <SpotsPage />
           </Route>
         </Switch>
-    </>
+    </div>
   );
 }
 

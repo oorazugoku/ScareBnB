@@ -13,23 +13,26 @@
 }
 
 .search-page {
-    display: inline-grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-auto-flow: row;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 300px);
     align-items: center;
     justify-items: center;
     margin-top: 20px;
+    max-width: 1600px;
 }
 
 .inner-spot-search {
     display: flex;
     align-items: space-between;
     justify-items: space-between;
-
 }
 
 .search-page img {
     width: 280px;
     height: 280px;
     border-radius: 12px;
+}
+
+.spot-container {
+    width: 80vw;
 }
