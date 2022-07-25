@@ -49,3 +49,11 @@
     display: flex;
     align-items: center;
 }
+
+.become-host {
+    padding: 0 15px 0 0;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}

@@ -3,7 +3,8 @@ import { csrfFetch } from './csrf';
 //Type Producer
 const LOAD_SPOTS = 'spots/LOAD_SPOTS';
 const GET_A_SPOT = 'spots/GET_A_SPOT';
-const EDIT_SPOT = 'spots/EDIT_SPOT'
+const EDIT_SPOT = 'spots/EDIT_SPOT';
+const CREATE_SPOT = 'spots/CREATE_SPOT';
 
 //Action Creators
 const getSpotsAction = (payload) => {
@@ -23,6 +24,13 @@ const getOneSpotAction = (payload) => {
 const editSpotAction = (payload) => {
   return {
     type: EDIT_SPOT,
+    payload
+  };
+};
+
+const createSpotAction = (payload) => {
+  return {
+    type: CREATE_SPOT,
     payload
   };
 };
@@ -57,6 +65,19 @@ export const editSpot = (payload) => async (dispatch) => {
   return data;
 };
 
+// Thunk - Create a Spot
+export const createSpot = (payload) => async (dispatch) => {
+  const { name, description, address, city, state, country, price } = payload
+  const response = await csrfFetch(`/api/spots`, {
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ name, description, address, city, state, country, price })
+  })
+  const data = await response.json();
+  dispatch(createSpotAction(data));
+  return data;
+};
+
 
 const initialState = {};
 
@@ -75,6 +96,10 @@ const spotsReducer = (state = initialState, action) => {
 
       case EDIT_SPOT:
         newState = {...action.payload.result};
+      return newState;
+
+      case CREATE_SPOT:
+        newState = {...action.payload};
       return newState;
 
     default:

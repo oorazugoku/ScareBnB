@@ -6,6 +6,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SpotsPage from "./components/SpotsPage";
 import Spot from "./components/SpotsPage/Spot";
+import SpotHost from "./components/SpotHost";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,14 +22,17 @@ function App() {
       </div>
       <div className="divider" />
         <Switch>
-          <Route path="/signup">
-            <SignupFormModal />
-          </Route>
-          <Route path="/spots/:spotId">
-            <Spot />
-          </Route>
           <Route exact path="/">
             <SpotsPage />
+          </Route>
+          <Route exact path="/signup">
+            <SignupFormModal />
+          </Route>
+          <Route exact path="/spots/host">
+            <SpotHost />
+          </Route>
+          <Route exact path="/spots/:spotId">
+            <Spot />
           </Route>
         </Switch>
     </div>

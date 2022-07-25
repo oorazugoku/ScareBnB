@@ -1,0 +1,62 @@
+.host-header {
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: linear-gradient(0.25turn, #412A9D, #A6228D, #D70666);
+    height: 200px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.formInputfield2 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 503px;
+    height: 52px;
+    border-radius: 8px;
+    border: 1px solid grey;
+    font-size: 13px;
+    padding: 0 10px;
+    margin: 5px;
+}
+
+.formInputfield2 input {
+    display: flex;
+    border: 0;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 485px;
+    height: 20px;
+    box-sizing: border-box;
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif !important;
+    color: 717171;
+    margin: 0px 12px 6px;
+}
+
+.formInputfield2 input:focus {
+    display: flex;
+    box-sizing: border-box;
+    border: 0;
+    align-items: flex-start;
+    justify-content: flex-start;
+    outline: none;
+}
+
+.saveSpotButton {
+    width: 525px;
+    height: 52px;
+    border-radius: 8px;
+    border: 0;
+    padding: 0 22px;
+    margin: 5px;
+    background: linear-gradient(0.25turn, #E61E4D, #D70666);
+    color: white;
+    font-weight: 600;
+    font-family: 'Circular',-apple-system,'BlinkMacSystemFont','Roboto','Helvetica Neue',sans-serif;
+    font-size: 16px;
+}
