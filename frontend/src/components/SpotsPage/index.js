@@ -10,6 +10,7 @@ function SpotsPage() {
     const dispatch = useDispatch()
     const history = useHistory()
     const spots = useSelector(state => Object.values(state.spots))
+    
     const handleClick = (each) => {
         history.push(`/spots/${each.id}`)
     }
