@@ -6,6 +6,7 @@ import './SpotHost.css'
 
 
 function SpotHost() {
+    const history = useHistory()
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -20,6 +21,7 @@ function SpotHost() {
         e.preventDefault();
         setErrors([]);
         dispatch(createSpot({ name, description, address, city, state, country, price }))
+        .then(()=>history.push('/spots/current'))
         .catch(async (res) => {
             const data = await res.json();
             if (data && data.errors) {

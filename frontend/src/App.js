@@ -7,6 +7,7 @@ import Navigation from "./components/Navigation";
 import SpotsPage from "./components/SpotsPage";
 import Spot from "./components/SpotsPage/Spot";
 import SpotHost from "./components/SpotHost";
+import CurrentSpots from "./components/CurrentSpots";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,8 +32,14 @@ function App() {
           <Route exact path="/spots/host">
             <SpotHost />
           </Route>
+          <Route exact path="/spots/current">
+            <CurrentSpots />
+          </Route>
           <Route exact path="/spots/:spotId">
             <Spot />
+          </Route>
+          <Route path="/">
+            Page Does Not Exist
           </Route>
         </Switch>
     </div>

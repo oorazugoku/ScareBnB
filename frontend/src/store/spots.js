@@ -5,6 +5,7 @@ const LOAD_SPOTS = 'spots/LOAD_SPOTS';
 const GET_A_SPOT = 'spots/GET_A_SPOT';
 const EDIT_SPOT = 'spots/EDIT_SPOT';
 const CREATE_SPOT = 'spots/CREATE_SPOT';
+const GET_MY_SPOTS = 'spots/GET_MY_SPOTS'
 
 //Action Creators
 const getSpotsAction = (payload) => {
@@ -29,6 +30,13 @@ const editSpotAction = (payload) => {
 };
 
 const createSpotAction = (payload) => {
+  return {
+    type: CREATE_SPOT,
+    payload
+  };
+};
+
+const getCurrentSpotsAction = (payload) => {
   return {
     type: CREATE_SPOT,
     payload
@@ -78,6 +86,14 @@ export const createSpot = (payload) => async (dispatch) => {
   return data;
 };
 
+// Thunk - Get Current User's Spots
+export const getCurrentSpots = () => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/current`)
+  const data = await response.json();
+  dispatch(getCurrentSpotsAction(data));
+  return data;
+};
+
 
 const initialState = {};
 
@@ -100,6 +116,12 @@ const spotsReducer = (state = initialState, action) => {
 
       case CREATE_SPOT:
         newState = {...action.payload};
+      return newState;
+
+      case GET_MY_SPOTS:
+          spotsArr = {}
+          action.payload.result.forEach(each => spotsArr[each.id] = each)
+          newState = {...spotsArr};
       return newState;
 
     default:

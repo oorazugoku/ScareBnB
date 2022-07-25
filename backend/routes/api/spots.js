@@ -168,7 +168,8 @@ router.get('/current', requireAuth, async (req, res) => {
     let id = req.user.id;
     let result = await Spot.findAll({
         where: { ownerId: id },
-        include: { model: Image, as: 'Images' }
+        include:
+        { model: Image, as: 'Images' }
     })
     res.json(result)
 });

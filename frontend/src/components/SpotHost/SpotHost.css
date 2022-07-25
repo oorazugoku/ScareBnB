@@ -1,8 +1,9 @@
 .host-header {
     font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
+    margin-left: 0;
     background: linear-gradient(0.25turn, #412A9D, #A6228D, #D70666);
     height: 200px;
     color: white;
@@ -10,6 +11,7 @@
     align-items: center;
     justify-content: center;
 }
+
 
 .formInputfield2 {
     display: flex;
