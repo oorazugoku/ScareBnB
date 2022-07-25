@@ -16,19 +16,17 @@ function EditSpotForm({ setShowModal, spot }) {
   const [price, setPrice] = useState(spot.price);
   const [errors, setErrors] = useState([]);
 
-
-
   const handleSubmit = (e) => {
-    e.preventDefault();
+      e.preventDefault();
       setErrors([]);
-      return dispatch(editSpot({id: spot.id, name, description, address, city, state, country, price}))
-        .catch(async (res) => {
+      dispatch(editSpot({id: spot.id, name, description, address, city, state, country, price}))
+      .then(()=>setShowModal(false))
+      .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) {
-            setErrors(data.errors);
-          }
-          if (!data.errors) setShowModal(false)
-        });
+              setErrors(data.errors);
+            }
+        })
     };
 
     return (
@@ -38,14 +36,14 @@ function EditSpotForm({ setShowModal, spot }) {
       className="modalClose"
       onClick={()=>{setShowModal(false)}}
       >
-        <h3><i className="fas fa-xmark" /></h3>
+    <h3><i className="fas fa-xmark" /></h3>
       </button>
       <form style={{ padding: "24px" }} onSubmit={handleSubmit} className='signupForm'>
         <div>
           <h2>Spot Edit Page <i className="fas fa-ghost" /></h2>
         </div>
         <ul>
-          {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+          {!!errors.length && errors.map((error, idx) => <li key={idx}>{error}</li>)}
         </ul>
         <div className="formInputfield">
           Spot Name
