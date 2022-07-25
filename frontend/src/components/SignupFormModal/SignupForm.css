@@ -9,12 +9,13 @@ form {
     align-items: center;
 }
 
-.SignupConfirmPasswordInput,
+/* .SignupConfirmPasswordInput,
 .SignupPasswordInput,
 .SignupUsernameInput,
 .SignupEmailInput,
 .SignupLastNameInput,
-.SignupFirstNameInput {
+.SignupFirstNameInput { */
+.formInputfield {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -28,12 +29,13 @@ form {
     margin: 5px;
 }
 
-.SignupConfirmPasswordInput input,
+/* .SignupConfirmPasswordInput input,
 .SignupPasswordInput input,
 .SignupUsernameInput input,
 .SignupEmailInput input,
 .SignupLastNameInput input,
-.SignupFirstNameInput input {
+.SignupFirstNameInput input { */
+.formInputfield input {
     display: flex;
     border: 0;
     align-items: flex-start;
@@ -46,12 +48,13 @@ form {
     margin: 0px 12px 6px;
 }
 
-.SignupConfirmPasswordInput input:focus,
+/* .SignupConfirmPasswordInput input:focus,
 .SignupPasswordInput input:focus,
 .SignupUsernameInput input:focus,
 .SignupEmailInput input:focus,
 .SignupLastNameInput input:focus,
-.SignupFirstNameInput input:focus {
+.SignupFirstNameInput input:focus { */
+.formInputfield input:focus {
     display: flex;
     box-sizing: border-box;
     border: 0;

@@ -38,4 +38,9 @@
 
 .spot-container {
     width: 80vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 1600px;
 }

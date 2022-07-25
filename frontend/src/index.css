@@ -3,16 +3,16 @@
     display: flex;
     width: 100vw;
     justify-content: center;
-    align-items: center;
+    align-content: center;
     flex-direction: column;
     max-width: 1600px;
     overflow-x: scroll;
 }
 
+
 body:not(.divider) {
     margin: 0 5%;
     font-family: 'Circular',-apple-system,'BlinkMacSystemFont','Roboto','Helvetica Neue',sans-serif;
-
 }
 
 .divider {

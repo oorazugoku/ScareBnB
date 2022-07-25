@@ -1,7 +1,6 @@
 .Nav-absolute {
     position: sticky;
     top: 0;
-    z-index: 100;
 }
 
 .logo {
@@ -27,13 +26,26 @@
     color: black;
     align-items: center;
     position: relative;
-    max-width: 1600px;
+    /* max-width: 1600px; */
     background-color: white;
     height: 60px;
+}
+
+.Nav-Container > a, a:hover, a:visited, a:active {
+    color: black;
 }
 
 .Nav-links {
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
+}
+
+.profile-dropdown {
+    font-size: 15px;
+}
+
+.profile-button {
+    display: flex;
+    align-items: center;
 }

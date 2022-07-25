@@ -1,34 +1,25 @@
-#loginSubmitButton {
-    display: flex;
-    background-color: black;
-    color: white;
-    align-items: center;
-    justify-content: center;
-
-}
-
-.formContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
 form {
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+    color: 222222
+}
+
+.loginForm {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
 }
 
-label {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
 
-#input {
-    background-color: black;
+#loginSubmitButton {
+    width: 525px;
+    height: 52px;
+    border-radius: 8px;
+    border: 0;
+    padding: 0 22px;
+    margin: 5px;
+    background: linear-gradient(0.25turn, #E61E4D, #D70666);
     color: white;
-    box-shadow: inset 0px 0px 10px 1px black;
-    height: 30px;
-    text-align: center;
+    font-weight: 600;
+    font-family: 'Circular',-apple-system,'BlinkMacSystemFont','Roboto','Helvetica Neue',sans-serif;
+    font-size: 16px;
 }

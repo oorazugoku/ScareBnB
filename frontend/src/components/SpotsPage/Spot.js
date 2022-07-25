@@ -2,8 +2,11 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { getOneSpot } from "../../store/spots"
+import { Modal } from '../../context/Modal';
+import EditSpotForm from "../EditSpotModal";
 
 function Spot() {
+    const [showModal, setShowModal] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
     const { spotId } = useParams()
     const dispatch = useDispatch()
@@ -24,6 +27,7 @@ function Spot() {
             <>
                 <button
                 className="spot-edit-button"
+                onClick={() => setShowModal(true)}
                 >
                     Edit Spot
                 </button>
@@ -47,6 +51,10 @@ function Spot() {
                 Reviews
             </div>
         </div>
+        {showModal && (
+        <Modal onClose={() => setShowModal(false)}>
+          <EditSpotForm setShowModal={setShowModal} spot={spot} />
+        </Modal>)}
         </>
     )
 }

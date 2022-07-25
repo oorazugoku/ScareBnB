@@ -27,7 +27,7 @@ function Navigation({ isLoaded }){
   return (
     <div className='Nav-Container'>
       <div className='logo-area'>
-      <i className="fas fa-ghost" /> <NavLink className='logo-text' exact to="/"><img className='logo' src={scare}/></NavLink>
+      <NavLink className='logo-text' exact to="/"><i className="fas fa-ghost" /> <img className='logo' src={scare}/></NavLink>
       </div>
     <ul>
       <li className='Nav-links'>

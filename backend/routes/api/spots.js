@@ -180,7 +180,8 @@ router.put('/:spotId', requireAuth, validateSpots, async (req, res, next) => {
     const { address, city, state, country, name, description, price } = req.body
     let result = await Spot.findByPk(spotId, {
         include: [
-            { model: User, as: 'Owner' }
+            { model: User, as: 'Owner' },
+            { model: Image, as: 'Images' }
         ]
     })
     if(result.Owner.id !== req.user.id) {

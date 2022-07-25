@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import './SignupForm.css'
 
-function SignupFormPage() {
+function SignupFormPage({ setShowModal }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
@@ -36,8 +36,12 @@ function SignupFormPage() {
 
     return (
       <>
-      <button type="button" className="modalClose" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true"><h3><i className="fas fa-xmark" /></h3></span>
+      <button
+      type="button"
+      className="modalClose"
+      onClick={()=>{setShowModal(false)}}
+      >
+        <h3><i className="fas fa-xmark" /></h3>
       </button>
       <form style={{ padding: "24px" }} onSubmit={handleSubmit} className='signupForm'>
         <div>
@@ -46,7 +50,7 @@ function SignupFormPage() {
         <ul>
           {errors.map((error, idx) => <li key={idx}>{error}</li>)}
         </ul>
-        <div className="SignupFirstNameInput">
+        <div className="formInputfield">
           First Name
           <label>
             <input
@@ -57,7 +61,7 @@ function SignupFormPage() {
               required />
           </label>
         </div>
-        <div className="SignupLastNameInput">
+        <div className="formInputfield">
           LastName
           <label>
             <input
@@ -68,7 +72,7 @@ function SignupFormPage() {
               required />
           </label>
         </div>
-        <div className="SignupEmailInput">
+        <div className="formInputfield">
           Email
           <label>
             <input
@@ -79,7 +83,7 @@ function SignupFormPage() {
               required />
           </label>
         </div>
-        <div className="SignupUsernameInput">
+        <div className="formInputfield">
           Username
           <label>
             <input
@@ -90,7 +94,7 @@ function SignupFormPage() {
               required />
           </label>
         </div>
-        <div className="SignupPasswordInput">
+        <div className="formInputfield">
           Password
           <label>
             <input
@@ -101,7 +105,7 @@ function SignupFormPage() {
               required />
           </label>
         </div>
-        <div className="SignupConfirmPasswordInput">
+        <div className="formInputfield">
           Confirm Password
           <label>
             <input

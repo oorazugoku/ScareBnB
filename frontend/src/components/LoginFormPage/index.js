@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 
 import './LoginForm.css'
 
-function LoginFormPage() {
+function LoginFormPage({ setShowModal }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
   const [credential, setCredential] = useState('');
@@ -28,11 +28,22 @@ function LoginFormPage() {
 
   return (
     <div className='formContainer'>
-    <form onSubmit={handleSubmit}>
+      <button
+      type="button"
+      className="modalClose"
+      onClick={()=>{setShowModal(false)}}
+      >
+        <h3><i className="fas fa-xmark" /></h3>
+      </button>
+    <form onSubmit={handleSubmit} className='loginForm'>
+      <div>
+        <h2>Login to ScareBnB <i className="fas fa-ghost" /></h2>
+      </div>
       <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>
       <p>
+      <div className='formInputfield'>
       <label>
         Username or Email: <input
           id='input'
@@ -42,16 +53,20 @@ function LoginFormPage() {
           required
           />
       </label>
+      </div>
       </p>
+      <div className='formInputfield'>
+      Password
       <label>
-        Password: <input
+        <input
           id='input'
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          />
+        />
       </label>
+      </div>
       <p>
       <button id='loginSubmitButton' type="submit">Log In</button>
       </p>

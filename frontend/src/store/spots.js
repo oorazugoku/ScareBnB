@@ -3,19 +3,26 @@ import { csrfFetch } from './csrf';
 //Type Producer
 const LOAD_SPOTS = 'spots/LOAD_SPOTS';
 const GET_A_SPOT = 'spots/GET_A_SPOT';
-
+const EDIT_SPOT = 'spots/EDIT_SPOT'
 
 //Action Creators
-const loadSpots = (payload) => {
+const getSpotsAction = (payload) => {
   return {
     type: LOAD_SPOTS,
     payload
   };
 };
 
-const getSpot = (payload) => {
+const getOneSpotAction = (payload) => {
   return {
     type: GET_A_SPOT,
+    payload
+  };
+};
+
+const editSpotAction = (payload) => {
+  return {
+    type: EDIT_SPOT,
     payload
   };
 };
@@ -25,7 +32,7 @@ const getSpot = (payload) => {
 export const getOneSpot = (id) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${id}`)
   const data = await response.json();
-  dispatch(getSpot(data));
+  dispatch(getOneSpotAction(data));
   return data;
 };
 
@@ -33,10 +40,22 @@ export const getOneSpot = (id) => async (dispatch) => {
 export const getSpots = () => async (dispatch) => {
   const response = await csrfFetch("/api/spots")
   const data = await response.json();
-  dispatch(loadSpots(data));
+  dispatch(getSpotsAction(data));
   return data;
 };
 
+// Thunk - Edit Spot by Id
+export const editSpot = (payload) => async (dispatch) => {
+  const { id, name, description, address, city, state, country, price } = payload
+  const response = await csrfFetch(`/api/spots/${id}`, {
+    method: 'PUT',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ name, description, address, city, state, country, price })
+  })
+  const data = await response.json();
+  dispatch(editSpotAction(data));
+  return data;
+};
 
 
 const initialState = {};
@@ -44,14 +63,20 @@ const initialState = {};
 const spotsReducer = (state = initialState, action) => {
     let newState;
     switch (action.type) {
-        case LOAD_SPOTS:
-            const spotsArr = {}
-            action.payload.result.forEach(each => spotsArr[each.id] = each)
-            newState = {...spotsArr};
-        return newState;
-        case GET_A_SPOT:
-          newState = {...action.payload};
+      case LOAD_SPOTS:
+          let spotsArr = {}
+          action.payload.result.forEach(each => spotsArr[each.id] = each)
+          newState = {...spotsArr};
       return newState;
+
+      case GET_A_SPOT:
+        newState = {...action.payload};
+      return newState;
+
+      case EDIT_SPOT:
+        newState = {...action.payload.result};
+      return newState;
+
     default:
       return state;
   }
