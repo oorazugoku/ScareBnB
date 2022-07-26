@@ -7,6 +7,7 @@
     flex-direction: column;
     max-width: 1600px;
     overflow-x: scroll;
+    background-color: white;
 }
 
 
