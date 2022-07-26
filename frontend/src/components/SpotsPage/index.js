@@ -40,7 +40,7 @@ function SpotsPage() {
                 <p/>
                 Aug 1 - 7
                 <p/>
-                <b>${each.price.toFixed()}</b> night
+                <b>${each.price}</b> night
             </div>
         </div>
         ))}
