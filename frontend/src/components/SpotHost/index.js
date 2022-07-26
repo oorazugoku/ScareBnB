@@ -62,7 +62,6 @@ function SpotHost() {
 
 
     useEffect(()=>{
-
     }, [numImages])
 
 
