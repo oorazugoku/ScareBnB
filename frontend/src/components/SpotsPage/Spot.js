@@ -4,6 +4,7 @@ import { useHistory, useParams, Redirect } from "react-router-dom"
 import { deleteSpot, getOneSpot } from "../../store/spots"
 import { Modal } from '../../context/Modal';
 import EditSpotForm from "../EditSpotModal";
+import house from '../../resources/defaulthouse.jpg'
 
 function Spot() {
     const history = useHistory()
@@ -24,6 +25,12 @@ function Spot() {
         history.push('/spots/current')
     }
 
+    const houseImg = (
+        <>
+        <img src={house}/>
+        </>
+    )
+    
     return isLoaded && (
         <>
         <div className="spot-container">
@@ -48,9 +55,8 @@ function Spot() {
             )}
             </div>
             <div type='button' className="spot-images">
-                {spot.Images.map(each => (
-                    <img key={each.id} src={each.url} />
-                ))}
+                {spot.Images.map(each => (<img key={each.id} src={each.url} />))}
+                {spot.Images.length < 1 && houseImg}
             </div>
             <div className="spot-hostInfo">
                 {spot.name} hosted by {spot.Owner.firstName}

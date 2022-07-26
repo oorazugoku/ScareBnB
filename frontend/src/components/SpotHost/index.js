@@ -17,6 +17,11 @@ function SpotHost() {
     const [country, setCountry] = useState('');
     const [price, setPrice] = useState('');
     const [url, setUrl] = useState([]);
+    const [url1, setUrl1] = useState();
+    const [url2, setUrl2] = useState();
+    const [url3, setUrl3] = useState();
+    const [url4, setUrl4] = useState();
+    const [url5, setUrl5] = useState();
     const [numImages, setNumImages] = useState(0);
     const [imageArr, setImageArr] = useState([]);
     const [errors, setErrors] = useState([]);
@@ -26,17 +31,24 @@ function SpotHost() {
         setErrors([]);
 
 
+        if (url5) setUrl([url5])
+        if (url4) setUrl([url4, url5])
+        if (url3) setUrl([url3, url4, url5])
+        if (url2) setUrl([url2, url3, url4, url5])
+        if (url1) setUrl([url1, url2, url3, url4, url5])
+
         dispatch(createSpot({ name, description, address, city, state, country, price }))
         .then((res)=> {
           if(url.length > 0) {
-            dispatch(addImagesToSpot(res.id, url))
-            .then(()=>history.push('/spots/current'))
+            url.forEach(each =>
+            dispatch(addImagesToSpot(res.id, each))
             .catch(async (res) => {
               const data = await res.json();
               if (data && data.errors) {
                 setErrors(data.errors);
               }
             })
+            )
           }
         })
         .then(()=>history.push('/spots/current'))
@@ -49,17 +61,15 @@ function SpotHost() {
     };
 
 
-
     useEffect(()=>{
-      if(numImages > imageArr.length && numImages < 2) {
-        const newDiv = [...imageArr, { id: numImages }]
-          setImageArr(newDiv)
-      }
+
     }, [numImages])
 
 
     const handleAddImage = () => {
-      setNumImages(prevCount => prevCount + 1)
+      if(numImages < 5) {
+        setNumImages(prevCount => prevCount + 1)
+      }
     }
 
 
@@ -152,20 +162,59 @@ function SpotHost() {
               required />
           </label>
         </div>
-        {numImages > 0 && imageArr.map(each => (
-          <div key={each.id} className="formInputfield2">
+
+        {numImages > 0 && (
+          <div className="formInputfield2">
               Image Url
           <label>
-          <input placeholder='Image url...' type="text" onChange={(e) => {setUrl(e.target.value)}} required />
+          <input placeholder='Image url...' type="text" onChange={(e) => {setUrl1(e.target.value)}} required />
           </label>
           </div>
-        ))}
+        )}
+
+        {numImages > 1 && (
+          <div className="formInputfield2">
+              Image Url
+          <label>
+          <input placeholder='Image url...' type="text" onChange={(e) => {setUrl2(e.target.value)}} required />
+          </label>
+          </div>
+        )}
+
+        {numImages > 2 && (
+          <div className="formInputfield2">
+              Image Url
+          <label>
+          <input placeholder='Image url...' type="text" onChange={(e) => {setUrl3(e.target.value)}} required />
+          </label>
+          </div>
+        )}
+
+        {numImages > 3 && (
+          <div className="formInputfield2">
+              Image Url
+          <label>
+          <input placeholder='Image url...' type="text" onChange={(e) => {setUrl4(e.target.value)}} required />
+          </label>
+          </div>
+        )}
+
+        {numImages > 4 && (
+          <div className="formInputfield2">
+              Image Url
+          <label>
+          <input placeholder='Image url...' type="text" onChange={(e) => {setUrl5(e.target.value)}} required />
+          </label>
+          </div>
+        )}
+
+
         <div className="image-button-div">
           Add a Preview Image <br/>
         <button
         type='button'
         className="image-button"
-        onClick={()=>{handleAddImage()}}
+        onClick={()=>{numImages < 6 && handleAddImage()}}
         > + </button>
         </div>
         <button type="submit" className="saveSpotButton">Submit Location</button>
