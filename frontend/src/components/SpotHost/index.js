@@ -16,37 +16,44 @@ function SpotHost() {
     const [state, setState] = useState('');
     const [country, setCountry] = useState('');
     const [price, setPrice] = useState('');
-    const [url, setUrl] = useState('')
+    const [url, setUrl] = useState([]);
     const [numImages, setNumImages] = useState(0);
-    const [imageArr, setImageArr] = useState([])
+    const [imageArr, setImageArr] = useState([]);
     const [errors, setErrors] = useState([]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors([]);
 
-       const spot = dispatch(createSpot({ name, description, address, city, state, country, price }))
-        .then(()=> {
-          url.forEach(each => {
-            dispatch(addImagesToSpot(spot.id, each))
+
+        dispatch(createSpot({ name, description, address, city, state, country, price }))
+        .then((res)=> {
+          dispatch(addImagesToSpot(res.id, url))
+          .then(()=>history.push('/spots/current'))
+          .catch(async (res) => {
+            const data = await res.json();
+            if (data && data.errors) {
+              setErrors(data.errors);
+            }
           })
         })
-        .then(()=>history.push('/spots/current'))
         .catch(async (res) => {
             const data = await res.json();
             if (data && data.errors) {
                 setErrors(data.errors);
               }
           })
-      };
+    };
+
 
 
     useEffect(()=>{
-      if(numImages > imageArr.length && numImages < 6) {
+      if(numImages > imageArr.length && numImages < 2) {
         const newDiv = [...imageArr, { id: numImages }]
           setImageArr(newDiv)
       }
     }, [numImages])
+    
 
     const handleAddImage = () => {
       setNumImages(prevCount => prevCount + 1)
@@ -146,7 +153,7 @@ function SpotHost() {
           <div key={each.id} className="formInputfield2">
               Image Url
           <label>
-          <input placeholder={url} type="text" value={url} onChange={(e) => setUrl(old => [...old, e.target.value])} required />
+          <input placeholder='Image url...' type="text" onChange={(e) => {setUrl(e.target.value)}} required />
           </label>
           </div>
         ))}

@@ -29,9 +29,8 @@ export const getImages = () => async (dispatch) => {
 };
 
 // Thunk - Edit Spot by Id
-export const addImagesToSpot = (payload) => async (dispatch) => {
-  const { spotId, url } = payload
-  const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+export const addImagesToSpot = (id, url) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${id}/images`, {
     method: 'POST',
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({ url })
@@ -45,18 +44,16 @@ export const addImagesToSpot = (payload) => async (dispatch) => {
 const initialState = {};
 
 const imagesReducer = (state = initialState, action) => {
-    let newState;
+    const imageArr = [];
+    const newState = {}
     switch (action.type) {
       case LOAD_IMAGES:
-          let imageArr = {}
           action.payload.result.forEach(each => imageArr[each.id] = each)
           newState = {...imageArr};
       return newState;
 
       case ADD_IMAGES_TO_SPOT:
-        imageArr = {}
-        action.payload.result.forEach(each => imageArr[each.id] = each)
-        newState = {...action.payload};
+        newState[action.payload.id] = action.payload
       return newState;
 
     default:
