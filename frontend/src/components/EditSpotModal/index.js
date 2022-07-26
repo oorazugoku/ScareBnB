@@ -5,7 +5,6 @@ import { editSpot } from "../../store/spots";
 
 
 function EditSpotForm({ setShowModal, spot }) {
-  const history = useHistory()
   const dispatch = useDispatch();
   const [name, setName] = useState(spot.name);
   const [description, setDescription] = useState(spot.description);
@@ -36,7 +35,7 @@ function EditSpotForm({ setShowModal, spot }) {
       className="modalClose"
       onClick={()=>{setShowModal(false)}}
       >
-    <h3><i className="fas fa-xmark" /></h3>
+      <i className="fas fa-xmark" />
       </button>
       <form style={{ padding: "24px" }} onSubmit={handleSubmit} className='signupForm'>
         <div>

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSpots } from '../../store/spots';
 import { useHistory } from 'react-router-dom';
 import './SpotsPage.css'
+import house from '../../resources/defaulthouse.jpg'
 
 
 function SpotsPage() {
@@ -19,14 +20,14 @@ function SpotsPage() {
         dispatch(getSpots()).then(() => setLoaded(true))
     }, [dispatch])
 
-    // each.Images.length > 0 ? each.Images[0].url : null
+
 
     return (
     <>
     <div className='search-page'>
         {loaded && spots.map(each => (
         <div key={each.id} className={'spot-search-result'} onClick={()=> handleClick(each)}>
-            <img className='searchImg' src={'https://cdn.hauntedrooms.com/wp-content/uploads/2018/01/olde-park-hotel-ballinger.jpg'} />
+            <img className='searchImg' src={each.Images.length > 0 ? each.Images[0].url : house} />
             <div id={`inner-spot-search`}>
                 <div id="inner-search-title">
                     <div>

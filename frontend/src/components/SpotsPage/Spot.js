@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useHistory, useParams } from "react-router-dom"
+import { useHistory, useParams, Redirect } from "react-router-dom"
 import { deleteSpot, getOneSpot } from "../../store/spots"
 import { Modal } from '../../context/Modal';
 import EditSpotForm from "../EditSpotModal";
 
 function Spot() {
     const history = useHistory()
-    console.log(history)
     const [showModal, setShowModal] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
     const { spotId } = useParams()
@@ -16,6 +15,7 @@ function Spot() {
     const user = useSelector(state => state.session.user)
 
     useEffect(()=> {
+
         dispatch(getOneSpot(spotId)).then(() => setIsLoaded(true))
     }, [dispatch])
 

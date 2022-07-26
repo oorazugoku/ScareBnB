@@ -330,7 +330,6 @@ router.get('/', async (req, res, next) => {
 router.delete('/:spotId', requireAuth, async (req, res, next) => {
     const { spotId } = req.params;
     let result = await Spot.findByPk(spotId)
-    console.log(result)
     if(!result) {
         const err = new Error(
             `Spot does not exist.`

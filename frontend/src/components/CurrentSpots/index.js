@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { getCurrentSpots } from "../../store/spots"
+import house from '../../resources/defaulthouse.jpg'
+
 
 function CurrentSpots() {
     const history = useHistory()
@@ -27,7 +29,7 @@ function CurrentSpots() {
         <div style={{ margin: '230px 0 0 0 '}} className='search-page'>
         {loaded && spots.map(each => (
         <div key={each.id} className={'spot-search-result'} onClick={()=> handleClick(each)}>
-            <img className='searchImg' src={'https://cdn.hauntedrooms.com/wp-content/uploads/2018/01/olde-park-hotel-ballinger.jpg'} />
+            <img className='searchImg' src={each.Images.length > 0 ? each.Images[0].url : house} />
             <div id={`inner-spot-search`}>
                 <div id="inner-search-title">
                     <div>

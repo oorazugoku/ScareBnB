@@ -28,15 +28,18 @@ function SpotHost() {
 
         dispatch(createSpot({ name, description, address, city, state, country, price }))
         .then((res)=> {
-          dispatch(addImagesToSpot(res.id, url))
-          .then(()=>history.push('/spots/current'))
-          .catch(async (res) => {
-            const data = await res.json();
-            if (data && data.errors) {
-              setErrors(data.errors);
-            }
-          })
+          if(url.length > 0) {
+            dispatch(addImagesToSpot(res.id, url))
+            .then(()=>history.push('/spots/current'))
+            .catch(async (res) => {
+              const data = await res.json();
+              if (data && data.errors) {
+                setErrors(data.errors);
+              }
+            })
+          }
         })
+        .then(()=>history.push('/spots/current'))
         .catch(async (res) => {
             const data = await res.json();
             if (data && data.errors) {
@@ -53,7 +56,7 @@ function SpotHost() {
           setImageArr(newDiv)
       }
     }, [numImages])
-    
+
 
     const handleAddImage = () => {
       setNumImages(prevCount => prevCount + 1)
@@ -158,7 +161,7 @@ function SpotHost() {
           </div>
         ))}
         <div className="image-button-div">
-          Add an Image <br/>
+          Add a Preview Image <br/>
         <button
         type='button'
         className="image-button"
