@@ -34,7 +34,7 @@ function SpotsPage() {
                     <b>{each.city}, {each.state}</b>
                     </div>
                     <div>
-                    <i className="fas fa-ghost" /> {each.avgStarRating}
+                    <i className="fas fa-ghost" /> {each.avgStarRating === 0 ? 'New' : each.avgStarRating}
                     </div>
                 </div>
                 <p/>
