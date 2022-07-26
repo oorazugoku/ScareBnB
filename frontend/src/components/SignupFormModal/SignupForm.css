@@ -9,12 +9,10 @@ form {
     align-items: center;
 }
 
-/* .SignupConfirmPasswordInput,
-.SignupPasswordInput,
-.SignupUsernameInput,
-.SignupEmailInput,
-.SignupLastNameInput,
-.SignupFirstNameInput { */
+.formInputfield:hover {
+    border: 1px solid black;
+}
+
 .formInputfield {
     display: flex;
     flex-direction: column;
@@ -29,12 +27,6 @@ form {
     margin: 5px;
 }
 
-/* .SignupConfirmPasswordInput input,
-.SignupPasswordInput input,
-.SignupUsernameInput input,
-.SignupEmailInput input,
-.SignupLastNameInput input,
-.SignupFirstNameInput input { */
 .formInputfield input {
     display: flex;
     border: 0;
@@ -48,12 +40,6 @@ form {
     margin: 0px 12px 6px;
 }
 
-/* .SignupConfirmPasswordInput input:focus,
-.SignupPasswordInput input:focus,
-.SignupUsernameInput input:focus,
-.SignupEmailInput input:focus,
-.SignupLastNameInput input:focus,
-.SignupFirstNameInput input:focus { */
 .formInputfield input:focus {
     display: flex;
     box-sizing: border-box;
@@ -79,7 +65,11 @@ form {
 
 .modalClose {
     position: fixed;
-    margin: 10px 30px;
+    padding: 0;
+    margin-top: 20px;
+    margin-left: 20px;
+    height: 30px;
+    width: 30px;
     border-radius: 50%;
     border: 0;
     background-color: rgba(0, 0, 0, 0);

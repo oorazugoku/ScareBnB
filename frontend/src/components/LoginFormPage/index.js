@@ -31,9 +31,8 @@ function LoginFormPage({ setShowModal }) {
       <button
       type="button"
       className="modalClose"
-      onClick={()=>{setShowModal(false)}}
-      >
-        <h3><i className="fas fa-xmark" /></h3>
+      onClick={()=>{setShowModal(false)}}>
+      <i className="fas fa-xmark" />
       </button>
     <form onSubmit={handleSubmit} className='loginForm'>
       <div>

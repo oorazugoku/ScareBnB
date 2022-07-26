@@ -1,6 +1,7 @@
 form {
     font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
-    color: 222222
+    color: 222222;
+    padding: 25px
 }
 
 .loginForm {
@@ -22,4 +23,12 @@ form {
     font-weight: 600;
     font-family: 'Circular',-apple-system,'BlinkMacSystemFont','Roboto','Helvetica Neue',sans-serif;
     font-size: 16px;
+}
+
+#ghost {
+    color: white;
+}
+
+.fa-ghost {
+    color: #FF385C;
 }

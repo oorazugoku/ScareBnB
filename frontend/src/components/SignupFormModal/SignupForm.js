@@ -36,12 +36,8 @@ function SignupFormPage({ setShowModal }) {
 
     return (
       <>
-      <button
-      type="button"
-      className="modalClose"
-      onClick={()=>{setShowModal(false)}}
-      >
-        <h3><i className="fas fa-xmark" /></h3>
+      <button type="button" className="modalClose" onClick={()=>{setShowModal(false)}}>
+        <i className="fas fa-xmark" />
       </button>
       <form style={{ padding: "24px" }} onSubmit={handleSubmit} className='signupForm'>
         <div>

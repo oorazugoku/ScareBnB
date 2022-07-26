@@ -21,7 +21,7 @@ function CurrentSpots() {
         <>
         <div className="host-header-outer">
         <div className='host-header'>
-          <h1>Your current Locations <i className="fas fa-ghost" /></h1>
+          <h1>Your current Locations <i className="fas fa-ghost" id='ghost' /></h1>
         </div>
         </div>
         <div style={{ margin: '230px 0 0 0 '}} className='search-page'>

@@ -12,6 +12,10 @@
     justify-content: center;
 }
 
+.formInputfield2:hover {
+    border: 2px solid black;
+}
+
 
 .formInputfield2 {
     display: flex;
@@ -61,4 +65,16 @@
     font-weight: 600;
     font-family: 'Circular',-apple-system,'BlinkMacSystemFont','Roboto','Helvetica Neue',sans-serif;
     font-size: 16px;
+}
+
+.image-button-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.image-button {
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 8px;
+    height: 30px;
 }
