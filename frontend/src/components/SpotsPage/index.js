@@ -34,13 +34,13 @@ function SpotsPage() {
                     <b>{each.city}, {each.state}</b>
                     </div>
                     <div>
-                    <i className="fas fa-ghost" /> {each.avgStarRating === 0 ? 'New' : each.avgStarRating}
+                    <i className="fas fa-ghost" /> {parseInt(each.avgStarRating) == 0 ? 'New' : each.avgStarRating}
                     </div>
                 </div>
                 <p/>
                 Aug 1 - 7
                 <p/>
-                <b>${each.price}</b> night
+                <b>${parseInt(each.price).toFixed()}</b> night
             </div>
         </div>
         ))}
