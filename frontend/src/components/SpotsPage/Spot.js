@@ -4,7 +4,6 @@ import { useHistory, useParams, Redirect } from "react-router-dom"
 import { deleteSpot, getOneSpot } from "../../store/spots"
 import { Modal } from '../../context/Modal';
 import EditSpotForm from "../EditSpotModal";
-import house from '../../resources/defaulthouse.jpg'
 
 function Spot() {
     const history = useHistory()
@@ -16,20 +15,16 @@ function Spot() {
     const user = useSelector(state => state.session.user)
 
     useEffect(()=> {
-
         dispatch(getOneSpot(spotId)).then(() => setIsLoaded(true))
-    }, [dispatch])
+    }, [dispatch, isLoaded])
 
     const handleDeleteClick = () => {
+        setIsLoaded(false)
         dispatch(deleteSpot(spotId))
-        history.push('/spots/current')
-    }
+        .then(() => history.push('/spots/current'))
+        .then(() => setIsLoaded(true))
 
-    const houseImg = (
-        <>
-        <img src={house}/>
-        </>
-    )
+    }
 
     return isLoaded && (
         <>
@@ -59,8 +54,8 @@ function Spot() {
             </div>
             <div className="grid-container">
                 <div type='button' className="spot-images">
-                    {spot.Images.map((each, i) => (<div key={each.id} className={`spotImage${i + 1}`}><img src={each.url} /></div>))}
-                    {spot.Images.length < 1 && houseImg}
+                    {spot.Images.map((each, i) => i < 5 && (<div key={each.id} className={`spotImage${i + 1}`}><img src={each.url} /></div>))}
+                    {spot.Images.length < 1 && (<div>Upload an Image</div>)}
                 </div>
             </div>
             <div className="spot-lowerInfo">
@@ -75,7 +70,6 @@ function Spot() {
                     <div>
                     <span className='spot-booking-bigText'>${parseInt(spot.price)}</span> night
                     </div>
-
                         <div className="spot-booking-reviews">
                             <i className="fas fa-ghost" />&nbsp;{parseInt(spot.avgStarRating) == 0 ? 'New' : spot.avgStarRating} · {spot.numReviews} {spot.numReviews === 1 ? 'Review' : 'Reviews'}
                         </div>
@@ -111,7 +105,7 @@ function Spot() {
         </div>
         {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <EditSpotForm setShowModal={setShowModal} spot={spot} />
+          <EditSpotForm setShowModal={setShowModal} spot={spot} setIsLoaded={setIsLoaded} />
         </Modal>)}
         </>
     )

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { addImagesToSpot } from "../../store/images";
 import { createSpot } from "../../store/spots";
@@ -16,41 +16,37 @@ function SpotHost() {
     const [state, setState] = useState('');
     const [country, setCountry] = useState('');
     const [price, setPrice] = useState('');
-    const [url, setUrl] = useState([]);
     const [url1, setUrl1] = useState();
     const [url2, setUrl2] = useState();
     const [url3, setUrl3] = useState();
     const [url4, setUrl4] = useState();
     const [url5, setUrl5] = useState();
+    const [show1, setShow1] = useState(false)
+    const [show2, setShow2] = useState(false)
+    const [show3, setShow3] = useState(false)
+    const [show4, setShow4] = useState(false)
+    const [show5, setShow5] = useState(false)
     const [numImages, setNumImages] = useState(0);
-    const [imageArr, setImageArr] = useState([]);
     const [errors, setErrors] = useState([]);
+    const [loaded, setLoaded] = useState(false)
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors([]);
 
+        const arr = [url1, url2, url3, url4, url5]
+        const result = arr.filter(el => el !== undefined)
 
-        if (url5) setUrl([url5])
-        if (url4) setUrl([url4, url5])
-        if (url3) setUrl([url3, url4, url5])
-        if (url2) setUrl([url2, url3, url4, url5])
-        if (url1) setUrl([url1, url2, url3, url4, url5])
 
         dispatch(createSpot({ name, description, address, city, state, country, price }))
         .then((res)=> {
-          if(url.length > 0) {
-            url.forEach(each =>
-            dispatch(addImagesToSpot(res.id, each))
-            .catch(async (res) => {
-              const data = await res.json();
-              if (data && data.errors) {
-                setErrors(data.errors);
-              }
-            })
-            )
+          if(result.length > 0) {
+            result.forEach(each => dispatch(addImagesToSpot(res.id, each)))
           }
         })
+        .then(() => setLoaded(true))
         .then(()=>history.push('/spots/current'))
         .catch(async (res) => {
             const data = await res.json();
@@ -62,7 +58,15 @@ function SpotHost() {
 
 
     useEffect(()=>{
-    }, [numImages])
+      if(numImages == 1) setShow1(true)
+      if(numImages == 2) setShow2(true)
+      if(numImages == 3) setShow3(true)
+      if(numImages == 4) setShow4(true)
+      if(numImages == 5) setShow5(true)
+
+      setLoaded(true)
+
+    }, [numImages, dispatch])
 
 
     const handleAddImage = () => {
@@ -72,7 +76,7 @@ function SpotHost() {
     }
 
 
-    return (
+    return loaded && (
         <>
         <div className='host-header'>
         <div>
@@ -162,48 +166,55 @@ function SpotHost() {
           </label>
         </div>
 
-        {numImages > 0 && (
+        {show1 && (
+          <div>
           <div className="formInputfield2">
-              Image Url
+              Preview Image
           <label>
-          <input placeholder='Image url...' type="text" onChange={(e) => {setUrl1(e.target.value)}} required />
+          <input placeholder='Image url...' type="url" onChange={(e) => {setUrl1(e.target.value)}} required />
           </label>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow1(false); setNumImages(old=>old-1)}}> - </button>
+          </div>
           </div>
         )}
 
-        {numImages > 1 && (
+        {show2 && (
           <div className="formInputfield2">
               Image Url
           <label>
-          <input placeholder='Image url...' type="text" onChange={(e) => {setUrl2(e.target.value)}} required />
+          <input placeholder='Image url...' type="url" onChange={(e) => {setUrl2(e.target.value)}} required />
           </label>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow2(false); setNumImages(old=>old-1)}}> - </button>
           </div>
         )}
 
-        {numImages > 2 && (
+        {show3 && (
           <div className="formInputfield2">
               Image Url
           <label>
-          <input placeholder='Image url...' type="text" onChange={(e) => {setUrl3(e.target.value)}} required />
+          <input placeholder='Image url...' type="url" onChange={(e) => {setUrl3(e.target.value)}} required />
           </label>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow3(false); setNumImages(old=>old-1)}}> - </button>
           </div>
         )}
 
-        {numImages > 3 && (
+        {show4 && (
           <div className="formInputfield2">
               Image Url
           <label>
-          <input placeholder='Image url...' type="text" onChange={(e) => {setUrl4(e.target.value)}} required />
+          <input placeholder='Image url...' type="url" onChange={(e) => {setUrl4(e.target.value)}} required />
           </label>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow4(false); setNumImages(old=>old-1)}}> - </button>
           </div>
         )}
 
-        {numImages > 4 && (
+        {show5 && (
           <div className="formInputfield2">
               Image Url
           <label>
-          <input placeholder='Image url...' type="text" onChange={(e) => {setUrl5(e.target.value)}} required />
+          <input placeholder='Image url...' type="url" onChange={(e) => {setUrl5(e.target.value)}} required />
           </label>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow5(false); setNumImages(old=>old-1)}}> - </button>
           </div>
         )}
 
@@ -212,7 +223,7 @@ function SpotHost() {
           Add a Preview Image <br/>
         <button
         type='button'
-        className="image-button"
+        className="image-button-add"
         onClick={()=>{numImages < 6 && handleAddImage()}}
         > + </button>
         </div>

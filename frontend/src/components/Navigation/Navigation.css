@@ -3,6 +3,23 @@
     top: 0;
 }
 
+
+.Nav-Container {
+    display: grid;
+    max-width: 1600px;
+}
+
+.Nav-Container-inner {
+    display: flex;
+    grid-template-columns: 1fr 1fr;
+    font-size: 25px;
+    align-items: center;
+    position: relative;
+    background-color: white;
+    height: 60px;
+
+}
+
 .logo {
     height: 30px;
 }
@@ -17,16 +34,6 @@
 .logo-area {
     display: flex;
     align-items: center;
-}
-
-.Nav-Container {
-    display: flex;
-    justify-content: space-between;
-    font-size: 25px;
-    align-items: center;
-    position: relative;
-    background-color: white;
-    height: 60px;
 }
 
 .logo-area > a, a:hover, a:visited, a:active {

@@ -37,6 +37,8 @@ function ProfileButton({ user }) {
         <i className="fas fa-user-circle" />
       </button>
       {showMenu && (
+        <div>
+        <NavLink className='my-spots-link' to='/spots/current'>My Spots</NavLink>
         <ul className="profile-dropdown">
           <li>{user.username}</li>
           <li>{user.email}</li>
@@ -44,6 +46,7 @@ function ProfileButton({ user }) {
             <button onClick={logout}>Log Out</button>
           </li>
         </ul>
+        </div>
       )}
     </div>
     </>

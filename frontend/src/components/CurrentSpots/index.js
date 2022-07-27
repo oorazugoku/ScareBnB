@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { getCurrentSpots } from "../../store/spots"
-import house from '../../resources/defaulthouse.jpg'
+import house from '../../resources/defaulthouse.png'
 
 
 function CurrentSpots() {

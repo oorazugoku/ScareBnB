@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSpots } from '../../store/spots';
 import { useHistory } from 'react-router-dom';
 import './SpotsPage.css'
-import house from '../../resources/defaulthouse.jpg'
+import house from '../../resources/defaulthouse.png'
 
 
 function SpotsPage() {
@@ -17,17 +17,18 @@ function SpotsPage() {
     }
 
     useEffect(()=>{
+        setLoaded(false)
         dispatch(getSpots()).then(() => setLoaded(true))
     }, [dispatch])
 
 
 
-    return (
-    <>
+    return loaded && (
+    <div className='search-container'>
     <div className='search-page'>
-        {loaded && spots.map(each => (
+        {loaded && spots.map(each => each.Images.length > 0 && (
         <div key={each.id} className={'spot-search-result'} onClick={()=> handleClick(each)}>
-            <img className='searchImg' src={each.Images.length > 0 ? each.Images[0].url : house} />
+            <img className='searchImg' src={each.Images[0].url} />
             <div id={`inner-spot-search`}>
                 <div id="inner-search-title">
                     <div>
@@ -45,7 +46,7 @@ function SpotsPage() {
         </div>
         ))}
     </div>
-    </>
+    </div>
     )
 }
 

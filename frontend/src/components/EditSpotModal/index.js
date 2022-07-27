@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { editSpot } from "../../store/spots";
+import { addImagesToSpot } from "../../store/images";
+import { useHistory } from "react-router-dom";
 
 
-function EditSpotForm({ setShowModal, spot }) {
+function EditSpotForm({ setShowModal, spot, setIsLoaded }) {
+  const history = useHistory()
   const dispatch = useDispatch();
   const [name, setName] = useState(spot.name);
   const [description, setDescription] = useState(spot.description);
@@ -14,12 +16,41 @@ function EditSpotForm({ setShowModal, spot }) {
   const [country, setCountry] = useState(spot.country);
   const [price, setPrice] = useState(spot.price);
   const [errors, setErrors] = useState([]);
+  const [url1, setUrl1] = useState();
+  const [url2, setUrl2] = useState();
+  const [url3, setUrl3] = useState();
+  const [url4, setUrl4] = useState();
+  const [url5, setUrl5] = useState();
+  const [show1, setShow1] = useState(false)
+  const [show2, setShow2] = useState(false)
+  const [show3, setShow3] = useState(false)
+  const [show4, setShow4] = useState(false)
+  const [show5, setShow5] = useState(false)
+  const [numImages, setNumImages] = useState(0);
+
+
+
+
 
   const handleSubmit = (e) => {
       e.preventDefault();
       setErrors([]);
+
+      const arr = [url1, url2, url3, url4, url5]
+      const result = arr.filter(el => el !== undefined)
+
+
       dispatch(editSpot({id: spot.id, name, description, address, city, state, country, price}))
-      .then(()=>setShowModal(false))
+      .then(()=> {
+        if(result.length > 0) {
+          result.forEach(each => dispatch(addImagesToSpot(spot.id, each)))
+        }
+      })
+      .then(()=> {
+      setShowModal(false)
+      setIsLoaded(false)
+      history.push(`/spots/${spot.id}`)
+      })
       .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) {
@@ -27,6 +58,25 @@ function EditSpotForm({ setShowModal, spot }) {
             }
         })
     };
+
+    useEffect(()=>{
+      if(numImages == 1) setShow1(true)
+      if(numImages == 2) setShow2(true)
+      if(numImages == 3) setShow3(true)
+      if(numImages == 4) setShow4(true)
+      if(numImages == 5) setShow5(true)
+
+    }, [numImages, dispatch])
+
+
+    const handleAddImage = () => {
+      if(numImages < 5) {
+        setNumImages(prevCount => prevCount + 1)
+      }
+    }
+
+
+
 
     return (
       <>
@@ -38,12 +88,13 @@ function EditSpotForm({ setShowModal, spot }) {
       <i className="fas fa-xmark" />
       </button>
       <form style={{ padding: "24px" }} onSubmit={handleSubmit} className='signupForm'>
-        <div>
+        <div className="modal-header">
           <h2>Spot Edit Page <i className="fas fa-ghost" /></h2>
-        </div>
         <ul>
           {!!errors.length && errors.map((error, idx) => <li key={idx}>{error}</li>)}
         </ul>
+      </div>
+      <div>
         <div className="formInputfield">
           Spot Name
           <label>
@@ -121,7 +172,74 @@ function EditSpotForm({ setShowModal, spot }) {
               required />
           </label>
         </div>
+
+        {show1 && (
+          <div>
+          <div className="formInputfield2">
+              Preview Image
+          <label>
+          <input placeholder='Image url...' type="url" onChange={(e) => {setUrl1(e.target.value)}} required />
+          </label>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow1(false); setNumImages(old=>old-1)}}> - </button>
+          </div>
+          </div>
+        )}
+
+        {show2 && (
+          <div className="formInputfield2">
+              Image Url
+          <label>
+          <input placeholder='Image url...' type="url" onChange={(e) => {setUrl2(e.target.value)}} required />
+          </label>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow2(false); setNumImages(old=>old-1)}}> - </button>
+          </div>
+        )}
+
+        {show3 && (
+          <div className="formInputfield2">
+              Image Url
+          <label>
+          <input placeholder='Image url...' type="url" onChange={(e) => {setUrl3(e.target.value)}} required />
+          </label>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow3(false); setNumImages(old=>old-1)}}> - </button>
+          </div>
+        )}
+
+        {show4 && (
+          <div className="formInputfield2">
+              Image Url
+          <label>
+          <input placeholder='Image url...' type="url" onChange={(e) => {setUrl4(e.target.value)}} required />
+          </label>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow4(false); setNumImages(old=>old-1)}}> - </button>
+          </div>
+        )}
+
+        {show5 && (
+          <div className="formInputfield2">
+              Image Url
+          <label>
+          <input placeholder='Image url...' type="url" onChange={(e) => {setUrl5(e.target.value)}} required />
+          </label>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow5(false); setNumImages(old=>old-1)}}> - </button>
+          </div>
+        )}
+
+
+        <div className="image-button-div">
+          Add a Preview Image <br/>
+        <button
+        type='button'
+        className="image-button-add"
+        onClick={()=>{numImages < 6 && handleAddImage()}}
+        > + </button>
+        </div>
+
+        </div>
+
+        <div className="modal-footer">
         <button type="submit" className="signupButton">Save Changes</button>
+        </div>
       </form>
       </>
   );
