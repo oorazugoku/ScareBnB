@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useHistory, useParams, Redirect } from "react-router-dom"
+import { useHistory, useParams, Redirect, NavLink } from "react-router-dom"
 import { deleteSpot, getOneSpot } from "../../store/spots"
-import { Modal } from '../../context/Modal';
-import EditSpotForm from "../EditSpotModal";
+// import { Modal } from '../../context/Modal';
+// import EditSpotForm from "../EditSpotModal";
 
 function Spot() {
     const history = useHistory()
@@ -37,12 +37,13 @@ function Spot() {
                 </div>
             {user && user.id === spot.Owner.id && (
             <div className="owner-spot-buttons">
+                <NavLink to={`/spots/${spot.id}/edit`}>
                 <button
                 className="spot-edit-button"
-                onClick={() => setShowModal(true)}
                 >
                     Edit Spot
                 </button>
+                </NavLink>
                 <button
                 className="spot-delete-button"
                 onClick={()=> {handleDeleteClick()}}
@@ -103,10 +104,15 @@ function Spot() {
             </div>
             </div>
         </div>
-        {showModal && (
+        {/* {showModal && (
+
         <Modal onClose={() => setShowModal(false)}>
-          <EditSpotForm setShowModal={setShowModal} spot={spot} setIsLoaded={setIsLoaded} />
-        </Modal>)}
+            <div className="modal-body">
+                <EditSpotForm setShowModal={setShowModal} spot={spot} setIsLoaded={setIsLoaded} />
+            </div>
+        </Modal>
+
+        )} */}
         </>
     )
 }

@@ -83,8 +83,8 @@
     position: relative;
     display: grid;
     grid-template-areas:
-    'a a b c '
-    'a a d e ';
+    'a a b c'
+    'a a d e';
     gap: 8px;
     padding: 0;
     margin: 20px 0 30px 0;

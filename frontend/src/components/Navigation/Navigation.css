@@ -1,23 +1,27 @@
 .Nav-absolute {
-    position: sticky;
-    top: 0;
+
+    display: flex;
+    justify-content: center;
+    width: 1600px;
 }
 
 
 .Nav-Container {
-    display: grid;
-    max-width: 1600px;
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: center;
 }
 
 .Nav-Container-inner {
     display: flex;
-    grid-template-columns: 1fr 1fr;
     font-size: 25px;
     align-items: center;
+    justify-content: space-between;
     position: relative;
     background-color: white;
     height: 60px;
-
+    width: 1600px;
 }
 
 .logo {

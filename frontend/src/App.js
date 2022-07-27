@@ -8,6 +8,7 @@ import SpotsPage from "./components/SpotsPage";
 import Spot from "./components/SpotsPage/Spot";
 import SpotHost from "./components/SpotHost";
 import CurrentSpots from "./components/CurrentSpots";
+import EditSpotForm from "./components/EditSpotPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,9 +19,7 @@ function App() {
 
   return (
     <div className="root-div">
-      <div className='Nav-absolute'>
       <Navigation isLoaded={isLoaded} />
-      </div>
       <div className="divider" />
         <Switch>
           <Route exact path="/">
@@ -34,6 +33,9 @@ function App() {
           </Route>
           <Route exact path="/spots/current">
             <CurrentSpots />
+          </Route>
+          <Route exact path="/spots/:spotId/edit">
+            <EditSpotForm />
           </Route>
           <Route exact path="/spots/:spotId">
             <Spot />

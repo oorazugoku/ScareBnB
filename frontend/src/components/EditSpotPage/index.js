@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { editSpot } from "../../store/spots";
 import { addImagesToSpot } from "../../store/images";
 import { useHistory } from "react-router-dom";
 
 
-function EditSpotForm({ setShowModal, spot, setIsLoaded }) {
+function EditSpotForm() {
   const history = useHistory()
   const dispatch = useDispatch();
+  const spot = useSelector(state => state.spots)
   const [name, setName] = useState(spot.name);
   const [description, setDescription] = useState(spot.description);
   const [address, setAddress] = useState(spot.address);
@@ -27,6 +28,7 @@ function EditSpotForm({ setShowModal, spot, setIsLoaded }) {
   const [show4, setShow4] = useState(false)
   const [show5, setShow5] = useState(false)
   const [numImages, setNumImages] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(true)
 
 
 
@@ -47,7 +49,6 @@ function EditSpotForm({ setShowModal, spot, setIsLoaded }) {
         }
       })
       .then(()=> {
-      setShowModal(false)
       setIsLoaded(false)
       history.push(`/spots/${spot.id}`)
       })
@@ -69,6 +70,8 @@ function EditSpotForm({ setShowModal, spot, setIsLoaded }) {
     }, [numImages, dispatch])
 
 
+
+
     const handleAddImage = () => {
       if(numImages < 5) {
         setNumImages(prevCount => prevCount + 1)
@@ -78,22 +81,18 @@ function EditSpotForm({ setShowModal, spot, setIsLoaded }) {
 
 
 
-    return (
+    return isLoaded && (
       <>
-      <button
-      type="button"
-      className="modalClose"
-      onClick={()=>{setShowModal(false)}}
-      >
-      <i className="fas fa-xmark" />
-      </button>
-      <form style={{ padding: "24px" }} onSubmit={handleSubmit} className='signupForm'>
-        <div className="modal-header">
-          <h2>Spot Edit Page <i className="fas fa-ghost" /></h2>
+
+<div className='host-header'>
+        <div>
+          <h2>Edit your Spooky Location <i className="fas fa-ghost" id='ghost' /></h2>
+        </div>
+        </div>
+      <form style={{ margin: "200px 0 0 0" }} onSubmit={handleSubmit} className='signupForm'>
         <ul>
           {!!errors.length && errors.map((error, idx) => <li key={idx}>{error}</li>)}
         </ul>
-      </div>
       <div>
         <div className="formInputfield">
           Spot Name
