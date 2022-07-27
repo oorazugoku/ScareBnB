@@ -1,8 +1,8 @@
 import { csrfFetch } from './csrf';
 
 //Type Producer
-const LOAD_IMAGES = 'spots/LOAD_IMAGES';
-const ADD_IMAGES_TO_SPOT = 'spots/ADD_IMAGES_TO_SPOT';
+const LOAD_IMAGES = 'images/LOAD_IMAGES';
+const ADD_IMAGES_TO_SPOT = 'images/ADD_IMAGES_TO_SPOT';
 
 //Action Creators
 const getImagesAction = (payload) => {
