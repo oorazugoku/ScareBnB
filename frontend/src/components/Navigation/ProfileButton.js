@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import { NavLink } from "react-router-dom";
 import * as sessionActions from '../../store/session';
+import LoginFormModal from "../LoginFormModal";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ function ProfileButton({ user }) {
 
   return (
     <>
+
     <div className="right-nav-buttons">
     <NavLink className='become-host' to='/spots/host'>Become a Host</NavLink>
       <button className="profile-button" onClick={openMenu}>

@@ -39,7 +39,7 @@ function Navigation({ isLoaded }){
             </li>
           </ul>
         </div>
-        
+
       </div>
     </div>
   );
