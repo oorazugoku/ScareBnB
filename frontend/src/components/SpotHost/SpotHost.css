@@ -78,3 +78,12 @@
     border-radius: 8px;
     height: 30px;
 }
+
+.image-button-sub {
+    position: absolute;
+    right: 10px;
+}
+
+.formInputfield2 {
+    position: relative;
+}

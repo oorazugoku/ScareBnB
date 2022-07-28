@@ -59,11 +59,14 @@ function SpotHost() {
 
 
     useEffect(()=>{
-      if(numImages == 1) setShow1(true)
-      if(numImages == 2) setShow2(true)
-      if(numImages == 3) setShow3(true)
-      if(numImages == 4) setShow4(true)
-      if(numImages == 5) setShow5(true)
+      if(numImages > 0) setShow1(true)
+      if(numImages === 2) setShow2(true)
+      if(numImages === 3) setShow3(true)
+      if(numImages === 4) setShow4(true)
+      if(numImages === 5) {
+        setShow5(true)
+        setNumImages(0)
+      }
 
       setLoaded(true)
 
@@ -174,7 +177,7 @@ function SpotHost() {
           <label>
           <input placeholder='Image url...' type="url" onChange={(e) => {setUrl1(e.target.value)}} required />
           </label>
-          <button type='button' className="image-button-sub" onClick={()=>{setShow1(false); setNumImages(old=>old-1)}}> - </button>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow1(false)}}> - </button>
           </div>
           </div>
         )}
@@ -185,7 +188,7 @@ function SpotHost() {
           <label>
           <input placeholder='Image url...' type="url" onChange={(e) => {setUrl2(e.target.value)}} required />
           </label>
-          <button type='button' className="image-button-sub" onClick={()=>{setShow2(false); setNumImages(old=>old-1)}}> - </button>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow2(false)}}> - </button>
           </div>
         )}
 
@@ -195,7 +198,7 @@ function SpotHost() {
           <label>
           <input placeholder='Image url...' type="url" onChange={(e) => {setUrl3(e.target.value)}} required />
           </label>
-          <button type='button' className="image-button-sub" onClick={()=>{setShow3(false); setNumImages(old=>old-1)}}> - </button>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow3(false)}}> - </button>
           </div>
         )}
 
@@ -205,7 +208,7 @@ function SpotHost() {
           <label>
           <input placeholder='Image url...' type="url" onChange={(e) => {setUrl4(e.target.value)}} required />
           </label>
-          <button type='button' className="image-button-sub" onClick={()=>{setShow4(false); setNumImages(old=>old-1)}}> - </button>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow4(false)}}> - </button>
           </div>
         )}
 
@@ -215,13 +218,13 @@ function SpotHost() {
           <label>
           <input placeholder='Image url...' type="url" onChange={(e) => {setUrl5(e.target.value)}} required />
           </label>
-          <button type='button' className="image-button-sub" onClick={()=>{setShow5(false); setNumImages(old=>old-1)}}> - </button>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow5(false)}}> - </button>
           </div>
         )}
 
 
         <div className="image-button-div">
-          {numImages > 0 ? 'Add Another Image' : 'Add Preview Image'} <br/>
+          {show1 ? 'Add Another Image' : 'Add Preview Image'} <br/>
         <button
         type='button'
         className="image-button-add"
