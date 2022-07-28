@@ -41,7 +41,7 @@ function LoginFormPage({ setShowModal }) {
       <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>
-      <p/>
+      
       <div className='formInputfield'>
       <label>
         Username or Email: <input
@@ -53,7 +53,7 @@ function LoginFormPage({ setShowModal }) {
           />
       </label>
       </div>
-      <p/>
+
       <div className='formInputfield'>
       Password
       <label>
