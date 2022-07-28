@@ -12,27 +12,28 @@ function ProfileButton({ user }) {
   const [showMenu, setShowMenu] = useState(false);
   const location = useLocation()
   const local = location.pathname
+  const [showModalLogin, setShowModalLogin] = useState(false)
+  const [showModalSignUp, setShowModalSignUp] = useState(false)
 
-  console.log(local)
+
 // Menu Open -------------------------
-  const openMenu = (off) => {
-    if (showMenu) return;
-    setShowMenu(true);
+const openMenu = () => {
+  if (showMenu) return;
+  setShowMenu(true);
+};
+
+useEffect(() => {
+  if (!showMenu) return;
+
+  const closeMenu = () => {
+      setShowMenu(false);
   };
 
-  useEffect(() => {
-    if (!showMenu) return;
+  document.addEventListener('click', closeMenu)
 
-    const closeMenu = () => {
-        setShowMenu(false);
-    };
-
-    if (user) document.addEventListener('click', closeMenu)
-
-    return () => document.removeEventListener("click", closeMenu);
-  }, [showMenu]);
+  return () => document.removeEventListener("click", closeMenu);
+}, [showMenu]);
 // ------------------------------------
-
 
 
 
@@ -61,6 +62,12 @@ function ProfileButton({ user }) {
 
   return (
     <>
+    {(
+      <>
+      <LoginFormModal showModalLogin={showModalLogin} setShowModalLogin={setShowModalLogin} />
+      <SignupFormModal showModalSignUp={showModalSignUp} setShowModalSignUp={setShowModalSignUp} />
+      </>
+    )}
     <div className="right-nav-buttons">
     {!user && (
       <>
@@ -68,7 +75,7 @@ function ProfileButton({ user }) {
       </>
     )}
     {user && (<NavLink className='become-host' to='/spots/host'>Become a Host</NavLink>)}
-      <button className="profile-button" onClick={()=> {openMenu()}}>
+      <button className="profile-button" onClick={openMenu}>
       <i className="fas fa-bars"/> <i className="fas fa-user-circle"/>
       </button>
       {showMenu && (
@@ -76,9 +83,8 @@ function ProfileButton({ user }) {
         <div className="profile-dropdown">
           {!user && (
             <>
-            <LoginFormModal setShowMenu={setShowMenu}/>
-            <br/>
-            <SignupFormModal setShowMenu={setShowMenu}/>
+            <div className="menu-link" onClick={()=> setShowModalLogin(true)}>Log In</div>
+            <div className="menu-link" onClick={()=> setShowModalSignUp(true)}>Sign Up</div>
           </>
           )}
           {user && (

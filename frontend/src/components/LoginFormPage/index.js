@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 
 import './LoginForm.css'
 
-function LoginFormPage({ setShowModal, setShowMenu, showModal }) {
+function LoginFormPage({ showModalLogin, setShowModalLogin }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
   const [credential, setCredential] = useState('');
@@ -20,7 +20,7 @@ function LoginFormPage({ setShowModal, setShowMenu, showModal }) {
     e.preventDefault();
     setErrors([]);
     return dispatch(sessionActions.login({ credential, password }))
-      .then(()=>setShowMenu(false))
+      .then(()=>setShowModalLogin(false))
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
@@ -32,7 +32,7 @@ function LoginFormPage({ setShowModal, setShowMenu, showModal }) {
       <button
       type="button"
       className="modalClose"
-      onClick={()=>{setShowModal(!showModal); setShowMenu(false)}}>
+      onClick={()=>{setShowModalLogin(!showModalLogin)}}>
       <i className="fas fa-xmark" />
       </button>
     <form onSubmit={handleSubmit} className='loginForm'>
