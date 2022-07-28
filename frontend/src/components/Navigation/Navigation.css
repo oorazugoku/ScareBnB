@@ -1,11 +1,12 @@
 .Nav-absolute {
     display: flex;
     justify-content: center;
-    width: 1600px;
+    width: 100%;
 }
 
 
 .Nav-Container {
+    background-color: white;
     position: sticky;
     top: 0;
     display: flex;
