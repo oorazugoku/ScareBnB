@@ -25,6 +25,8 @@
     width: 1600px;
 }
 
+
+/* ---------- Left-Side Nav Bar ---------- */
 .logo {
     height: 30px;
 }
@@ -45,10 +47,31 @@
     color: #FF385C;
 }
 
+
+/* ---------- Right-Side Nav Bar ---------- */
+.demo-user-button {
+    background: linear-gradient(0.25turn, #e63961, #d62879);
+    padding: 6px 18px;
+    border-radius: 8px;
+    margin-right: 20px;
+    font-weight: bold;
+    border: 1px solid black;
+}
+
 .Nav-links a, .Nav-links a:hover, .Nav-links a:visited, .Nav-links a:active {
     color: black
 }
 
+.become-host {
+    padding: 0 15px 0 0;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+
+/* ---------- Dropdown Menu ---------- */
 .Nav-links {
     display: flex;
     align-items: flex-end;
@@ -61,6 +84,7 @@
     position: absolute;
     flex-direction: column;
     right: 0;
+    top: -110px;
     margin-top: 180px;
     border-radius: 12px;
     padding: 20px;
@@ -94,10 +118,34 @@
     font-size: 28px;
 }
 
-.become-host {
-    padding: 0 15px 0 0;
+.user-section {
+    padding: 0 0 15px 0;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.502);
+}
+
+.menu-text {
+    color: black;
+    text-align: right;
+}
+
+.menu-link,
+.menu-link:active,
+.menu-link:visited {
     text-decoration: none;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
+    color: rgb(0, 0, 0);
+}
+
+.menu-link:hover {
+    font-weight: bold;
+}
+
+.menu-button {
+    border: 0;
+    background-color: white;
+    text-align: left;
+}
+
+.menu-button:hover {
+    box-shadow: 0 0 0 0;
+    font-weight: bold;
 }

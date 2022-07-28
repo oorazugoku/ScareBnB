@@ -12,7 +12,7 @@ function ProfileButton({ user }) {
 
 
 // Menu Open -------------------------
-  const openMenu = () => {
+  const openMenu = (off) => {
     if (showMenu) return;
     setShowMenu(true);
   };
@@ -22,14 +22,15 @@ function ProfileButton({ user }) {
 
     const closeMenu = () => {
         setShowMenu(false);
-
     };
 
-    document.addEventListener('click', closeMenu);
+    if (user) document.addEventListener('click', closeMenu)
 
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 // ------------------------------------
+
+
 
 
   const logout = (e) => {
@@ -53,7 +54,7 @@ function ProfileButton({ user }) {
       </>
     )}
     {user && (<NavLink className='become-host' to='/spots/host'>Become a Host</NavLink>)}
-      <button className="profile-button" onClick={openMenu}>
+      <button className="profile-button" onClick={()=> {openMenu()}}>
       <i className="fas fa-bars"/> <i className="fas fa-user-circle"/>
       </button>
       {showMenu && (
@@ -61,18 +62,21 @@ function ProfileButton({ user }) {
         <div className="profile-dropdown">
           {!user && (
             <>
-          <LoginFormModal setShowMenu={setShowMenu}/>
-          <br/>
-          <SignupFormModal setShowMenu={setShowMenu}/>
+            <LoginFormModal setShowMenu={setShowMenu}/>
+            <br/>
+            <SignupFormModal setShowMenu={setShowMenu}/>
           </>
           )}
           {user && (
-            <>
-          <NavLink className='my-spots-link' to='/spots/current'>My Spots</NavLink>
-          <div>{user.username}</div>
-          <div>{user.email}</div>
+          <>
+          <div className="user-section">
+          <div className="menu-text">{user.username}</div>
+          <div className="menu-text">{user.email}</div>
+          </div>
+          <p/>
+          <NavLink className="menu-link" to='/spots/current'>My Spots</NavLink><p/>
           <div>
-            <button onClick={logout}>Log Out</button>
+          <NavLink className="menu-link" to='/' onClick={logout}>Logout</NavLink><br/>
           </div>
           </>
           )}
