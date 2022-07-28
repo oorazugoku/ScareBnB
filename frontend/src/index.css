@@ -24,7 +24,8 @@ body:not(.divider) {
 }
 
 button:hover {
-    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.391);
+    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.278);
+    cursor:pointer;
 }
 
 .fa-xmark {

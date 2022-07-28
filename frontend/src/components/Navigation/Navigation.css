@@ -1,5 +1,4 @@
 .Nav-absolute {
-
     display: flex;
     justify-content: center;
     width: 1600px;
@@ -11,6 +10,7 @@
     top: 0;
     display: flex;
     justify-content: center;
+    z-index: 10;
 }
 
 .Nav-Container-inner {
@@ -54,13 +54,43 @@
     justify-content: flex-end;
 }
 
+.profile-dropdown-container {
+    background-color: white;
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    right: 0;
+    margin-top: 180px;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.56);
+    border: 0;
+    width: 235px;
+}
+
 .profile-dropdown {
     font-size: 15px;
+}
+
+.right-nav-buttons {
+    display: flex;
+    align-items: center;
 }
 
 .profile-button {
     display: flex;
     align-items: center;
+    justify-content: space-around;
+    background-color: white;
+    height: 42px;
+    width: 77px;
+    border-radius: 21px;
+    color: #717171;
+    border: 1px solid #71717159;
+}
+
+.fa-user-circle {
+    font-size: 28px;
 }
 
 .become-host {

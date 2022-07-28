@@ -247,7 +247,7 @@ function Spot() {
                             const year = date.getFullYear()
                             return (<div key={each.id} className="each-review">
                                         <div className="review-owner">
-                                            {each.User.firstName}  ·
+                                            {each.User.firstName}
                                         </div>
                                         <div className="review-date">
                                             {month} {year}

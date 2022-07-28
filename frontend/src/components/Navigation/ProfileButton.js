@@ -31,21 +31,21 @@ function ProfileButton({ user }) {
 
   return (
     <>
-    <div className="profile-button">
+    <div className="right-nav-buttons">
     <NavLink className='become-host' to='/spots/host'>Become a Host</NavLink>
-      <button onClick={openMenu}>
-        <i className="fas fa-user-circle" />
+      <button className="profile-button" onClick={openMenu}>
+      <i className="fas fa-bars"/> <i className="fas fa-user-circle"/>
       </button>
       {showMenu && (
-        <div>
+        <div className="profile-dropdown-container">
         <NavLink className='my-spots-link' to='/spots/current'>My Spots</NavLink>
-        <ul className="profile-dropdown">
-          <li>{user.username}</li>
-          <li>{user.email}</li>
-          <li>
+        <div className="profile-dropdown">
+          <div>{user.username}</div>
+          <div>{user.email}</div>
+          <div>
             <button onClick={logout}>Log Out</button>
-          </li>
-        </ul>
+          </div>
+        </div>
         </div>
       )}
     </div>

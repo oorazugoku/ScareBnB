@@ -91,6 +91,33 @@
     box-shadow: 0 0 0 0;
 }
 
+.spot-reviews-title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.spot-reviews-container {
+    border-top: 1px solid #DDDDDD;
+    margin-top: 40px;
+    padding-top: 40px;
+}
+
+.spot-reviews {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.review-owner {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.review-date {
+    font-size: 14px;
+    color: #717171;
+    padding-bottom: 10px;
+}
+
 
 /* ------- Spot Section ------- */
 
@@ -150,8 +177,12 @@
 }
 
 .spot-hostInfo {
-    font-size: 26px;
+    font-size: 24px;
 }
+
+
+
+/* ------- Spot Booking/Pricing Section ------- */
 
 .spot-booking {
     padding: 30px 25px 0 25px;
