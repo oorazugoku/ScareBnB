@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 
 import './LoginForm.css'
 
-function LoginFormPage({ setShowModal }) {
+function LoginFormPage({ setShowModal, setShowMenu, showModal }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
   const [credential, setCredential] = useState('');
@@ -20,6 +20,7 @@ function LoginFormPage({ setShowModal }) {
     e.preventDefault();
     setErrors([]);
     return dispatch(sessionActions.login({ credential, password }))
+      .then(()=>setShowMenu(false))
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
@@ -31,7 +32,7 @@ function LoginFormPage({ setShowModal }) {
       <button
       type="button"
       className="modalClose"
-      onClick={()=>{setShowModal(false)}}>
+      onClick={()=>{setShowModal(!showModal); setShowMenu(false)}}>
       <i className="fas fa-xmark" />
       </button>
     <form onSubmit={handleSubmit} className='loginForm'>
@@ -41,7 +42,7 @@ function LoginFormPage({ setShowModal }) {
       <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>
-      
+
       <div className='formInputfield'>
       <label>
         Username or Email: <input

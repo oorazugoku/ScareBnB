@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 
-function SignupFormPage({ setShowModal }) {
+function SignupFormPage({ setShowModal, showModal, setShowMenu }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
@@ -25,6 +25,7 @@ function SignupFormPage({ setShowModal }) {
     if (password === confirmPassword) {
       setErrors([]);
       return dispatch(sessionActions.signup({ email, username, password, firstName, lastName }))
+        .then(()=>setShowMenu(false))
         .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) setErrors(data.errors);
@@ -35,7 +36,7 @@ function SignupFormPage({ setShowModal }) {
 
     return (
       <>
-      <button type="button" className="modalClose" onClick={()=>{setShowModal(false)}}>
+      <button type="button" className="modalClose" onClick={()=>{setShowModal(!showModal); setShowMenu(false)}}>
         <i className="fas fa-xmark" />
       </button>
       <form style={{ padding: "24px" }} onSubmit={handleSubmit} className='signupForm'>
