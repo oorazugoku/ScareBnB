@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
-import { NavLink, useHistory, Redirect, Route } from "react-router-dom";
+import { NavLink, useHistory, Redirect, Route, useLocation } from "react-router-dom";
 import * as sessionActions from '../../store/session';
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
@@ -10,8 +10,10 @@ function ProfileButton({ user }) {
   const history = useHistory();
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
+  const location = useLocation()
+  const local = location.pathname
 
-
+  console.log(local)
 // Menu Open -------------------------
   const openMenu = (off) => {
     if (showMenu) return;
@@ -37,7 +39,11 @@ function ProfileButton({ user }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout())
-    .then(() => history.push('/'))
+    .then(() => {
+      if (local === '/spots/current') {
+        history.push('/')
+      }
+    })
     .then(()=>setShowMenu(false));
   };
 
@@ -47,8 +53,11 @@ function ProfileButton({ user }) {
         password: 'password'
       }))
       .then(() => setShowMenu(false))
-      .then(() => history.push('/spots/current'))
-  }
+      .then(() => {
+        if (local === '/') {
+          history.push('/spots/current')
+        }
+      })  }
 
   return (
     <>
