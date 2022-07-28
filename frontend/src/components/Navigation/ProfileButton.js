@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory, Redirect, Route } from "react-router-dom";
 import * as sessionActions from '../../store/session';
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import { login } from "../../store/session";
 
 function ProfileButton({ user }) {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
 
@@ -35,14 +36,18 @@ function ProfileButton({ user }) {
 
   const logout = (e) => {
     e.preventDefault();
-    dispatch(sessionActions.logout()).then(()=>setShowMenu(false));
+    dispatch(sessionActions.logout())
+    .then(() => history.push('/'))
+    .then(()=>setShowMenu(false));
   };
 
   const handleDemoClick = () => {
       dispatch(login({
         credential: 'DemoUser',
         password: 'password'
-      })).then(()=>setShowMenu(false))
+      }))
+      .then(() => setShowMenu(false))
+      .then(() => history.push('/spots/current'))
   }
 
   return (
