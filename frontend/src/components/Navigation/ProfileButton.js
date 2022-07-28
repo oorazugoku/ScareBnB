@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { NavLink } from "react-router-dom";
 import * as sessionActions from '../../store/session';
 import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -32,21 +33,30 @@ function ProfileButton({ user }) {
 
   return (
     <>
-
     <div className="right-nav-buttons">
-    <NavLink className='become-host' to='/spots/host'>Become a Host</NavLink>
+    {user && (<NavLink className='become-host' to='/spots/host'>Become a Host</NavLink>)}
       <button className="profile-button" onClick={openMenu}>
       <i className="fas fa-bars"/> <i className="fas fa-user-circle"/>
       </button>
       {showMenu && (
         <div className="profile-dropdown-container">
-        <NavLink className='my-spots-link' to='/spots/current'>My Spots</NavLink>
         <div className="profile-dropdown">
+          {!user && (
+            <>
+          <LoginFormModal />
+          <SignupFormModal />
+          </>
+          )}
+          {user && (
+            <>
+          <NavLink className='my-spots-link' to='/spots/current'>My Spots</NavLink>
           <div>{user.username}</div>
           <div>{user.email}</div>
           <div>
             <button onClick={logout}>Log Out</button>
           </div>
+          </>
+          )}
         </div>
         </div>
       )}

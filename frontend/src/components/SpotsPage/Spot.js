@@ -66,12 +66,14 @@ function Spot() {
 
 
     const handleDeleteReview = (id) => {
-        setIsLoaded(false)
-        dispatch(deleteReview(id))
-        .then(() => {
-            dispatch(getSpotReviews(spotId))
-        })
-        .then(() => setIsLoaded(true))
+        if (window.confirm('Are you sure you want to Delete?')) {
+            setIsLoaded(false)
+            dispatch(deleteReview(id))
+            .then(() => {
+                dispatch(getSpotReviews(spotId))
+            })
+            .then(() => setIsLoaded(true))
+        }
     }
 
     useEffect(()=> {
@@ -83,15 +85,17 @@ function Spot() {
     }, [dispatch, isLoaded])
 
     const handleDeleteSpot = () => {
-        setIsLoaded(false)
-        dispatch(deleteSpot(spotId))
-        .then(() => history.push('/spots/current'))
-        .then(() => setIsLoaded(true))
-
+        if (window.confirm('Are you sure you want to Delete?')) {
+            setIsLoaded(false)
+            dispatch(deleteSpot(spotId))
+            .then(() => history.push('/spots/current'))
+            .then(() => setIsLoaded(true))
+        }
     }
 
     return isLoaded && (
         <>
+        <div className="one">
         <div className="spot-container">
             <div className="spot-header">
                 <div>
@@ -131,7 +135,7 @@ function Spot() {
                     <div className="post-review">
 
 
-                     {user && user.id && (<button className="post-review-button" onClick={()=>{setPostReview(true); setEditReviewShow(false); setReview(''); setErrors([]);}}>Post a Review</button>)}<p/>
+                     {user && user.id && (<button className="post-review-button" onClick={()=>{setPostReview(!postReview); setEditReviewShow(false); setReview(''); setErrors([]);}}>Post a Review</button>)}<p/>
                      {user && postReview && (
                         <div className="post-review-container">
                         <div className="stars-container">
@@ -260,11 +264,11 @@ function Spot() {
                                             <>
                                             <button className="review-edit-button" onClick={() => {
                                                 setErrors([]);
-                                                setEditReviewShow(true);
+                                                setEditReviewShow(!editReviewShow);
                                                 setReviewId(each.id);
                                                 setReview(each.review);
                                                 setPostReview(false)} }>Edit</button>
-                                            <button className="review-delete-button" onClick={() => handleDeleteReview(each.id) }>Delete</button>
+                                            <button className="review-delete-button" onClick={() => { handleDeleteReview(each.id) } }>Delete</button>
                                             </>
                                             )}
                                         </div>
@@ -274,8 +278,7 @@ function Spot() {
                 </div>
 
 
-
-
+        </div>
         </div>
         </>
     )

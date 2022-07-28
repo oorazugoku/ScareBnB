@@ -1,7 +1,13 @@
 /* ------- Search section ------- */
 
+.one {
+    display: flex;
+    justify-content: center;
+}
+
 .search-container {
     display: flex;
+    align-items: center;
     justify-content: center;
     overflow-x: hidden;
     margin: 0;
@@ -33,7 +39,7 @@
 .inner-spot-search {
     display: flex;
     align-items: space-between;
-    justify-items: space-between;
+    justify-items: center;
 }
 
 #inner-search-title {
@@ -48,6 +54,26 @@
     height: 100%;
     width: 100%;
     border-radius: 12px;
+}
+
+.spot-edit-button,
+.spot-delete-button {
+    background-color: white;
+    padding: 13px 23px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-weight: bold;
+    border: 1px solid black;
+}
+
+.spot-edit-button:hover,
+.spot-delete-button:hover {
+    background-color: rgba(197, 197, 197, 0.182);
+    box-shadow: 0 0 0 0;
+}
+
+.spot-delete-button {
+    margin: 0 0 0 10px;
 }
 
 /* ------- Review Section ------- */
@@ -122,6 +148,26 @@
     padding-bottom: 10px;
 }
 
+.review-edit-button,
+.review-delete-button {
+    background-color: white;
+    padding: 6px 18px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-weight: bold;
+    border: 1px solid black;
+}
+
+.review-edit-button:hover,
+.review-delete-button:hover {
+    background-color: rgba(197, 197, 197, 0.182);
+    box-shadow: 0 0 0 0;
+}
+
+.review-delete-button {
+    margin: 0 0 0 10px;
+}
+
 
 /* ------- Spot Section ------- */
 
@@ -130,7 +176,7 @@
     flex-direction: column;
     justify-content: center;
     margin-bottom: 50px;
-
+    max-width: 1600px;
 }
 
 .spot-header {

@@ -21,6 +21,7 @@ function CurrentSpots() {
 
     return (
         <>
+        <div className="one">
         <div className="host-header-outer">
         <div className='host-header'>
           <h1>Your current Locations <i className="fas fa-ghost" id='ghost' /></h1>
@@ -47,7 +48,8 @@ function CurrentSpots() {
         </div>
         ))}
     </div>
-        </>
+    </div>
+    </>
     )
 }
 

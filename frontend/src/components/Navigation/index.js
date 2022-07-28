@@ -32,13 +32,18 @@ function Navigation({ isLoaded }){
           <NavLink className='logo-text' exact to="/"><i className="fas fa-ghost" /> <img className='logo' src={scare}/></NavLink>
         </div>
 
-        <div>
+        {isLoaded && (<ProfileButton user={sessionUser} />)}
+        {/* <LoginFormModal />
+        <SignupFormModal /> */}
+
+        
+        {/* <div>
           <ul>
             <li className='Nav-links'>
               {isLoaded && sessionLinks}
             </li>
           </ul>
-        </div>
+        </div> */}
 
       </div>
     </div>
