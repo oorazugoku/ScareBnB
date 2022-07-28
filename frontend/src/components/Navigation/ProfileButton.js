@@ -27,9 +27,11 @@ function ProfileButton({ user }) {
         setShowMenu(false);
     };
 
-    if (user) document.addEventListener('click', closeMenu)
+    const modalBack = document.getElementById('modal-background')
 
-    return () => document.removeEventListener("click", closeMenu);
+    if (modalBack) document.addEventListener('click', closeMenu)
+
+    return () => {if (modalBack) document.removeEventListener("click", closeMenu)};
   }, [showMenu]);
 // ------------------------------------
 
