@@ -44,12 +44,10 @@ export const addImagesToSpot = (id, url) => async (dispatch) => {
 const initialState = {};
 
 const imagesReducer = (state = initialState, action) => {
-    const imageArr = [];
     let newState = {}
     switch (action.type) {
       case LOAD_IMAGES:
-          action.payload.result.forEach(each => imageArr[each.id] = each)
-          newState = {...imageArr};
+          action.payload.result.forEach(each => newState[each.id] = each)
       return newState;
 
       case ADD_IMAGES_TO_SPOT:

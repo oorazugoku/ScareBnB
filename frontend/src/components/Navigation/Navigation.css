@@ -44,7 +44,8 @@
 }
 
 .logo-area > a, a:hover, a:visited, a:active {
-    color: #FF385C;
+    color: black;
+    text-decoration: none;
 }
 
 
@@ -56,10 +57,6 @@
     margin-right: 20px;
     font-weight: bold;
     border: 1px solid black;
-}
-
-.Nav-links a, .Nav-links a:hover, .Nav-links a:visited, .Nav-links a:active {
-    color: black
 }
 
 .become-host {
