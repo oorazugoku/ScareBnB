@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useHistory, useParams, Redirect, NavLink } from "react-router-dom"
+import { useHistory, useParams, NavLink } from "react-router-dom"
+import { addReview, deleteReview, getSpotReviews, editReview } from "../../store/reviews"
 import { deleteSpot, getOneSpot } from "../../store/spots"
-// import { Modal } from '../../context/Modal';
-// import EditSpotForm from "../EditSpotModal";
 
 function Spot() {
     const history = useHistory()
@@ -13,12 +12,75 @@ function Spot() {
     const dispatch = useDispatch()
     const spot = useSelector(state => state.spots)
     const user = useSelector(state => state.session.user)
+    const reviews = useSelector(state => Object.values(state.reviews))
+    const [postReview, setPostReview] = useState(false)
+    const [editReviewShow, setEditReviewShow] = useState(false)
+    const [review, setReview] = useState('')
+    const [errors, setErrors] = useState([]);
+    const [numStars, setNumStars] = useState()
+    const [reviewId, setReviewId] = useState()
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setErrors([]);
+        const payload = {
+            review,
+            stars: numStars
+        }
+        setIsLoaded(false)
+        dispatch(addReview(spotId, payload))
+        .then(()=>{
+            setPostReview(false)
+            setIsLoaded(true)
+        })
+        .catch(async (res) => {
+            const data = await res.json();
+            if (data && data.errors) {
+                setErrors(data.errors);
+            }
+        })
+    };
+
+    const handleEditSubmit = (e) => {
+        e.preventDefault();
+        setErrors([]);
+        const payload = {
+            review,
+            stars: numStars
+        }
+        setIsLoaded(false)
+        dispatch(editReview(reviewId, payload))
+        .then(()=>{
+            setPostReview(false)
+            setIsLoaded(true)
+        })
+        .catch(async (res) => {
+            const data = await res.json();
+            if (data && data.errors) {
+                setErrors(data.errors);
+            }
+        })
+    };
+
+
+    const handleDeleteReview = (id) => {
+        setIsLoaded(false)
+        dispatch(deleteReview(id))
+        .then(() => {
+            dispatch(getSpotReviews(spotId))
+        })
+        .then(() => setIsLoaded(true))
+    }
 
     useEffect(()=> {
-        dispatch(getOneSpot(spotId)).then(() => setIsLoaded(true))
+        dispatch(getOneSpot(spotId))
+        .then(() => {
+            dispatch(getSpotReviews(spotId))
+            .then(() => setIsLoaded(true))
+        })
     }, [dispatch, isLoaded])
 
-    const handleDeleteClick = () => {
+    const handleDeleteSpot = () => {
         setIsLoaded(false)
         dispatch(deleteSpot(spotId))
         .then(() => history.push('/spots/current'))
@@ -46,7 +108,7 @@ function Spot() {
                 </NavLink>
                 <button
                 className="spot-delete-button"
-                onClick={()=> {handleDeleteClick()}}
+                onClick={()=> {handleDeleteSpot()}}
                 >
                     Delete Spot
                 </button>
@@ -60,12 +122,78 @@ function Spot() {
                 </div>
             </div>
             <div className="spot-lowerInfo">
-            <div className="spot-hostInfo">
-                {spot.name} hosted by {spot.Owner.firstName}
-                    <div className="spot-reviews">
-                    Reviews
+                <div className="spot-lowerInfo-left">
+                    <div className="spot-hostInfo">
+                        {spot.name} hosted by {spot.Owner.firstName}
                     </div>
-            </div>
+                    <div className="post-review">
+
+
+                     {user && user.id && (<button className="post-review-button" onClick={()=>{setPostReview(true); setEditReviewShow(false)}}>Post a Review</button>)}<p/>
+                     {postReview && (
+                        <div className="post-review-container">
+                        <button className="num-stars-button" onClick={() => setNumStars(1)}><i className="fas fa-ghost"/></button>
+                        <button className="num-stars-button" onClick={() => setNumStars(2)}><i className="fas fa-ghost"/></button>
+                        <button className="num-stars-button" onClick={() => setNumStars(3)}><i className="fas fa-ghost"/></button>
+                        <button className="num-stars-button" onClick={() => setNumStars(4)}><i className="fas fa-ghost"/></button>
+                        <button className="num-stars-button" onClick={() => setNumStars(5)}><i className="fas fa-ghost"/></button>
+                        <form onSubmit={handleSubmit} className='signupForm'>
+                        <ul>
+                          {!!errors.length && errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                        </ul>
+
+                        <div style={{height: '130px'}} className="formInputfield">
+                          <b>Review</b>
+                          <label>
+                            <textarea
+                              style={{ height: '100px', width: '500px', border:'0', outline: 'none', overflow: 'auto', resize: 'none' }}
+                              placeholder={review}
+                              type="text"
+                              value={review}
+                              onChange={(e) => setReview(e.target.value)}
+                              required />
+                          </label>
+                        </div>
+
+                        <button type="submit" className="signupButton">Post Review</button>
+                        </form>
+                        </div>
+                     )}
+
+                    {editReviewShow && (
+                        <div className="edit-review-container">
+                        <button className="num-stars-button" onClick={() => setNumStars(1)}><i className="fas fa-ghost"/></button>
+                        <button className="num-stars-button" onClick={() => setNumStars(2)}><i className="fas fa-ghost"/></button>
+                        <button className="num-stars-button" onClick={() => setNumStars(3)}><i className="fas fa-ghost"/></button>
+                        <button className="num-stars-button" onClick={() => setNumStars(4)}><i className="fas fa-ghost"/></button>
+                        <button className="num-stars-button" onClick={() => setNumStars(5)}><i className="fas fa-ghost"/></button>
+                        <form onSubmit={handleEditSubmit} className='signupForm'>
+                        <ul>
+                          {!!errors.length && errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                        </ul>
+
+                        <div style={{height: '130px'}} className="formInputfield">
+                          <b>Review</b>
+                          <label>
+                            <textarea
+                              style={{ height: '100px', width: '500px', border:'0', outline: 'none', overflow: 'auto', resize: 'none' }}
+                              placeholder={review}
+                              type="text"
+                              value={review}
+                              onChange={(e) => setReview(e.target.value)}
+                              required />
+                          </label>
+                        </div>
+
+                        <button type="submit" className="signupButton">Save</button>
+                        </form>
+                        </div>
+                     )}
+
+
+                    </div>
+                </div>
+
             <div className="spot-booking">
                 <div className="spot-booking-price">
                     <div>
@@ -74,22 +202,21 @@ function Spot() {
                         <div className="spot-booking-reviews">
                             <i className="fas fa-ghost" />&nbsp;{parseInt(spot.avgStarRating) == 0 ? 'New' : spot.avgStarRating} · {spot.numReviews} {spot.numReviews === 1 ? 'Review' : 'Reviews'}
                         </div>
-                </div>
-                <p />
+                </div><p/>
                 <div className="spot-booking-price-breakdown">
                     <p className="spot-booking-price-breakdown-text">You won't be charged yet</p>
-                    <div className="spot-booking-price-breakdown-left">
-                    ${parseInt(spot.price)} x 5 nights <p />
-                    Cleaning fee <p />
-                    Service fee <p />
+                        <div className="spot-booking-price-breakdown-left">
+                            ${parseInt(spot.price)} x 5 nights <p />
+                            Cleaning fee <p />
+                            Service fee <p />
+                        </div>
+                        <div className="spot-booking-price-breakdown-right">
+                            ${(parseInt(spot.price) * 5).toLocaleString()}<p />
+                            ${(((parseInt(spot.price) * 5) * .06).toFixed()).toLocaleString()} <p />
+                            ${(((parseInt(spot.price) * 5) * .1).toFixed()).toLocaleString()} <p />
+                        </div>
+                        <div className="spot-booking-price-breakdown-divider"></div>
                     </div>
-                    <div className="spot-booking-price-breakdown-right">
-                    ${(parseInt(spot.price) * 5).toLocaleString()}<p />
-                    ${(((parseInt(spot.price) * 5) * .06).toFixed()).toLocaleString()} <p />
-                    ${(((parseInt(spot.price) * 5) * .1).toFixed()).toLocaleString()} <p />
-                    </div>
-                    <div className="spot-booking-price-breakdown-divider"></div>
-                </div>
                     <div className="spot-booking-totals">
                         <div>
                             Total before taxes
@@ -98,21 +225,51 @@ function Spot() {
                             ${(parseInt(parseInt(spot.price) * 5) + parseInt(((parseInt(spot.price) * 5) * .06).toFixed()) + parseInt(((parseInt(spot.price) * 5) * .1).toFixed())).toLocaleString()}
                         </div>
                     </div>
-
-
-
+                </div>
             </div>
-            </div>
+
+
+                <div className="spot-reviews-container">
+                    <div className="spot-reviews-title">
+                    <i className="fas fa-ghost" /> {parseInt(spot.avgStarRating) == 0 ? 'New' : spot.avgStarRating} · {spot.numReviews} {spot.numReviews === 1 ? 'Review' : 'Reviews'}<p/>
+                    </div>
+                    <div className="spot-reviews">
+                        {reviews.map(each => {
+                            const date = new Date(each.createdAt)
+                            const options = { month: 'long'};
+                            const month = new Intl.DateTimeFormat('en-US', options).format(date)
+                            const year = date.getFullYear()
+                            return (<div key={each.id} className="each-review">
+                                        <div className="review-owner">
+                                            {each.User.firstName}  ·
+                                        </div>
+                                        <div className="review-date">
+                                            {month} {year}
+                                        </div>
+                                        <div className="review-body">
+                                            {each.review}
+                                        </div>
+                                        <div className="review-edit">
+                                            {user && user.id === each.userId && (
+                                            <>
+                                            <button className="review-edit-button" onClick={() => {
+                                                setEditReviewShow(true);
+                                                setReviewId(each.id);
+                                                setReview(each.review);
+                                                setPostReview(false)} }>Edit</button>
+                                            <button className="review-delete-button" onClick={() => handleDeleteReview(each.id) }>Delete</button>
+                                            </>
+                                            )}
+                                        </div>
+                                    </div>)
+                        })}
+                    </div>
+                </div>
+
+
+
+
         </div>
-        {/* {showModal && (
-
-        <Modal onClose={() => setShowModal(false)}>
-            <div className="modal-body">
-                <EditSpotForm setShowModal={setShowModal} spot={spot} setIsLoaded={setIsLoaded} />
-            </div>
-        </Modal>
-
-        )} */}
         </>
     )
 }

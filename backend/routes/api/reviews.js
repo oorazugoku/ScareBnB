@@ -71,8 +71,34 @@ router.put('/:reviewId', requireAuth, async (req, res, next) => {
     if (stars) {
         oldReview.stars = stars;
     }
-
     await oldReview.save()
+
+
+
+
+    const spotCheck = await Spot.findOne({
+        where: { id: oldReview.spotId }
+    });
+    let starTotal = 0
+    const numOfReviews = await Review.findAll({
+        where: { spotId: oldReview.spotId}
+    });
+    console.log
+    numOfReviews.forEach(each => {
+        starTotal += parseInt(each.stars)
+    })
+    let num = numOfReviews.length
+    let starRating = (starTotal / num)
+    await Spot.update(
+        { avgStarRating: starRating.toFixed(1) },
+        { where: { id: oldReview.spotId } }
+        )
+
+
+
+
+
+
     res.json({message: `Edit Successful`, oldReview});
 });
 

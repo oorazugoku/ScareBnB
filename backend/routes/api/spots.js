@@ -96,8 +96,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
     numOfReviews.forEach(each => {
         starTotal += parseInt(each.stars)
     })
-    let num = parseInt(spotCheck.numReviews)
-    num++
+    let num = numOfReviews.length
     let starRating = (starTotal / num)
     await Spot.update(
         { numReviews: num, avgStarRating: starRating.toFixed(1) },
@@ -149,7 +148,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 router.get('/:spotId/reviews', async (req, res, next) => {
     const { spotId } = req.params;
     let result = await Spot.findByPk(spotId, {
-        include: [{ model: Review, include: { model: Image, as: 'Images' } } ]
+        include: [{ model: Review, include: [{ model: Image, as: 'Images' }, { model: User }] } ]
     })
     if (!result) {
         const err = new Error(`Spot does not exist.`)

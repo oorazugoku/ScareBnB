@@ -45,7 +45,7 @@ const initialState = {};
 
 const imagesReducer = (state = initialState, action) => {
     const imageArr = [];
-    const newState = {}
+    let newState = {}
     switch (action.type) {
       case LOAD_IMAGES:
           action.payload.result.forEach(each => imageArr[each.id] = each)

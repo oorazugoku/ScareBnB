@@ -175,7 +175,7 @@ function EditSpotForm() {
         {show1 && (
           <div>
           <div className="formInputfield2">
-              Preview Image
+              Image Url
           <label>
           <input placeholder='Image url...' type="url" onChange={(e) => {setUrl1(e.target.value)}} required />
           </label>
