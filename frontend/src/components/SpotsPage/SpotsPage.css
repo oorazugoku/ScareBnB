@@ -1,3 +1,5 @@
+/* ------- Search section ------- */
+
 .search-container {
     display: flex;
     justify-content: center;
@@ -44,9 +46,53 @@
 }
 
 
+/* ------- Review Section ------- */
+
+.post-review-button {
+    background-color: white;
+    padding: 13px 23px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-weight: bold;
+    border: 1px solid black;
+}
+
+.post-review-button:hover {
+    background-color: rgba(197, 197, 197, 0.182);
+    box-shadow: 0 0 0 0;
+}
+
+.post-review-container,
+.edit-review-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.stars-container {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.num-stars-button {
+    margin: 0 5px;
+    border: 0;
+    font-size: large;
+    background-color: white;
+}
+
+.num-stars-button::selection,
+.num-stars-button:hover,
+.num-stars-button > .fa-ghost:hover,
+.num-stars-button:focus > .fa-ghost {
+    color: black;
+    box-shadow: 0 0 0 0;
+}
 
 
-
+/* ------- Spot Section ------- */
 
 .spot-container {
     display: grid;

@@ -56,6 +56,7 @@ function EditSpotForm() {
           const data = await res.json();
           if (data && data.errors) {
               setErrors(data.errors);
+              window.scrollTo(0, 0);
             }
         })
     };
@@ -223,10 +224,10 @@ function EditSpotForm() {
           <button type='button' className="image-button-sub" onClick={()=>{setShow5(false); setNumImages(old=>old-1)}}> - </button>
           </div>
         )}
-
+        </div>
 
         <div className="image-button-div">
-          Add a Preview Image <br/>
+          {numImages > 0 ? 'Add Another Image' : 'Add Preview Image'} <br/>
         <button
         type='button'
         className="image-button-add"
@@ -234,11 +235,8 @@ function EditSpotForm() {
         > + </button>
         </div>
 
-        </div>
 
-        <div className="modal-footer">
         <button type="submit" className="signupButton">Save Changes</button>
-        </div>
       </form>
       </>
   );

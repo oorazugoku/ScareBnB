@@ -27,10 +27,11 @@ function Spot() {
             review,
             stars: numStars
         }
-        setIsLoaded(false)
         dispatch(addReview(spotId, payload))
         .then(()=>{
+            setIsLoaded(false)
             setPostReview(false)
+            setEditReviewShow(false)
             setIsLoaded(true)
         })
         .catch(async (res) => {
@@ -52,6 +53,7 @@ function Spot() {
         dispatch(editReview(reviewId, payload))
         .then(()=>{
             setPostReview(false)
+            setEditReviewShow(false)
             setIsLoaded(true)
         })
         .catch(async (res) => {
@@ -129,19 +131,21 @@ function Spot() {
                     <div className="post-review">
 
 
-                     {user && user.id && (<button className="post-review-button" onClick={()=>{setPostReview(true); setEditReviewShow(false)}}>Post a Review</button>)}<p/>
-                     {postReview && (
+                     {user && user.id && (<button className="post-review-button" onClick={()=>{setPostReview(true); setEditReviewShow(false); setReview(''); setErrors([]);}}>Post a Review</button>)}<p/>
+                     {user && postReview && (
                         <div className="post-review-container">
-                        <button className="num-stars-button" onClick={() => setNumStars(1)}><i className="fas fa-ghost"/></button>
-                        <button className="num-stars-button" onClick={() => setNumStars(2)}><i className="fas fa-ghost"/></button>
-                        <button className="num-stars-button" onClick={() => setNumStars(3)}><i className="fas fa-ghost"/></button>
-                        <button className="num-stars-button" onClick={() => setNumStars(4)}><i className="fas fa-ghost"/></button>
-                        <button className="num-stars-button" onClick={() => setNumStars(5)}><i className="fas fa-ghost"/></button>
+                        <div className="stars-container">
+                            <button className="num-stars-button" onClick={() => setNumStars(1)}><i className="fas fa-ghost"/></button>
+                            <button className="num-stars-button" onClick={() => setNumStars(2)}><i className="fas fa-ghost"/></button>
+                            <button className="num-stars-button" onClick={() => setNumStars(3)}><i className="fas fa-ghost"/></button>
+                            <button className="num-stars-button" onClick={() => setNumStars(4)}><i className="fas fa-ghost"/></button>
+                            <button className="num-stars-button" onClick={() => setNumStars(5)}><i className="fas fa-ghost"/></button>
+                        </div>
                         <form onSubmit={handleSubmit} className='signupForm'>
                         <ul>
                           {!!errors.length && errors.map((error, idx) => <li key={idx}>{error}</li>)}
                         </ul>
-
+                        <div><b>{numStars}</b> Ghost Rating</div>
                         <div style={{height: '130px'}} className="formInputfield">
                           <b>Review</b>
                           <label>
@@ -160,18 +164,20 @@ function Spot() {
                         </div>
                      )}
 
-                    {editReviewShow && (
+                    {user && editReviewShow && (
                         <div className="edit-review-container">
-                        <button className="num-stars-button" onClick={() => setNumStars(1)}><i className="fas fa-ghost"/></button>
-                        <button className="num-stars-button" onClick={() => setNumStars(2)}><i className="fas fa-ghost"/></button>
-                        <button className="num-stars-button" onClick={() => setNumStars(3)}><i className="fas fa-ghost"/></button>
-                        <button className="num-stars-button" onClick={() => setNumStars(4)}><i className="fas fa-ghost"/></button>
-                        <button className="num-stars-button" onClick={() => setNumStars(5)}><i className="fas fa-ghost"/></button>
+                        <div className="stars-container">
+                            <button className="num-stars-button" onClick={() => setNumStars(1)}><i className="fas fa-ghost"/></button>
+                            <button className="num-stars-button" onClick={() => setNumStars(2)}><i className="fas fa-ghost"/></button>
+                            <button className="num-stars-button" onClick={() => setNumStars(3)}><i className="fas fa-ghost"/></button>
+                            <button className="num-stars-button" onClick={() => setNumStars(4)}><i className="fas fa-ghost"/></button>
+                            <button className="num-stars-button" onClick={() => setNumStars(5)}><i className="fas fa-ghost"/></button>
+                        </div>
                         <form onSubmit={handleEditSubmit} className='signupForm'>
                         <ul>
                           {!!errors.length && errors.map((error, idx) => <li key={idx}>{error}</li>)}
                         </ul>
-
+                        <div><b>{numStars}</b> Ghost Rating</div>
                         <div style={{height: '130px'}} className="formInputfield">
                           <b>Review</b>
                           <label>
@@ -253,6 +259,7 @@ function Spot() {
                                             {user && user.id === each.userId && (
                                             <>
                                             <button className="review-edit-button" onClick={() => {
+                                                setErrors([]);
                                                 setEditReviewShow(true);
                                                 setReviewId(each.id);
                                                 setReview(each.review);

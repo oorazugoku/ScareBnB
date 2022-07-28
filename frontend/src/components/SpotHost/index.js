@@ -52,6 +52,7 @@ function SpotHost() {
             const data = await res.json();
             if (data && data.errors) {
                 setErrors(data.errors);
+                window.scrollTo(0, 0);
               }
           })
     };
@@ -84,10 +85,10 @@ function SpotHost() {
         </div>
         </div>
         <form style={{ margin: "200px 0 0 0" }} onSubmit={handleSubmit} className='signupForm'>
-
         <ul>
           {!!errors.length && errors.map((error, idx) => <li key={idx}>{error}</li>)}
-        </ul>
+          </ul>
+
         <div className="formInputfield2">
           Spot Name
           <label>
@@ -220,7 +221,7 @@ function SpotHost() {
 
 
         <div className="image-button-div">
-          Add a Preview Image <br/>
+          {numImages > 0 ? 'Add Another Image' : 'Add Preview Image'} <br/>
         <button
         type='button'
         className="image-button-add"
