@@ -124,6 +124,7 @@
     grid-template-areas:
     'a a b c'
     'a a d e';
+    grid-auto-rows: 50%;
     gap: 8px;
     padding: 0;
     margin: 20px 0 100px 0;
