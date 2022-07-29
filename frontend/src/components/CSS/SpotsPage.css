@@ -1,4 +1,4 @@
-/* ------- MAIN Search section ------- */
+/* --------------- MAIN Search section --------------- */
 
 .one {
     display: flex;
@@ -80,7 +80,7 @@
 
 
 
-/* ------- Spot Section ------- */
+/* --------------- Spot Section --------------- */
 
 .grid-container {
     min-width: 500px;
@@ -157,7 +157,7 @@
 
 
 
-/* ------- Spot Booking/Pricing Section ------- */
+/* --------------- Spot Booking/Pricing Section --------------- */
 
 .spot-booking {
     padding: 30px 25px 0 25px;
@@ -229,7 +229,7 @@
 
 
 
-/* ------- Review Section ------- */
+/* --------------- Review Section --------------- */
 
 .post-review-button {
     background-color: white;
