@@ -85,6 +85,7 @@
 .grid-container {
     min-width: 500px;
     max-width: 1600px;
+    max-height: 730px;
 }
 
 .spot-container {
