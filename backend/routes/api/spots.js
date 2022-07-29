@@ -184,11 +184,18 @@ router.put('/:spotId', requireAuth, validateSpots, async (req, res, next) => {
             { model: Image, as: 'Images' }
         ]
     })
+    if(price < 1) {
+        const err = new Error(`Please provide a Price greater than 0`)
+        err.status = 404
+        err.errors = [err.message]
+        return next(err)
+    }
     if(result.Owner.id !== req.user.id) {
         const err = new Error(
             `Unauthorized`
             )
         err.status = 403
+        err.errors = [err.message]
         return next(err)
     }
     if(!result) {
@@ -196,6 +203,7 @@ router.put('/:spotId', requireAuth, validateSpots, async (req, res, next) => {
             `Spot does not exist.`
             )
         err.status = 404
+        err.errors = [err.message]
         return next(err)
     }
 
@@ -237,9 +245,15 @@ router.get('/:spotId', async (req, res, next) => {
 
 
 // Create a Spot
-router.post('/', requireAuth, validateSpots, async (req, res) => {
+router.post('/', requireAuth, validateSpots, async (req, res, next) => {
     let id = req.user.id;
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    if(price < 1) {
+        const err = new Error(`Please provide a Price greater than 0`)
+        err.status = 404
+        err.errors = [err.message]
+        return next(err)
+    }
     let result = await Spot.create({
         ownerId: id,
         address,

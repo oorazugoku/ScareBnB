@@ -44,6 +44,9 @@ useEffect(() => {
       if (local === '/spots/current') {
         history.push('/')
       }
+      if (local === '/spots/host') {
+        history.push('/')
+      }
     })
     .then(()=>setShowMenu(false));
   };

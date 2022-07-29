@@ -71,7 +71,11 @@ function Spot() {
             .then(() => {
                 dispatch(getSpotReviews(spotId))
             })
-            .then(() => setIsLoaded(true))
+            .then(() => {
+                setPostReview(false)
+                setEditReviewShow(false)
+                setIsLoaded(true)
+            })
         }
     }
 
