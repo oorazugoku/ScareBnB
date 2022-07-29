@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSpots } from '../../store/spots';
 import { NavLink } from 'react-router-dom';
-import './SpotsPage.css'
+import '../CSS/SpotsPage.css'
 
 
 function SpotsPage() {

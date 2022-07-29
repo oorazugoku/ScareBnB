@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { addImagesToSpot } from "../../store/images";
 import { createSpot } from "../../store/spots";
-import './SpotHost.css'
+import '../CSS/SpotHost.css'
 
 
 function SpotHost() {
