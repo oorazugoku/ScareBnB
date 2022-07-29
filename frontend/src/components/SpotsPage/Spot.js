@@ -6,7 +6,6 @@ import { deleteSpot, getOneSpot } from "../../store/spots"
 
 function Spot() {
     const history = useHistory()
-    const [showModal, setShowModal] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
     const { spotId } = useParams()
     const dispatch = useDispatch()

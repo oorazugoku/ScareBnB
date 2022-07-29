@@ -55,7 +55,7 @@
     height: 100%;
     width: 100%;
     border-radius: 12px;
-    object-fit: cover
+    object-fit: cover;
 }
 
 .spot-edit-button,
@@ -183,7 +183,7 @@
 
 .spot-header {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     min-width: 500px;
     max-width: 1600px;
 }
@@ -206,7 +206,8 @@
 }
 
 .spot-images {
-    position: relative;
+    /* position: relative; */
+    clip-path: inset(0 0 0 0 round 20px);
     display: grid;
     grid-template-areas:
     'a a b c'
@@ -214,15 +215,15 @@
     gap: 8px;
     padding: 0;
     margin: 20px 0 30px 0;
-    clip-path: inset(0 0 0 0 round 20px);
     z-index: -1;
-    height: 40rem;
+    height: 30rem;
+    min-width: 100px
 }
 
 .spot-images > img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    /* object-fit: cover; */
 }
 
 .spotImage1 { grid-area: a }

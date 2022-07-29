@@ -138,11 +138,6 @@
     font-weight: bold;
 }
 
-.menu-link-background:hover {
-    background-color: #717171;
-    width: 100%;
-}
-
 .menu-button {
     border: 0;
     background-color: white;
