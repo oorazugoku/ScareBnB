@@ -41,17 +41,32 @@ function EditSpotForm() {
       const arr = [url1, url2, url3, url4, url5]
       const result = arr.filter(el => el !== undefined)
 
-
+      console.log(result)
       dispatch(editSpot({id: spot.id, name, description, address, city, state, country, price}))
       .then(()=> {
         if(result.length > 0) {
-          result.forEach(each => dispatch(addImagesToSpot(spot.id, each)))
+          for (let each of result) {
+            dispatch(addImagesToSpot(spot.id, each))
+            .then(()=> {
+              setIsLoaded(false)
+              history.push(`/spots/${spot.id}`)
+              })
+              .catch(async (res) => {
+                const data = await res.json();
+                  if (data && data.errors) {
+                    setErrors(data.errors);
+                    window.scrollTo(0, 0);
+                  }
+              })
+          }
         }
       })
       .then(()=> {
-      setIsLoaded(false)
-      history.push(`/spots/${spot.id}`)
-      })
+        if(!result.length) {
+          setIsLoaded(false)
+          history.push(`/spots/${spot.id}`)
+        }
+        })
       .catch(async (res) => {
           const data = await res.json();
           if (data && data.errors) {
@@ -195,7 +210,7 @@ function EditSpotForm() {
           <label>
           <input placeholder='Image url...' type="url" onChange={(e) => {setUrl1(e.target.value)}} required />
           </label>
-          <button type='button' className="image-button-sub" onClick={()=>{setShow1(false); setNumImages(old => old - 1)}}> - </button>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow1(false); setUrl1()}}> - </button>
           </div>
           </div>
         )}
@@ -206,7 +221,7 @@ function EditSpotForm() {
           <label>
           <input placeholder='Image url...' type="url" onChange={(e) => {setUrl2(e.target.value)}} required />
           </label>
-          <button type='button' className="image-button-sub" onClick={()=>{setShow2(false); setNumImages(old => old - 1)}}> - </button>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow2(false); setUrl2()}}> - </button>
           </div>
         )}
 
@@ -216,7 +231,7 @@ function EditSpotForm() {
           <label>
           <input placeholder='Image url...' type="url" onChange={(e) => {setUrl3(e.target.value)}} required />
           </label>
-          <button type='button' className="image-button-sub" onClick={()=>{setShow3(false); setNumImages(old => old - 1)}}> - </button>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow3(false); setUrl3()}}> - </button>
           </div>
         )}
 
@@ -226,7 +241,7 @@ function EditSpotForm() {
           <label>
           <input placeholder='Image url...' type="url" onChange={(e) => {setUrl4(e.target.value)}} required />
           </label>
-          <button type='button' className="image-button-sub" onClick={()=>{setShow4(false); setNumImages(old => old - 1)}}> - </button>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow4(false); setUrl4()}}> - </button>
           </div>
         )}
 
@@ -236,7 +251,7 @@ function EditSpotForm() {
           <label>
           <input placeholder='Image url...' type="url" onChange={(e) => {setUrl5(e.target.value)}} required />
           </label>
-          <button type='button' className="image-button-sub" onClick={()=>{setShow5(false); setNumImages(old => old - 1)}}> - </button>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow5(false); setUrl5()}}> - </button>
           </div>
         )}
         </div>

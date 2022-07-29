@@ -152,3 +152,6 @@ const spotsReducer = (state = initialState, action) => {
 };
 
 export default spotsReducer;
+
+
+
