@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useHistory } from "react-router-dom"
+import { NavLink, useHistory } from "react-router-dom"
 import { getCurrentSpots } from "../../store/spots"
 import house from '../../resources/defaulthouse.png'
 
@@ -11,9 +11,7 @@ function CurrentSpots() {
     const dispatch = useDispatch()
     const spots = useSelector(state => Object.values(state.spots))
 
-    const handleClick = (each) => {
-        history.push(`/spots/${each.id}`)
-    }
+
 
     useEffect(()=> {
         dispatch(getCurrentSpots()).then(() => setLoaded(true))
@@ -29,7 +27,7 @@ function CurrentSpots() {
         </div>
         <div style={{ margin: '230px 0 0 0 '}} className='search-page'>
         {loaded && spots.map(each => (
-        <div key={each.id} className={'spot-search-result'} onClick={()=> handleClick(each)}>
+        <NavLink key={each.id} className='spot-search-result' to={`/spots/${each.id}`}>
             <img className='searchImg' src={each.Images.length > 0 ? each.Images[0].url : house} />
             <div id={`inner-spot-search`}>
                 <div id="inner-search-title">
@@ -45,7 +43,7 @@ function CurrentSpots() {
                 <p/>
                 <b>${each.price}</b> night
             </div>
-        </div>
+        </NavLink>
         ))}
     </div>
     </div>

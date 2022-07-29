@@ -62,11 +62,14 @@ function EditSpotForm() {
     };
 
     useEffect(()=>{
-      if(numImages == 1) setShow1(true)
-      if(numImages == 2) setShow2(true)
-      if(numImages == 3) setShow3(true)
-      if(numImages == 4) setShow4(true)
-      if(numImages == 5) setShow5(true)
+      if(numImages === 1) setShow1(true)
+      if(numImages === 2) setShow2(true)
+      if(numImages === 3) setShow3(true)
+      if(numImages === 4) setShow4(true)
+      if(numImages === 5) {
+        setShow5(true)
+        if(numImages < 4) setNumImages(0)
+      }
 
     }, [numImages, dispatch])
 
@@ -180,7 +183,7 @@ function EditSpotForm() {
           <label>
           <input placeholder='Image url...' type="url" onChange={(e) => {setUrl1(e.target.value)}} required />
           </label>
-          <button type='button' className="image-button-sub" onClick={()=>{setShow1(false); setNumImages(old=>old-1)}}> - </button>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow1(false); setNumImages(old => old - 1)}}> - </button>
           </div>
           </div>
         )}
@@ -191,7 +194,7 @@ function EditSpotForm() {
           <label>
           <input placeholder='Image url...' type="url" onChange={(e) => {setUrl2(e.target.value)}} required />
           </label>
-          <button type='button' className="image-button-sub" onClick={()=>{setShow2(false); setNumImages(old=>old-1)}}> - </button>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow2(false); setNumImages(old => old - 1)}}> - </button>
           </div>
         )}
 
@@ -201,7 +204,7 @@ function EditSpotForm() {
           <label>
           <input placeholder='Image url...' type="url" onChange={(e) => {setUrl3(e.target.value)}} required />
           </label>
-          <button type='button' className="image-button-sub" onClick={()=>{setShow3(false); setNumImages(old=>old-1)}}> - </button>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow3(false); setNumImages(old => old - 1)}}> - </button>
           </div>
         )}
 
@@ -211,7 +214,7 @@ function EditSpotForm() {
           <label>
           <input placeholder='Image url...' type="url" onChange={(e) => {setUrl4(e.target.value)}} required />
           </label>
-          <button type='button' className="image-button-sub" onClick={()=>{setShow4(false); setNumImages(old=>old-1)}}> - </button>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow4(false); setNumImages(old => old - 1)}}> - </button>
           </div>
         )}
 
@@ -221,13 +224,13 @@ function EditSpotForm() {
           <label>
           <input placeholder='Image url...' type="url" onChange={(e) => {setUrl5(e.target.value)}} required />
           </label>
-          <button type='button' className="image-button-sub" onClick={()=>{setShow5(false); setNumImages(old=>old-1)}}> - </button>
+          <button type='button' className="image-button-sub" onClick={()=>{setShow5(false); setNumImages(old => old - 1)}}> - </button>
           </div>
         )}
         </div>
 
         <div className="image-button-div">
-          {numImages > 0 ? 'Add Another Image' : 'Add Preview Image'} <br/>
+          Add Another Image <br/>
         <button
         type='button'
         className="image-button-add"
