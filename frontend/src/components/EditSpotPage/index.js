@@ -62,25 +62,37 @@ function EditSpotForm() {
     };
 
     useEffect(()=>{
-      if(numImages === 1) setShow1(true)
-      if(numImages === 2) setShow2(true)
-      if(numImages === 3) setShow3(true)
-      if(numImages === 4) setShow4(true)
-      if(numImages === 5) {
-        setShow5(true)
-        if(numImages < 4) setNumImages(0)
-      }
+      if (show1) setNumImages(1);
+      if (show2) setNumImages(2);
+      if (show3) setNumImages(3);
+      if (show4) setNumImages(4);
+      if (show5) setNumImages(5);
 
-    }, [numImages, dispatch])
+  }, [show1, show2, show3, show4, show5, dispatch])
 
 
-
-
-    const handleAddImage = () => {
-      if(numImages < 5) {
-        setNumImages(prevCount => prevCount + 1)
-      }
+  const handleAddImage = () => {
+    if(!show1) {
+      setShow1(true)
+      return
     }
+    if(!show2) {
+      setShow2(true)
+      return
+    }
+    if(!show3) {
+      setShow3(true)
+      return
+    }
+    if(!show4) {
+      setShow4(true)
+      return
+    }
+    if(!show5) {
+      setShow5(true)
+      return
+    }
+  }
 
 
 
