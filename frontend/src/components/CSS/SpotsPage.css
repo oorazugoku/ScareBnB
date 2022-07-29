@@ -129,13 +129,13 @@
     z-index: -1;
     min-width: 100px;
     height: 100%;
-    object-fit: cover;
+    width: 100%;
 }
 
 .spot-images > img {
     width: 100%;
     height: 100%;
-    /* object-fit: cover; */
+    object-fit: cover;
 }
 
 .spotImage1 { grid-area: a }
