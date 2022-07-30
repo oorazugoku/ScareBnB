@@ -118,7 +118,7 @@ function SpotHost() {
           </label>
         </div>
         <div className="formInputfield2">
-          Description
+          Description{!!errors.length && `: ${description.length} Characters`}
           <label>
             <input
               placeholder={description}

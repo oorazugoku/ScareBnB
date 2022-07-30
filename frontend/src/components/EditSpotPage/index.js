@@ -137,7 +137,7 @@ function EditSpotForm() {
           </label>
         </div>
         <div className="formInputfield">
-          Description
+          Description{!!errors.length && `: ${description.length} Characters`}
           <label>
             <input
               placeholder={description}

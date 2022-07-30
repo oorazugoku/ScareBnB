@@ -190,6 +190,12 @@ router.put('/:spotId', requireAuth, validateSpots, async (req, res, next) => {
         err.errors = [err.message]
         return next(err)
     }
+    if(description.length > 100) {
+        const err = new Error(`Please keep Description under 100 characters`)
+        err.status = 404
+        err.errors = [err.message]
+        return next(err)
+    }
     if(result.Owner.id !== req.user.id) {
         const err = new Error(
             `Unauthorized`
@@ -254,6 +260,13 @@ router.post('/', requireAuth, validateSpots, async (req, res, next) => {
         err.errors = [err.message]
         return next(err)
     }
+    if(description.length > 100) {
+        const err = new Error(`Please keep Description under 100 characters`)
+        err.status = 404
+        err.errors = [err.message]
+        return next(err)
+    }
+
     let result = await Spot.create({
         ownerId: id,
         address,
