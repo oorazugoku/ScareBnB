@@ -98,9 +98,8 @@ useEffect(() => {
           </div>
           <p/>
           <NavLink className="menu-link" to='/spots/current'>My Spots</NavLink><p/>
-          <div>
           <NavLink className="menu-link" to='/' onClick={logout}>Logout</NavLink><br/>
-          </div>
+
           </>
           )}
         </div>

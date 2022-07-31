@@ -293,6 +293,12 @@
     grid-template-columns: 1fr 1fr;
 }
 
+.each-review {
+    padding-bottom: 2em;
+    padding-top: 2em;
+    margin-right: 2em;
+}
+
 .review-owner {
     font-weight: bold;
     font-size: 16px;

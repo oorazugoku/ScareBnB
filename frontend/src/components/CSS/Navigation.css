@@ -67,6 +67,10 @@
     font-size: 18px;
 }
 
+.become-host:hover {
+    font-weight: bold;
+}
+
 
 /* ---------- Dropdown Menu ---------- */
 .Nav-links {
@@ -133,6 +137,7 @@
     text-decoration: none;
     color: rgb(0, 0, 0);
 }
+
 
 .menu-link:hover {
     font-weight: bold;
