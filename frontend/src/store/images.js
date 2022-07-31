@@ -50,9 +50,10 @@ const imagesReducer = (state = initialState, action) => {
           action.payload.result.forEach(each => newState[each.id] = each)
       return newState;
 
-      case ADD_IMAGES_TO_SPOT:
-        newState[action.payload.id] = action.payload
-      return newState;
+      // case ADD_IMAGES_TO_SPOT:
+      //   newState = {...state}
+      //   newState[action.payload.id] = action.payload
+      // return newState;
 
     default:
       return state;
