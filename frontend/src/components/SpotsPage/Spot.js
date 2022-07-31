@@ -127,7 +127,7 @@ function Spot() {
             <div className="grid-container">
                 <div type='button' className="spot-images">
                     {spot.Images.map((each, i) => i < 5 && (<div key={each.id} className={`spotImage${i + 1}`}><img src={each.url} /></div>))}
-                    {spot.Images.length < 1 && (<div>Upload an Image</div>)}
+                    {spot.Images.length < 1 && (<div>&nbsp;&nbsp;&nbsp;&nbsp;Upload an Image to have your spot on the Front Page!</div>)}
                 </div>
             </div>
             <div className="spot-lowerInfo">
