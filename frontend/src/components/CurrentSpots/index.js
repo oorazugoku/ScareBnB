@@ -32,7 +32,7 @@ function CurrentSpots() {
             <div id={`inner-spot-search`}>
                 <div id="inner-search-title">
                     <div>
-                    <b>{each.city}, {each.state}</b>
+                    <b>{each.city.length < 15 ? each.city : `${each.city[0]}${each.city[1]}${each.city[3]}${each.city[4]}${each.city[5]}${each.city[6]}${each.city[7]}${each.city[8]}${each.city[9]}${each.city[10]}${each.city[11]}${each.city[12]}...`}, {each.state.length < 15 ? each.state : `${each.state[0]}${each.state[1]}${each.state[3]}${each.state[4]}${each.state[5]}${each.state[6]}${each.state[7]}${each.state[8]}${each.state[9]}${each.state[10]}${each.state[11]}${each.state[12]}...`}</b>
                     </div>
                     <div>
                     <i className="fas fa-ghost" /> {parseInt(each.avgStarRating) == 0 ? 'New' : each.avgStarRating}

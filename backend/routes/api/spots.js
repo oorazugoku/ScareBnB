@@ -288,20 +288,20 @@ router.get('/', async (req, res, next) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
     let pagination = {};
     page = page === 0 ? 0 : parseInt(page)
-    size = size === 0 ? 20 : parseInt(size)
+    size = size === 0 ? 100 : parseInt(size)
 
     page = !Number(page) ? 0 : parseInt(page)
-    size = !Number(size) ? 20 : parseInt(size)
+    size = !Number(size) ? 100 : parseInt(size)
 
     page = page === undefined ? 0 : parseInt(page)
-    size = size === undefined ? 20 : parseInt(size)
+    size = size === undefined ? 100 : parseInt(size)
 
-    if (size >= 0 && page >= 0 && size <= 20) {
+    if (size >= 0 && page >= 0 && size <= 100) {
       pagination.limit = size
       pagination.offset = size * (page - 1)
     }
-    if (size > 20) {
-      pagination.limit = 20
+    if (size > 100) {
+      pagination.limit = 100
       pagination.offset = size * (page - 1)
     }
     const checkNum = (query) => {

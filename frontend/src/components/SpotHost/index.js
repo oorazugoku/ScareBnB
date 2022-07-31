@@ -43,11 +43,28 @@ function SpotHost() {
         dispatch(createSpot({ name, description, address, city, state, country, price }))
         .then((res)=> {
           if(result.length > 0) {
-            result.forEach(each => dispatch(addImagesToSpot(res.id, each)))
+            for (let each of result) {
+            dispatch(addImagesToSpot(res.id, each))
+            .then(()=> {
+              setLoaded(true)
+              history.push(`/spots/current`)
+              })
+              .catch(async (res) => {
+                const data = await res.json();
+                  if (data && data.errors) {
+                    setErrors(data.errors);
+                    window.scrollTo(0, 0);
+                  }
+              })
+            }
           }
         })
-        .then(() => setLoaded(true))
-        .then(()=>history.push('/spots/current'))
+        .then(()=> {
+          if(!result.length) {
+            setLoaded(true)
+            history.push(`/spots/current`)
+          }
+          })
         .catch(async (res) => {
             const data = await res.json();
             if (data && data.errors) {
