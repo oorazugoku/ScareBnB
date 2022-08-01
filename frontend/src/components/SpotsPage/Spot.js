@@ -166,7 +166,7 @@ function Spot() {
                           </label>
                         </div>
 
-                        <button type="submit" className="signupButton">Post Review</button>
+                        <button type="submit" className="signupButton" >Post Review</button>
                         </form>
                         </div>
                      )}

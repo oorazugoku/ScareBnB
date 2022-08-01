@@ -86,8 +86,8 @@ useEffect(() => {
         <div className="profile-dropdown">
           {!user && (
             <>
-            <div className="menu-link-background"><NavLink className="menu-link" onClick={()=> setShowModalLogin(true)} to=''>Log In</NavLink><p/></div>
-            <div className="menu-link-background"><NavLink className="menu-link" onClick={()=> setShowModalSignUp(true)} to=''>Sign Up</NavLink></div>
+            <div className="menu-link-background"><div className="menu-link" style={{cursor: "pointer"}} onClick={()=> setShowModalLogin(true)} >Log In</div><p/></div>
+            <div className="menu-link-background"><div className="menu-link" style={{cursor: "pointer"}} onClick={()=> setShowModalSignUp(true)} >Sign Up</div></div>
           </>
           )}
           {user && (

@@ -27,7 +27,7 @@ button:hover {
     cursor: pointer;
 }
 
-a, a:hover {
+a, a:hover, div > a:hover {
     cursor: pointer;
 }
 

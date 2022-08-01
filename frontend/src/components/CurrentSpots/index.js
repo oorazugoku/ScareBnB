@@ -6,7 +6,6 @@ import house from '../../resources/defaulthouse.png'
 
 
 function CurrentSpots() {
-    const history = useHistory()
     const [loaded, setLoaded] = useState(false)
     const dispatch = useDispatch()
     const spots = useSelector(state => Object.values(state.spots))
