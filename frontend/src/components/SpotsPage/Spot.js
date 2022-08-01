@@ -85,7 +85,11 @@ function Spot() {
             dispatch(getSpotReviews(spotId))
             .then(() => setIsLoaded(true))
         })
-    }, [dispatch, isLoaded])
+        if(!user) {
+            setPostReview(false)
+            setEditReviewShow(false)
+        }
+    }, [dispatch, isLoaded, user])
 
     const handleDeleteSpot = () => {
         if (window.confirm('Are you sure you want to Delete?')) {
