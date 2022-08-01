@@ -55,11 +55,8 @@ This is my twist on an AirBnB clone.
 
 #
 
-* My Project:
-* Clone: AirBnB
-* Project: ScareBnB
-* Features: Spots, Reviews, and Bookings(Bonus CRUD)
-* Scorecard: https://docs.google.com/spreadsheets/d/1JEvhR13NoBoRKQMaeTN8EXSMThuwRPgE01U1el0TyUI/edit?usp=sharing
-* Github: https://github.com/oorazugoku/Mod4ProjectBackend
-* DB Schema: https://github.com/oorazugoku/Mod4ProjectBackend/wiki/Database-Schema
-<a href='https://airbnb-clone-ben-durham.herokuapp.com/'>Live Site</a>
+## Wiki Links
+- [Wiki Home](https://github.com/oorazugoku/Mod4ProjectBackend/wiki)
+- [Live Site](https://airbnb-clone-ben-durham.herokuapp.com)
+- [DB Schema](https://github.com/oorazugoku/Mod4ProjectBackend/wiki/Database-Schema)
+- [Redux State Shape](https://github.com/oorazugoku/Mod4ProjectBackend/wiki/State-Shape)
