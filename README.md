@@ -62,4 +62,4 @@ This is my twist on an AirBnB clone.
 * Scorecard: https://docs.google.com/spreadsheets/d/1JEvhR13NoBoRKQMaeTN8EXSMThuwRPgE01U1el0TyUI/edit?usp=sharing
 * Github: https://github.com/oorazugoku/Mod4ProjectBackend
 * DB Schema: https://github.com/oorazugoku/Mod4ProjectBackend/wiki/Database-Schema
-* Live Site: https://airbnb-clone-ben-durham.herokuapp.com/
+<a href='https://airbnb-clone-ben-durham.herokuapp.com/'>Live Site</a>
