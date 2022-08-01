@@ -66,7 +66,7 @@ function Spot() {
 
     const handleDeleteReview = (id) => {
         if (window.confirm('Are you sure you want to Delete?')) {
-            // setIsLoaded(false)
+            setIsLoaded(false)
             dispatch(deleteReview(id))
             .then(() => {
                 dispatch(getSpotReviews(spotId))
@@ -74,7 +74,7 @@ function Spot() {
             .then(() => {
                 setPostReview(false)
                 setEditReviewShow(false)
-                // setIsLoaded(true)
+                setIsLoaded(true)
             })
         }
     }
