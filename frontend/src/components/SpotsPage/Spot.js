@@ -283,8 +283,6 @@ function Spot() {
                         })}
                     </div>
                 </div>
-
-
         </div>
         </div>
         </>
