@@ -201,7 +201,11 @@
     width: 100%;
 }
 
-.spot-images > img {
+.spot-images > img,
+.spot-images4 > img,
+.spot-images3 > img,
+.spot-images2 > img,
+.spot-images1 > img {
     width: 100%;
     height: 100%;
     object-fit: cover;
