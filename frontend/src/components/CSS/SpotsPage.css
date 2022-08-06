@@ -85,7 +85,7 @@
 .grid-container {
     min-width: 500px;
     max-width: 1600px;
-    max-height: 730px;
+    max-height: 600px;
 }
 
 .spot-container {
@@ -122,8 +122,75 @@
     border-radius: 20px;
     display: grid;
     grid-template-areas:
-    'a a b c'
-    'a a d e';
+    'a a a b c'
+    'a a a d e';
+    grid-auto-rows: 50%;
+    gap: 8px;
+    padding: 0;
+    margin: 20px 0 100px 0;
+    z-index: -1;
+    min-width: 100px;
+    height: 100%;
+    width: 100%;
+}
+
+.spot-images4 {
+    clip-path: inset(0px 0px 0px 0px round 20px);
+    border-radius: 20px;
+    display: grid;
+    grid-template-areas:
+    'a a a b b'
+    'a a a c d';
+    grid-auto-rows: 50%;
+    gap: 8px;
+    padding: 0;
+    margin: 20px 0 100px 0;
+    z-index: -1;
+    min-width: 100px;
+    height: 100%;
+    width: 100%;
+}
+
+.spot-images3 {
+    clip-path: inset(0px 0px 0px 0px round 20px);
+    border-radius: 20px;
+    display: grid;
+    grid-template-areas:
+    'a a a b b'
+    'a a a c c';
+    grid-auto-rows: 50%;
+    gap: 8px;
+    padding: 0;
+    margin: 20px 0 100px 0;
+    z-index: -1;
+    min-width: 100px;
+    height: 100%;
+    width: 100%;
+}
+
+.spot-images2 {
+    clip-path: inset(0px 0px 0px 0px round 20px);
+    border-radius: 20px;
+    display: grid;
+    grid-template-areas:
+    'a b';
+    grid-auto-rows: auto;
+    gap: 8px;
+    padding: 0;
+    margin: 20px 0 100px 0;
+    z-index: -1;
+    min-width: 100px;
+    height: 100%;
+    width: 100%;
+}
+
+.spot-images1 {
+    clip-path: inset(0px 0px 0px 0px round 20px);
+    border-radius: 20px;
+    display: grid;
+    grid-template-areas:
+    'a a a a'
+    'a a a a';
     grid-auto-rows: 50%;
     gap: 8px;
     padding: 0;

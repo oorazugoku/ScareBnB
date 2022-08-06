@@ -66,14 +66,15 @@ function Spot() {
 
     const handleDeleteReview = (id) => {
         if (window.confirm('Are you sure you want to Delete?')) {
+            setIsLoaded(false)
             dispatch(deleteReview(id))
             .then(() => {
-                dispatch(getOneSpot(spotId))
                 dispatch(getSpotReviews(spotId))
-                .then(() => {
-                    setPostReview(false)
-                    setEditReviewShow(false)
-                })
+            })
+            .then(() => {
+                setPostReview(false)
+                setEditReviewShow(false)
+                setIsLoaded(true)
             })
         }
     }
@@ -98,6 +99,23 @@ function Spot() {
             .then(() => setIsLoaded(true))
         }
     }
+    let imgClassName
+    if (spot.Images && spot.Images.length >= 5) {
+        imgClassName = "spot-images"
+    }
+    if (spot.Images && spot.Images.length === 4) {
+        imgClassName = "spot-images4"
+    }
+    if (spot.Images && spot.Images.length === 3) {
+        imgClassName = "spot-images3"
+    }
+    if (spot.Images && spot.Images.length === 2) {
+        imgClassName = "spot-images2"
+    }
+    if (spot.Images && spot.Images.length === 1) {
+        imgClassName = "spot-images1"
+    }
+
 
     return isLoaded && (
         <>
@@ -128,7 +146,7 @@ function Spot() {
             )}
             </div>
             <div className="grid-container">
-                <div type='button' className="spot-images">
+                <div type='button' className={imgClassName}>
                     {spot.Images.map((each, i) => i < 5 && (<div key={each.id} className={`spotImage${i + 1}`}><img src={each.url} /></div>))}
                     {spot.Images.length < 1 && (<div>&nbsp;&nbsp;&nbsp;&nbsp;Upload an Image to have your spot on the Front Page!</div>)}
                 </div>
