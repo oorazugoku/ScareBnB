@@ -7,9 +7,9 @@ import '../CSS/SpotsPage.css'
 
 function SpotsPage() {
     const [loaded, setLoaded] = useState(false)
-    const [hover, setHover] = useState()
+    const [hover, setHover] = useState({})
+    const [show, setShow] = useState()
     const [img, setImg] = useState(0)
-    const [showImg, setShowImg] = useState()
     const dispatch = useDispatch()
     const spots = useSelector(state => Object.values(state.spots))
 
@@ -19,8 +19,12 @@ function SpotsPage() {
     }, [dispatch])
 
     const handleMouseOver = (each) => {
-        if (each.Images.length < img) setImg(0)
-        setHover(each.id)
+        let newHover = {...hover}
+        if (!newHover[each.id]) {
+            newHover[each.id] = {id: each.id, img: 0}
+            setHover(newHover)
+        }
+        setShow(each.id)
     }
 
     const check = (e) => {
@@ -29,25 +33,23 @@ function SpotsPage() {
         }
     }
 
-    const handleImgScrollRight = (arr) => {
-        console.log('array', arr)
-        console.log("Before", img)
-        if (img < arr.length - 1) {
-            setImg(old => old += 1)
+    const handleImgScrollRight = (each) => {
+        let newHover = {...hover}
+        if (newHover[each.id].img < each.Images.length - 1) {
+            newHover[each.id].img += 1
         } else {
-            setImg(0)
+            newHover[each.id].img = 0
         }
-        console.log('After', img)
+        setHover(newHover)
     }
 
-    const handleImgScrollLeft = (arr) => {
-        console.log('array', arr)
-        console.log("Before", img)
-        if (img === 0) {
-            setImg(arr.length - 1)
+    const handleImgScrollLeft = (each) => {
+        let newHover = {...hover}
+        if (newHover[each.id].img === 0) {
+            newHover[each.id].img = each.Images.length - 1
         }
-        else setImg(old => old -= 1)
-        console.log('After', img)
+        else newHover[each.id].img -= 1
+        setHover(newHover)
     }
 
     return loaded && (
@@ -55,11 +57,11 @@ function SpotsPage() {
     <div className='search-page'>
         {loaded && spots.map(each => each.Images.length > 0 && (
         <NavLink key={each.id} onMouseOver={()=>handleMouseOver(each)} onClick={check} className='spot-search-result' to={`/spots/${each.id}`}>
-            {hover === each.id && (<div className='spot-button-container'>
-                <i onClick={()=>handleImgScrollLeft(each.Images)} className="fas fa-angle-left"></i>
-                <i onClick={()=>handleImgScrollRight(each.Images)} className="fas fa-angle-right"></i>
+            {show === each.id && (<div className='spot-button-container'>
+                <i onClick={()=>handleImgScrollLeft(each)} className="fas fa-angle-left"></i>
+                <i onClick={()=>handleImgScrollRight(each)} className="fas fa-angle-right"></i>
             </div>)}
-            <img className='searchImg' src={hover === each.id ? each.Images[img].url : each.Images[0].url} />
+            <img className='searchImg' src={hover[each.id] && hover[each.id].id === each.id ? each.Images[hover[each.id].img].url : each.Images[0].url} />
             <div id={`inner-spot-search`}>
                 <div id="inner-search-title">
                     <div>
