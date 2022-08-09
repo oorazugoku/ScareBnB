@@ -9,7 +9,6 @@ function SpotsPage() {
     const [loaded, setLoaded] = useState(false)
     const [hover, setHover] = useState({})
     const [show, setShow] = useState()
-    const [img, setImg] = useState(0)
     const dispatch = useDispatch()
     const spots = useSelector(state => Object.values(state.spots))
 
@@ -37,10 +36,11 @@ function SpotsPage() {
         let newHover = {...hover}
         if (newHover[each.id].img < each.Images.length - 1) {
             newHover[each.id].img += 1
+            setHover(newHover)
         } else {
             newHover[each.id].img = 0
+            setHover(newHover)
         }
-        setHover(newHover)
     }
 
     const handleImgScrollLeft = (each) => {
