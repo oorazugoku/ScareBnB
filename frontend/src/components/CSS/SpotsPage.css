@@ -172,7 +172,6 @@
 
 
 .spot-images {
-    /* position: relative; */
     clip-path: inset(0px 0px 0px 0px round 20px);
     border-radius: 20px;
     display: grid;
@@ -183,7 +182,6 @@
     gap: 8px;
     padding: 0;
     margin: 20px 0 100px 0;
-    z-index: -1;
     min-width: 100px;
     height: 100%;
     width: 100%;
@@ -200,7 +198,6 @@
     gap: 8px;
     padding: 0;
     margin: 20px 0 100px 0;
-    z-index: -1;
     min-width: 100px;
     height: 100%;
     width: 100%;
@@ -217,7 +214,6 @@
     gap: 8px;
     padding: 0;
     margin: 20px 0 100px 0;
-    z-index: -1;
     min-width: 100px;
     height: 100%;
     width: 100%;
@@ -233,7 +229,6 @@
     gap: 8px;
     padding: 0;
     margin: 20px 0 100px 0;
-    z-index: -1;
     min-width: 100px;
     height: 100%;
     width: 100%;
@@ -250,20 +245,17 @@
     gap: 8px;
     padding: 0;
     margin: 20px 0 100px 0;
-    z-index: -1;
     min-width: 100px;
     height: 100%;
     width: 100%;
 }
 
-.spot-images > img,
-.spot-images4 > img,
-.spot-images3 > img,
-.spot-images2 > img,
-.spot-images1 > img {
+.spot-images img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    z-index: -5;
+    background-color: black;
 }
 
 .spotImage1 { grid-area: a }
@@ -271,6 +263,15 @@
 .spotImage3 { grid-area: c }
 .spotImage4 { grid-area: d }
 .spotImage5 { grid-area: e }
+
+.spotImage1:hover,
+.spotImage2:hover,
+.spotImage3:hover,
+.spotImage4:hover,
+.spotImage5:hover {
+    transition: .5s;
+    filter: brightness(.8);
+}
 
 .spot-lowerInfo {
     display: grid;
