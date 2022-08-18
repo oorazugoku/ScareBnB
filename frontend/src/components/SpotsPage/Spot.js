@@ -18,6 +18,7 @@ function Spot() {
     const [errors, setErrors] = useState([]);
     const [numStars, setNumStars] = useState()
     const [reviewId, setReviewId] = useState()
+    const [postReviewButton, setPostReviewButton] = useState(false)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -32,6 +33,7 @@ function Spot() {
             setPostReview(false)
             setEditReviewShow(false)
             setIsLoaded(true)
+            setPostReviewButton(false)
         })
         .catch(async (res) => {
             const data = await res.json();
@@ -55,6 +57,7 @@ function Spot() {
             setEditReviewShow(false)
             setIsLoaded(true)
         })
+        .then(()=> setPostReviewButton(false))
         .catch(async (res) => {
             const data = await res.json();
             if (data && data.errors) {
@@ -71,6 +74,7 @@ function Spot() {
             .then(() => {
                 dispatch(getSpotReviews(spotId))
             })
+            .then(() => setPostReviewButton(true))
             .then(() => {
                 setPostReview(false)
                 setEditReviewShow(false)
@@ -85,11 +89,26 @@ function Spot() {
             dispatch(getSpotReviews(spotId))
             .then(() => setIsLoaded(true))
         })
+
+    }, [dispatch, isLoaded, user])
+
+    useEffect(()=> {
         if(!user) {
             setPostReview(false)
             setEditReviewShow(false)
         }
-    }, [dispatch, isLoaded, user])
+        if (user) {
+            for (let each of reviews) {
+                if (each.userId && each.userId === user.id) {
+                    console.log('button off')
+                    setPostReviewButton(false)
+                } else {
+                    setPostReviewButton(true)
+                }
+            }
+        }
+    }, [dispatch])
+
 
     const handleDeleteSpot = () => {
         if (window.confirm('Are you sure you want to Delete?')) {
@@ -159,7 +178,7 @@ function Spot() {
                     <div className="post-review">
 
 
-                     {user && user.id && (<button className="post-review-button" onClick={()=>{setPostReview(!postReview); setEditReviewShow(false); setReview(''); setErrors([]);}}>Post a Review</button>)}<p/>
+                     {user && user.id && postReviewButton && (<button className="post-review-button" onClick={()=>{setPostReview(!postReview); setEditReviewShow(false); setReview(''); setErrors([]);}}>Post a Review</button>)}<p/>
                      {user && postReview && (
                         <div className="post-review-container">
                         <div className="stars-container">
