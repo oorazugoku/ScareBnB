@@ -71,9 +71,6 @@ function Spot() {
         if (window.confirm('Are you sure you want to Delete?')) {
             setIsLoaded(false)
             dispatch(deleteReview(id))
-            .then(() => {
-                dispatch(getSpotReviews(spotId))
-            })
             .then(() => setPostReviewButton(true))
             .then(() => {
                 setPostReview(false)
@@ -84,13 +81,14 @@ function Spot() {
     }
 
     useEffect(()=> {
-        dispatch(getOneSpot(spotId))
-        .then(() => {
-            dispatch(getSpotReviews(spotId))
-            .then(() => setIsLoaded(true))
-        })
-
-    }, [dispatch, isLoaded, user])
+        if (!isLoaded) {
+            dispatch(getOneSpot(spotId))
+            .then(() => {
+                dispatch(getSpotReviews(spotId))
+                .then(() => setIsLoaded(true))
+            })
+        }
+    }, [dispatch, user, isLoaded])
 
     useEffect(()=> {
         if(!user) {
@@ -100,7 +98,6 @@ function Spot() {
         if (user) {
             for (let each of reviews) {
                 if (each.userId && each.userId === user.id) {
-                    console.log('button off')
                     setPostReviewButton(false)
                 } else {
                     setPostReviewButton(true)
