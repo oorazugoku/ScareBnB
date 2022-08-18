@@ -18,7 +18,7 @@ function Spot() {
     const [errors, setErrors] = useState([]);
     const [numStars, setNumStars] = useState()
     const [reviewId, setReviewId] = useState()
-    const [postReviewButton, setPostReviewButton] = useState(false)
+    const [postReviewButton, setPostReviewButton] = useState(true)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -104,7 +104,7 @@ function Spot() {
                 }
             }
         }
-    }, [dispatch])
+    }, [dispatch, user])
 
 
     const handleDeleteSpot = () => {
