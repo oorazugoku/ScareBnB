@@ -14,13 +14,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/oorazugoku/Mod4ProjectBackend.git"
+    "url": "git+https://github.com/oorazugoku/ScareBnb.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/oorazugoku/Mod4ProjectBackend/issues"
+    "url": "https://github.com/oorazugoku/ScareBnb/issues"
   },
-  "homepage": "https://github.com/oorazugoku/Mod4ProjectBackend#readme"
+  "homepage": "https://github.com/oorazugoku/ScareBnb#readme"
 }

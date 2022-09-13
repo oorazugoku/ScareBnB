@@ -56,7 +56,7 @@ function SpotsPage() {
     <div className='search-container'>
     <div className='search-page'>
         {loaded && spots.map(each => each.Images.length > 0 && (
-        <NavLink key={each.id} onMouseOver={()=>handleMouseOver(each)} onClick={check} className='spot-search-result' to={`/spots/${each.id}`}>
+        <NavLink key={each.id} onMouseEnter={()=>handleMouseOver(each)} onMouseLeave={()=>setShow()} onClick={check} className='spot-search-result' to={`/spots/${each.id}`}>
             {show === each.id && (<div className='spot-button-container'>
                 <i onClick={()=>handleImgScrollLeft(each)} className="fas fa-angle-left"></i>
                 <i onClick={()=>handleImgScrollRight(each)} className="fas fa-angle-right"></i>
